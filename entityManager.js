@@ -30,6 +30,7 @@ var entityManager = {
 _enemies   : [],
 _bullets : [],
 _ships   : [],
+_towers  : [],
 
 
 
@@ -37,6 +38,13 @@ _ships   : [],
 
 _generateEnemies : function() {
 
+},
+generateShip : function(descr) {
+    this._ships.push(new Ship(descr));
+},
+
+generateTower : function(descr) {
+    this._towers.push(new Tower(descr));
 },
 
 
@@ -61,7 +69,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._enemies, this._bullets, this._ships];
+    this._categories = [this._enemies, this._bullets, this._ships, this._towers];
 },
 
 init: function() {
@@ -72,16 +80,56 @@ init: function() {
 },
 
 
+fireBullet: function(cx, cy, velX, velY, rotation) {
+  this._bullets.push(new Bullet( {cx: cx,
+                                  cy: cy,
+                                  velX: velX,
+                                  velY: velY,
+                                  rotation: rotation}));
+},
+
 
 update: function(du) {
+  for (var c = 0; c < this._categories.length; c++) {
 
+    var aCategory = this._categories[c];
+    var i = 0;
 
+    while (i < aCategory.length) {
+      var status = aCategory[i].update(du);
 
+      if (status === this.KILL_ME_NOW) {
+        aCategory.splice(i, 1);
+      } else {
+        i++;
+      }
 
+    }
+
+  }
 },
 
 render: function(ctx) {
   g_sprites.background.drawAt(ctx, 0, 0);
+
+  var debugX = 10, debugY = 100;
+
+    for (var c = 0; c < this._categories.length; ++c) {
+
+        var aCategory = this._categories[c];
+
+        if (!this._bShowRocks &&
+            aCategory == this._rocks)
+            continue;
+
+        for (var i = 0; i < aCategory.length; ++i) {
+
+            aCategory[i].render(ctx);
+            //debug.text(".", debugX + i * 10, debugY);
+
+        }
+        debugY += 10;
+    }
 }
 
 }
