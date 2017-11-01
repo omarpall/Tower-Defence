@@ -18,7 +18,7 @@ function Tower(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    this.rememberResets();
+
 
     // Default sprite, if not otherwise specified
     //this.sprite = g_sprites.tower;
@@ -29,27 +29,23 @@ function Tower(descr) {
 
 Tower.prototype = new Entity();
 
-Tower.prototype.rememberResets = function () {
-    // Remember my reset positions
-    this.reset_cx = this.cx;
-    this.reset_cy = this.cy;
-    this.reset_rotation = this.rotation;
-};
 
-Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Tower.prototype.rotation = 0;
 Tower.prototype.cx = 200;
 Tower.prototype.cy = 200;
-Tower.prototype.numSubSteps = 1;
-
+Tower.prototype.damage = 0;
+Tower.prototype.splash = false;
+Tower.prototype.land = true;
+Tower.prototype.air = true;
+Tower.prototype.radius = 20;
+Tower.prototype.firerate = 60;
 
 
 Tower.prototype.update = function (du) {
 
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
-    spatialManager.unregister(this);
+
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
@@ -67,7 +63,7 @@ Tower.prototype.update = function (du) {
     }
 */
 
-    spatialManager.register(this);
+
 
 
 };
@@ -122,7 +118,7 @@ Tower.prototype.halt = function () {
 };
 
 Tower.prototype.render = function (ctx) {
-    g_sprites.tower.drawCentredAt (
+    this.sprite.drawCentredAt (
       ctx, this.cx, this.cy, this.rotation
     );
 };

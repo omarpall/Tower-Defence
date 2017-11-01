@@ -31,7 +31,20 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _towers  : [],
+_towerSpots :
 
+ [
+  [0, -1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0],
+  [0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0],
+  [0, -1, 0, 0, -1, -1, -1, -1, 0, 0, 0, -1, 0, 0, 0],
+  [0, -1, -1, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+  [0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+  [0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+  [0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0],
+  [0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, -1, -1, -1, -1],
+  [0, 0, 0, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+],
 
 
 // "PRIVATE" METHODS
@@ -40,9 +53,44 @@ _generateEnemies : function() {
 
 },
 
-
-generateTower : function(descr) {
+//Generates a tower at mouse location if spot is legal and available
+generateArrowTower : function(descr) {
+  var x = Math.floor(descr.cx/40);
+  var y =  Math.floor(descr.cy/40);
+  descr.cx = x*40 + 20;
+  descr.cy = y*40 + 20;
+  if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
+    this._towerSpots[y][x] = 1;
+  }
+},
+
+generateCannonTower : function(descr) {
+  var x = Math.floor(descr.cx/40);
+  var y =  Math.floor(descr.cy/40);
+  descr.cx = x*40 + 20;
+  descr.cy = y*40 + 20;
+  descr.damage = 60;
+  descr.splash = true;
+  descr.land = true;
+  descr.air = false;
+  descr.radius = 120;
+  descr.firerate = 50;
+  if(this._towerSpots[y][x] === 0){
+    this._towers.push(new Tower(descr));
+    this._towerSpots[y][x] = 1;
+  }
+},
+
+generateAirTower : function(descr) {
+  var x = Math.floor(descr.cx/40);
+  var y =  Math.floor(descr.cy/40);
+  descr.cx = x*40 + 20;
+  descr.cy = y*40 + 20;
+  if(this._towerSpots[y][x] === 0){
+    this._towers.push(new Tower(descr));
+    this._towerSpots[y][x] = 1;
+  }
 },
 
 

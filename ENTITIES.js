@@ -86,20 +86,26 @@ function processDiagnostics() {
 
 
 
-  if (eatKey(KEY_0)) {
-
-  }
-
-  if (eatKey(KEY_1)) entityManager.generateTower({
+  if (eatKey(KEY_0)) entityManager.generateAirTower({
     cx : g_mouseX,
-    cy : g_mouseY - (g_sprites.tower.height*g_sprites.tower.scale)/3,
+    cy : g_mouseY,
 
-    sprite : g_sprites.tower
+    sprite : g_sprites.airTower
   });
 
-  if (eatKey(KEY_2)) {
+  if (eatKey(KEY_1)) entityManager.generateArrowTower({
+    cx : g_mouseX,
+    cy : g_mouseY,
 
-  }
+    sprite : g_sprites.arrowTower
+  });
+
+  if (eatKey(KEY_2)) entityManager.generateCannonTower({
+    cx : g_mouseX,
+    cy : g_mouseY,
+
+    sprite : g_sprites.cannonTower
+  });
 
 
   if (eatKey(KEY_K)) {
@@ -140,8 +146,9 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-      tower : "Textures/tower.gif",
-      ship   : "ship.png",
+      airTower : "Textures/towerAir.png",
+      arrowTower : "Textures/towerArrow.png",
+      cannonTower : "Textures/towerCannon.png",
       background : "Textures/background.jpg"
     };
 
@@ -152,10 +159,11 @@ var g_sprites = {};
 
 function preloadDone() {
 
-  g_sprites.ship  = new Sprite(g_images.ship);
 
-  g_sprites.tower  = new Sprite(g_images.tower);
-  g_sprites.tower.scale = 0.15;
+
+  g_sprites.airTower  = new Sprite(g_images.airTower);
+  g_sprites.arrowTower = new Sprite(g_images.arrowTower);
+  g_sprites.cannonTower = new Sprite(g_images.cannonTower);
 
   g_sprites.background = new Sprite(g_images.background);
 
