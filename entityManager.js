@@ -41,12 +41,9 @@ generateEnemies : function() {
     this._enemies.push(new Enemy());
 },
 
-<<<<<<< HEAD
 generateShip : function(descr) {
     this._ships.push(new Ship(descr));
 },
-=======
->>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
 
 generateTower : function(descr) {
     this._towers.push(new Tower(descr));
