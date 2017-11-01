@@ -24,7 +24,7 @@ function Tower(descr) {
     //this.sprite = g_sprites.tower;
 
     // Set normal drawing scale, and warp state off
-    this._isWarping = false;
+
 };
 
 Tower.prototype = new Entity();
@@ -44,79 +44,7 @@ Tower.prototype.cx = 200;
 Tower.prototype.cy = 200;
 Tower.prototype.numSubSteps = 1;
 
-// HACKED-IN AUDIO (no preloading)
-/*Tower.prototype.warpSound = new Audio(
-    "sounds/shipWarp.ogg");*/
 
-/*
-Ship.prototype.warp = function () {
-
-    this._isWarping = true;
-    this._scaleDirn = -1;
-    this.warpSound.play();
-
-    // Unregister me from my old posistion
-    // ...so that I can't be collided with while warping
-    spatialManager.unregister(this);
-};
-*/
-/*
-Ship.prototype._updateWarp = function (du) {
-
-    var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
-    this._scale += this._scaleDirn * SHRINK_RATE * du;
-
-    if (this._scale < 0.2) {
-
-        this._moveToASafePlace();
-        this.halt();
-        this._scaleDirn = 1;
-
-    } else if (this._scale > 1) {
-
-        this._scale = 1;
-        this._isWarping = false;
-
-        // Reregister me from my old posistion
-        // ...so that I can be collided with again
-        spatialManager.register(this);
-
-    }
-};
-*/
-/*
-Ship.prototype._moveToASafePlace = function () {
-
-    // Move to a safe place some suitable distance away
-    var origX = this.cx,
-        origY = this.cy,
-        MARGIN = 40,
-        isSafePlace = false;
-
-    for (var attempts = 0; attempts < 100; ++attempts) {
-
-        var warpDistance = 100 + Math.random() * g_canvas.width /2;
-        var warpDirn = Math.random() * consts.FULL_CIRCLE;
-
-        this.cx = origX + warpDistance * Math.sin(warpDirn);
-        this.cy = origY - warpDistance * Math.cos(warpDirn);
-
-        this.wrapPosition();
-
-        // Don't go too near the edges, and don't move into a collision!
-        if (!util.isBetween(this.cx, MARGIN, g_canvas.width - MARGIN)) {
-            isSafePlace = false;
-        } else if (!util.isBetween(this.cy, MARGIN, g_canvas.height - MARGIN)) {
-            isSafePlace = false;
-        } else {
-            isSafePlace = !this.isColliding();
-        }
-
-        // Get out as soon as we find a safe place
-        if (isSafePlace) break;
-
-    }
-};*/
 
 Tower.prototype.update = function (du) {
 
@@ -125,14 +53,7 @@ Tower.prototype.update = function (du) {
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
-/*
-    // Perform movement substeps
-    var steps = this.numSubSteps;
-    var dStep = du / steps;
-    for (var i = 0; i < steps; ++i) {
-        this.computeSubStep(dStep);
-    }
-*/
+
     // Handle firing
     this.maybeFireBullet();
 
