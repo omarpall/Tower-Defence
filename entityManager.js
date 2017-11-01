@@ -56,7 +56,7 @@ _enemies : [],
 
 generateEnemies : function(descr) {
   for (var i = 0; i < 5; i++) {
-    descr.cy -= 20;
+    descr.cy -= 30;
     this._enemies.push(new Enemy(descr));
   }
 },
