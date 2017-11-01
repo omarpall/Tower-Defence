@@ -54,10 +54,11 @@ _enemies : [],
 
 // "PRIVATE" METHODS
 
-generateEnemies : function(lvl) {
-
+generateEnemies : function(descr) {
+  for (var i = 0; i < 5; i++) {
+    descr.cy -= 20;
     this._enemies.push(new Enemy(descr));
-
+  }
 },
 
 
@@ -122,6 +123,7 @@ _forEachOf: function(aCategory, fn) {
 //
 KILL_ME_NOW : -1,
 
+
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
 //
@@ -145,16 +147,16 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
                                   rotation: rotation}));
 },
 
+beginningOfLevel : true,
 
 update: function(du) {
-  if(beginningOfLevel){
+  if(this.beginningOfLevel){
 
-      generateEnemies({
-        cx : g_mouseX,
-        cy : g_mouseY,
-
+      this.generateEnemies({
+        cy : 0,
         sprite : g_sprites.enemy1
       });
+      this.beginningOfLevel = false;
   }
 
   for (var c = 0; c < this._categories.length; c++) {

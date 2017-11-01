@@ -16,12 +16,16 @@ function Enemy(descr) {
     // Initial Enemy value
     this.cx = 60;
     this.cy = 0;
-    
+
 
     this.SPEED = 1;
 
+    this.setup(descr);
+
 
 }
+
+Enemy.prototype = new Entity();
 
 Enemy.prototype.update = function (du) {
 
