@@ -39,9 +39,7 @@ _towers  : [],
 _generateEnemies : function() {
 
 },
-generateShip : function(descr) {
-    this._ships.push(new Ship(descr));
-},
+
 
 generateTower : function(descr) {
     this._towers.push(new Tower(descr));
