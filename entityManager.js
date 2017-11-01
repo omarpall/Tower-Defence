@@ -59,6 +59,7 @@ generateEnemies : function() {
 },
 
 
+
 //Generates a tower at mouse location if spot is legal and available
 generateArrowTower : function(descr) {
   var x = Math.floor(descr.cx/40);
@@ -87,6 +88,7 @@ generateCannonTower : function(descr) {
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
+
 },
 
 generateAirTower : function(descr) {
