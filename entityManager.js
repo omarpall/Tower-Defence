@@ -31,6 +31,7 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _towers  : [],
+<<<<<<< HEAD
 _towerSpots :
 
  [
@@ -45,14 +46,19 @@ _towerSpots :
   [0, 0, 0, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ],
+=======
+_enemies : [],
+
+>>>>>>> ff3d6df73b74659908448b2e10317b9763319569
 
 
 // "PRIVATE" METHODS
 
-_generateEnemies : function() {
-
+generateEnemies : function() {
+    this._enemies.push(new Enemy());
 },
 
+<<<<<<< HEAD
 //Generates a tower at mouse location if spot is legal and available
 generateArrowTower : function(descr) {
   var x = Math.floor(descr.cx/40);
@@ -64,6 +70,14 @@ generateArrowTower : function(descr) {
     this._towerSpots[y][x] = 1;
   }
 },
+=======
+<<<<<<< HEAD
+generateShip : function(descr) {
+    this._ships.push(new Ship(descr));
+},
+=======
+>>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
+>>>>>>> ff3d6df73b74659908448b2e10317b9763319569
 
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);
@@ -115,7 +129,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._enemies, this._bullets, this._ships, this._towers];
+    this._categories = [this._enemies, this._bullets, this._ships, this._towers, this._enemies];
 },
 
 init: function() {
@@ -157,7 +171,6 @@ update: function(du) {
 
 render: function(ctx) {
   g_sprites.background.drawAt(ctx, 0, 0);
-
   var debugX = 10, debugY = 100;
 
     for (var c = 0; c < this._categories.length; ++c) {
@@ -167,7 +180,6 @@ render: function(ctx) {
         if (!this._bShowRocks &&
             aCategory == this._rocks)
             continue;
-
         for (var i = 0; i < aCategory.length; ++i) {
 
             aCategory[i].render(ctx);

@@ -1,0 +1,79 @@
+// ====
+// ROCK
+// ====
+
+"use strict";
+
+/* jshint browser: true, devel: true, globalstrict: true */
+
+/*
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+*/
+
+function Enemy() {
+
+    // Initial Enemy value
+    this.cx = 60;
+    this.cy = 0;
+
+
+    this.SPEED = 1;
+
+
+}
+
+Enemy.prototype.update = function (du) {
+
+    // I DID THIS BIT FOR YOU. NICE, AREN'T I?
+    if(this.cy > 140 && this.cx < 140 && this.cx < 460){
+      console.log("right1");
+      this.cx += this.SPEED * du;
+    }
+    else if (this.cy > 340 &&  140 < this.cx && this.cx < 300 && this.cx < 460) {
+      console.log("right2");
+      this.cx += this.SPEED * du;
+    }
+    else if (this.cx >= 300 && this.cy < 400 && this.cy > 100 && this.cx < 460){
+      console.log("up1");
+      this.cy -= this.SPEED * du;
+    }
+    else if (this.cx > 180 && this.cy < 100 && this.cy > 50 && this.cx < 460){
+      console.log("left1");
+      this.cx -= this.SPEED * du;
+    }
+    else if (this.cx > 170 && this.cy < 100 && this.cy > 20 && this.cx < 460) {
+      console.log("up2");
+      this.cy -= this.SPEED * du;
+    }
+    else if (this.cy < 20 && this.cx > 150 && this.cx < 460){
+      console.log("right3");
+      this.cx += this.SPEED * du;
+    }
+    else if(this.cy > 300 && this.cx > 300){
+      console.log("right4");
+      this.cx += this.SPEED * du;
+    }
+    else{
+      this.cy += this.SPEED * du;
+    }
+
+};
+
+Enemy.prototype.setPos = function (cx, cy) {
+    this.cx = cx;
+    this.cy = cy;
+}
+
+Enemy.prototype.getPos = function () {
+    return {posX : this.cx, posY : this.cy};
+}
+
+Enemy.prototype.render = function (ctx) {
+  if(this.cx < 600){
+      ctx.beginPath();
+      ctx.arc(this.cx, this.cy, 10, 0, 2 * Math.PI, false);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+    }
+};

@@ -26,7 +26,6 @@ of the rocks.
 function called `entityManager.yoinkNearestShip`, which you'll
 have to implement -- it finds the nearest ship (if any) and
 pulls it towards the specified xy coords.
-
 */
 
 "use strict";
@@ -35,7 +34,6 @@ pulls it towards the specified xy coords.
 
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
-
 /*
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -83,7 +81,14 @@ var KEY_2 = keyCode('2');
 var KEY_K = keyCode('K');
 
 function processDiagnostics() {
+<<<<<<< HEAD
+  if (eatKey(KEY_MIXED))
+      g_allowMixedActions = !g_allowMixedActions;
 
+  if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
+=======
+
+>>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
 
 
   if (eatKey(KEY_0)) entityManager.generateAirTower({
@@ -99,6 +104,13 @@ function processDiagnostics() {
 
     sprite : g_sprites.arrowTower
   });
+<<<<<<< HEAD
+
+  if (eatKey(KEY_2)) entityManager.generateShip({
+      cx : g_mouseX,
+      cy : g_mouseY,
+=======
+>>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
 
   if (eatKey(KEY_2)) entityManager.generateCannonTower({
     cx : g_mouseX,
@@ -167,7 +179,7 @@ function preloadDone() {
 
   g_sprites.background = new Sprite(g_images.background);
 
-
+  entityManager.generateEnemies();
     main.init();
 }
 
