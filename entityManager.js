@@ -31,7 +31,7 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _towers  : [],
-<<<<<<< HEAD
+
 _towerSpots :
 
  [
@@ -46,10 +46,10 @@ _towerSpots :
   [0, 0, 0, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ],
-=======
+
 _enemies : [],
 
->>>>>>> ff3d6df73b74659908448b2e10317b9763319569
+
 
 
 // "PRIVATE" METHODS
@@ -58,7 +58,7 @@ generateEnemies : function() {
     this._enemies.push(new Enemy());
 },
 
-<<<<<<< HEAD
+
 //Generates a tower at mouse location if spot is legal and available
 generateArrowTower : function(descr) {
   var x = Math.floor(descr.cx/40);
@@ -70,14 +70,7 @@ generateArrowTower : function(descr) {
     this._towerSpots[y][x] = 1;
   }
 },
-=======
-<<<<<<< HEAD
-generateShip : function(descr) {
-    this._ships.push(new Ship(descr));
-},
-=======
->>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
->>>>>>> ff3d6df73b74659908448b2e10317b9763319569
+
 
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);

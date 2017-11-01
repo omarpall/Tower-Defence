@@ -81,14 +81,12 @@ var KEY_2 = keyCode('2');
 var KEY_K = keyCode('K');
 
 function processDiagnostics() {
-<<<<<<< HEAD
+
   if (eatKey(KEY_MIXED))
       g_allowMixedActions = !g_allowMixedActions;
 
   if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-=======
 
->>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
 
 
   if (eatKey(KEY_0)) entityManager.generateAirTower({
@@ -104,13 +102,10 @@ function processDiagnostics() {
 
     sprite : g_sprites.arrowTower
   });
-<<<<<<< HEAD
 
-  if (eatKey(KEY_2)) entityManager.generateShip({
-      cx : g_mouseX,
-      cy : g_mouseY,
-=======
->>>>>>> 29294067e1e3bfead88bfff42c8fc472d600a245
+
+
+
 
   if (eatKey(KEY_2)) entityManager.generateCannonTower({
     cx : g_mouseX,
