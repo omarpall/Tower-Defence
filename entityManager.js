@@ -54,8 +54,10 @@ _enemies : [],
 
 // "PRIVATE" METHODS
 
-generateEnemies : function() {
-    this._enemies.push(new Enemy());
+generateEnemies : function(lvl) {
+
+    this._enemies.push(new Enemy(descr));
+
 },
 
 
@@ -145,6 +147,16 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
 
 
 update: function(du) {
+  if(beginningOfLevel){
+
+      generateEnemies({
+        cx : g_mouseX,
+        cy : g_mouseY,
+
+        sprite : g_sprites.enemy1
+      });
+  }
+
   for (var c = 0; c < this._categories.length; c++) {
 
     var aCategory = this._categories[c];

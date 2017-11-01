@@ -82,11 +82,6 @@ var KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
-  if (eatKey(KEY_MIXED))
-      g_allowMixedActions = !g_allowMixedActions;
-
-  if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-
 
 
   if (eatKey(KEY_0)) entityManager.generateAirTower({
@@ -156,6 +151,7 @@ function requestPreloads() {
       airTower : "Textures/towerAir.png",
       arrowTower : "Textures/towerArrow.png",
       cannonTower : "Textures/towerCannon.png",
+      enemy1 : "Textures/enemy1.png",
       background : "Textures/background.jpg"
     };
 
@@ -171,10 +167,10 @@ function preloadDone() {
   g_sprites.airTower  = new Sprite(g_images.airTower);
   g_sprites.arrowTower = new Sprite(g_images.arrowTower);
   g_sprites.cannonTower = new Sprite(g_images.cannonTower);
-
+  g_sprites.enemy1 = new Sprite(g_images.enemy1);
   g_sprites.background = new Sprite(g_images.background);
 
-  entityManager.generateEnemies();
+
     main.init();
 }
 

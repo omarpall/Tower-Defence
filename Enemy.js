@@ -11,12 +11,12 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
-function Enemy() {
+function Enemy(descr) {
 
     // Initial Enemy value
     this.cx = 60;
     this.cy = 0;
-
+    
 
     this.SPEED = 1;
 
@@ -71,9 +71,8 @@ Enemy.prototype.getPos = function () {
 
 Enemy.prototype.render = function (ctx) {
   if(this.cx < 600){
-      ctx.beginPath();
-      ctx.arc(this.cx, this.cy, 10, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'red';
-      ctx.fill();
+    this.sprite.drawCentredAt (
+      ctx, this.cx, this.cy, this.rotation
+    );
     }
 };

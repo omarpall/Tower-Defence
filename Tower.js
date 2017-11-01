@@ -32,14 +32,7 @@ Tower.prototype = new Entity();
 
 
 // Initial, inheritable, default values
-Tower.prototype.cx = 200;
-Tower.prototype.cy = 200;
-Tower.prototype.damage = 0;
-Tower.prototype.splash = false;
-Tower.prototype.land = true;
-Tower.prototype.air = true;
-Tower.prototype.radius = 20;
-Tower.prototype.firerate = 60;
+
 
 
 Tower.prototype.update = function (du) {
