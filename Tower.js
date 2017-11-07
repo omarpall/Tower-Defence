@@ -31,6 +31,7 @@ Tower.prototype = new Entity();
 Tower.prototype.rotation = 0;
 
 Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
+Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 // Initial, inheritable, default values
 
 
@@ -55,6 +56,12 @@ Tower.prototype.update = function (du) {
         return;
     }
 */
+    var enemy = entityManager._findNearestShip(this.cx,this.cy);
+    var pos = enemy.getPos();
+    var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
+    this.rotation = angleRadians;
+
+
 
 
 
@@ -86,9 +93,9 @@ Tower.prototype.maybeFireBullet = function () {
 
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
-        var launchDist = 3;
+        var launchDist = 0.5;
 
-        var relVel = 1;
+        var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 

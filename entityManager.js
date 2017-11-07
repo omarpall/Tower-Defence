@@ -112,7 +112,17 @@ generateAirTower : function(descr) {
 
 
 _findNearestShip : function(posX, posY) {
-
+  var nearest = 1000000;
+  var nearestEnemy;
+  for(var i = 0; i < this._enemies.length; i++){
+    var posEnemy = this._enemies[i].getPos();
+    var distance = util.distSq(posX,posY,posEnemy.posX,posEnemy.posY);
+    if(distance <= nearest){
+      nearestEnemy = this._enemies[i];
+      nearest = distance;
+    }
+  }
+  return nearestEnemy;
 },
 
 _forEachOf: function(aCategory, fn) {
