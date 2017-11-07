@@ -38,9 +38,6 @@ Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 
 Tower.prototype.update = function (du) {
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
-
-
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
 
@@ -60,8 +57,6 @@ Tower.prototype.update = function (du) {
     var pos = enemy.getPos();
     var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
     this.rotation = angleRadians;
-
-
 
 
 

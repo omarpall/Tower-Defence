@@ -28,6 +28,9 @@ function Enemy(descr) {
 Enemy.prototype = new Entity();
 
 Enemy.prototype.update = function (du) {
+
+    spatialManager.unregister(this);
+
     if(this.cy > 400)
       return "passed";
     // I DID THIS BIT FOR YOU. NICE, AREN'T I?
@@ -52,9 +55,11 @@ Enemy.prototype.update = function (du) {
     else if(this.cy > 300 && this.cx > 300 && this.cx < 540){
       this.cx += this.SPEED * du;
     }
-    else{
+    else {
       this.cy += this.SPEED * du;
     }
+
+    spatialManager.register(this);
 
     return null;
 };
@@ -66,6 +71,10 @@ Enemy.prototype.setPos = function (cx, cy) {
 
 Enemy.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};
+}
+
+Enemy.prototype.getRadius = function () {
+  return (this.sprite.height*this.sprite.scale / 2) * 0.9;
 }
 
 Enemy.prototype.render = function (ctx) {

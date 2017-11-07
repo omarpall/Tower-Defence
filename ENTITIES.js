@@ -72,25 +72,20 @@ function updateSimulation(du) {
 }
 
 
+var g_renderSpatialDebug = false;
 
-
-var KEY_0 = keyCode('0');
 
 var KEY_1 = keyCode('1');
 var KEY_2 = keyCode('2');
+var KEY_3 = keyCode('3');
 
 var KEY_K = keyCode('K');
+var KEY_SPATIAL = keyCode('X');
 
 function processDiagnostics() {
 
+if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-
-  if (eatKey(KEY_0)) entityManager.generateAirTower({
-    cx : g_mouseX,
-    cy : g_mouseY,
-
-    sprite : g_sprites.airTower
-  });
 
   if (eatKey(KEY_1)) entityManager.generateArrowTower({
     cx : g_mouseX,
@@ -99,10 +94,6 @@ function processDiagnostics() {
     sprite : g_sprites.arrowTower
   });
 
-
-
-
-
   if (eatKey(KEY_2)) entityManager.generateCannonTower({
     cx : g_mouseX,
     cy : g_mouseY,
@@ -110,6 +101,12 @@ function processDiagnostics() {
     sprite : g_sprites.cannonTower
   });
 
+  if (eatKey(KEY_3)) entityManager.generateAirTower({
+    cx : g_mouseX,
+    cy : g_mouseY,
+
+    sprite : g_sprites.airTower
+  });
 
   if (eatKey(KEY_K)) {
 
@@ -135,6 +132,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
   entityManager.render(ctx);
+  if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 
 }
