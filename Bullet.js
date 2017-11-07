@@ -109,5 +109,5 @@ Bullet.prototype.render = function (ctx) {
   ctx.beginPath();
   ctx.arc(this.cx,this.cy,2,0,2*Math.PI);
   ctx.stroke();
-    ctx.globalAlpha = 1;
+  ctx.globalAlpha = 1;
 };
