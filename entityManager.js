@@ -179,6 +179,7 @@ update: function(du) {
     }
 
   }
+
 },
 
 render: function(ctx) {
