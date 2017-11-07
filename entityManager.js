@@ -48,7 +48,9 @@ _towerSpots :
 ],
 
 _enemies : [],
-
+gold : 0,
+lives : 50,
+level : 1,
 
 
 
@@ -131,7 +133,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._enemies, this._bullets, this._ships, this._towers, this._enemies];
+    this._categories = [this._enemies, this._towers, this.gold, this.lives, this.level];
 },
 
 init: function() {
@@ -170,8 +172,9 @@ update: function(du) {
     while (i < aCategory.length) {
       var status = aCategory[i].update(du);
 
-      if (status === this.KILL_ME_NOW) {
+      if (status === "passed") {
         aCategory.splice(i, 1);
+        this._categories[3]--;
       } else {
         i++;
       }
@@ -184,22 +187,25 @@ update: function(du) {
 
 render: function(ctx) {
   g_sprites.background.drawAt(ctx, 0, 0);
-  var debugX = 10, debugY = 100;
+
+  ctx.font= "16px Georgia";
+  //gold
+  ctx.fillStyle = 'yellow';
+  ctx.fillText("Gold: " + this._categories[2], 610, 20);
+  //lives
+  ctx.fillStyle = 'red';
+  ctx.fillText("Lives: " + this._categories[3], 730, 20);
+  //level
+  ctx.fillStyle = 'cyan';
+  ctx.fillText("Level: " + this._categories[4], 610, 75);
+
+
 
     for (var c = 0; c < this._categories.length; ++c) {
-
         var aCategory = this._categories[c];
-
-        if (!this._bShowRocks &&
-            aCategory == this._rocks)
-            continue;
         for (var i = 0; i < aCategory.length; ++i) {
-
-            aCategory[i].render(ctx);
-            //debug.text(".", debugX + i * 10, debugY);
-
+           aCategory[i].render(ctx);
         }
-        debugY += 10;
     }
 }
 

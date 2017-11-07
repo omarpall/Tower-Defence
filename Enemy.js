@@ -28,40 +28,35 @@ function Enemy(descr) {
 Enemy.prototype = new Entity();
 
 Enemy.prototype.update = function (du) {
-
+    if(this.cy > 400)
+      return "passed";
     // I DID THIS BIT FOR YOU. NICE, AREN'T I?
     if(this.cy > 140 && this.cx < 140 && this.cx < 460){
-      console.log("right1");
       this.cx += this.SPEED * du;
     }
     else if (this.cy > 340 &&  140 < this.cx && this.cx < 300 && this.cx < 460) {
-      console.log("right2");
       this.cx += this.SPEED * du;
     }
     else if (this.cx >= 300 && this.cy < 400 && this.cy > 100 && this.cx < 460){
-      console.log("up1");
       this.cy -= this.SPEED * du;
     }
     else if (this.cx > 180 && this.cy < 100 && this.cy > 50 && this.cx < 460){
-      console.log("left1");
       this.cx -= this.SPEED * du;
     }
     else if (this.cx > 170 && this.cy < 100 && this.cy > 20 && this.cx < 460) {
-      console.log("up2");
       this.cy -= this.SPEED * du;
     }
     else if (this.cy < 20 && this.cx > 150 && this.cx < 460){
-      console.log("right3");
       this.cx += this.SPEED * du;
     }
     else if(this.cy > 300 && this.cx > 300 && this.cx < 540){
-      console.log("right4");
       this.cx += this.SPEED * du;
     }
     else{
       this.cy += this.SPEED * du;
     }
 
+    return null;
 };
 
 Enemy.prototype.setPos = function (cx, cy) {
