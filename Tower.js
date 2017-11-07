@@ -30,7 +30,7 @@ function Tower(descr) {
 Tower.prototype = new Entity();
 
 
-
+Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 // Initial, inheritable, default values
 
 

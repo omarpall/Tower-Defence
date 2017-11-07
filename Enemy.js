@@ -54,7 +54,7 @@ Enemy.prototype.update = function (du) {
       console.log("right3");
       this.cx += this.SPEED * du;
     }
-    else if(this.cy > 300 && this.cx > 300){
+    else if(this.cy > 300 && this.cx > 300 && this.cx < 540){
       console.log("right4");
       this.cx += this.SPEED * du;
     }

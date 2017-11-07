@@ -102,8 +102,8 @@ Bullet.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
-    g_sprites.bullet.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+    g_sprites.bullet.drawCentredAt(
+        ctx, 10, 10, 0
     );
 
     ctx.globalAlpha = 1;
