@@ -28,7 +28,7 @@ function Tower(descr) {
 };
 
 Tower.prototype = new Entity();
-
+Tower.prototype.rotation = 0;
 
 Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 // Initial, inheritable, default values
@@ -86,16 +86,16 @@ Tower.prototype.maybeFireBullet = function () {
 
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
+        var launchDist = 3;
 
-        var relVel = this.launchVel;
+        var relVel = 1;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
         entityManager.fireBullet(
            this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
-           this.rotation);
+          relVelX, relVelY,
+          this.rotation);
 
     }
 
