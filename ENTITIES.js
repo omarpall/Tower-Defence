@@ -153,7 +153,8 @@ function requestPreloads() {
       arrowTower : "Textures/towerArrow.png",
       cannonTower : "Textures/towerCannon.png",
       enemy1 : "Textures/enemy1.png",
-      background : "Textures/background.jpg"
+      background : "Textures/background.jpg",
+      iconTowerAir : "Textures/iconTowerAir.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -170,7 +171,7 @@ function preloadDone() {
   g_sprites.cannonTower = new Sprite(g_images.cannonTower);
   g_sprites.enemy1 = new Sprite(g_images.enemy1);
   g_sprites.background = new Sprite(g_images.background);
-
+  g_sprites.iconTowerAir = new Sprite(g_images.iconTowerAir);
 
     main.init();
 }

@@ -201,6 +201,9 @@ render: function(ctx) {
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + this._categories[5], 610, 75);
 
+  g_sprites.iconTowerAir.drawCentredAt (
+    ctx, 700, 150, 0
+  );
 
 
     for (var c = 0; c < this._categories.length; ++c) {
