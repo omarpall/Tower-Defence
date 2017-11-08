@@ -24,12 +24,14 @@ function Enemy(descr) {
 
 
 }
-
+Enemy.prototype.KEY_FIRE  = ' '.charCodeAt(0);
 Enemy.prototype = new Entity();
 
 Enemy.prototype.update = function (du) {
 
     spatialManager.unregister(this);
+
+    if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
     if(this.cy > 400)
       return "passed";
@@ -59,6 +61,13 @@ Enemy.prototype.update = function (du) {
       this.cy += this.SPEED * du;
     }
 
+
+
+    if (this.lives === 0) {
+        this.kill();
+        return;
+    }
+
     spatialManager.register(this);
 
     return null;
@@ -68,6 +77,12 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cx = cx;
     this.cy = cy;
 }
+
+Enemy.prototype.takeBulletHit = function () {
+    console.log(this.lives);
+    this.lives = this.lives - 1;
+    console.log(this.lives);
+};
 
 Enemy.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};

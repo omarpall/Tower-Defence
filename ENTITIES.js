@@ -90,7 +90,7 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
   if (eatKey(KEY_1)) entityManager.generateArrowTower({
     cx : g_mouseX,
     cy : g_mouseY,
-
+    fireRate : 10,
     sprite : g_sprites.arrowTower
   });
 

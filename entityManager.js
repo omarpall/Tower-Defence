@@ -169,6 +169,7 @@ update: function(du) {
 
       this.generateEnemies({
         cy : 0,
+        lives: 100,
         sprite : g_sprites.enemy1
       });
       this.beginningOfLevel = false;

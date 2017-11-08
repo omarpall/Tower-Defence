@@ -40,9 +40,20 @@ Tower.prototype.update = function (du) {
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
+    var enemy = entityManager._findNearestShip(this.cx,this.cy);
+    console.log(enemy);
+    if(enemy == null){
+      console.log("enginn eftir");
+    }
+    else{
+      var pos = enemy.getPos();
+      var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
+      if(dist < 8000){
+      var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
+      this.maybeFireBullet(angleRadians);
+    }
+    }
 
-    // Handle firing
-    this.maybeFireBullet();
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
 /*
@@ -53,10 +64,6 @@ Tower.prototype.update = function (du) {
         return;
     }
 */
-    var enemy = entityManager._findNearestShip(this.cx,this.cy);
-    var pos = enemy.getPos();
-    var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
-    this.rotation = angleRadians;
 
 
 
@@ -82,15 +89,13 @@ Tower.prototype.computeSubStep = function (du) {
     }
 };*/
 
-Tower.prototype.maybeFireBullet = function () {
+Tower.prototype.maybeFireBullet = function (angleRadians) {
 
-    if (keys[this.KEY_FIRE]) {
-
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
+        var dX = +Math.sin(angleRadians+Math.PI/2);
+        var dY = -Math.cos(angleRadians+Math.PI/2);
         var launchDist = 0.5;
 
-        var relVel =  10;
+        var relVel =  20;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
@@ -99,7 +104,7 @@ Tower.prototype.maybeFireBullet = function () {
           relVelX, relVelY,
           this.rotation);
 
-    }
+
 
 };
 
