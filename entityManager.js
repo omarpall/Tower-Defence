@@ -72,6 +72,12 @@ generateArrowTower : function(descr) {
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.damage = 10;
+  descr.splash = false;
+  descr.land = true;
+  descr.air = true;
+  descr.radius = 80;
+  descr.firerate = 100;
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -104,6 +110,12 @@ generateAirTower : function(descr) {
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.damage = 40;
+  descr.splash = false;
+  descr.land = false;
+  descr.air = true;
+  descr.radius = 80;
+  descr.firerate = 40;
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
