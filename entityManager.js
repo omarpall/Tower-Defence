@@ -23,8 +23,8 @@ with suitable 'data' and 'methods'.
 /*jslint nomen: true, white: true, plusplus: true*/
 
 
-var entityManager = {
 
+var entityManager = {
 // "PRIVATE" DATA
 
 _enemies   : [],
@@ -51,7 +51,9 @@ _enemies : [],
 gold : 0,
 lives : 50,
 level : 1,
-
+airIconSelected : false,
+arrowIconSelected : false,
+cannonIconSelected : false,
 
 
 // "PRIVATE" METHODS
@@ -154,6 +156,7 @@ init: function() {
 },
 
 
+
 fireBullet: function(cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {cx: cx,
                                   cy: cy,
@@ -165,6 +168,7 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
 beginningOfLevel : true,
 
 update: function(du) {
+
   if(this.beginningOfLevel){
 
       this.generateEnemies({
@@ -174,6 +178,24 @@ update: function(du) {
       });
       this.beginningOfLevel = false;
   }
+
+   var x = g_mouseX;
+   var y = g_mouseY;
+   var radius = 38/2;
+   if(x >= 630-radius && x <= 630 + radius && y >= 150 - radius && y <= 150 + radius){
+     this.arrowIconSelected = true;
+   }
+   else if(x >= 680-radius && x <= 680 + radius && y >= 150 - radius && y <= 150 + radius){
+     this.airIconSelected = true;
+   }
+   else if(x >= 730-radius && x <= 730 + radius && y >= 150 - radius && y <= 150 + radius){
+     this.cannonIconSelected = true;
+   }
+   else{
+      this.airIconSelected = false;
+      this.arrowIconSelected = false;
+      this.cannonIconSelected = false;
+   }
 
   for (var c = 0; c < this._categories.length; c++) {
 
@@ -198,23 +220,83 @@ update: function(du) {
 
 },
 
-render: function(ctx) {
-  g_sprites.background.drawAt(ctx, 0, 0);
+renderTowerStats: function(ctx, tower){
+  if(tower === "arrow"){
+    ctx.font= "bold 18px Georgia";
+    ctx.fillStyle = 'black';
+    ctx.fillText("Arrow Tower", 670, 23);
+    ctx.font= "bold 16px Georgia";
+    ctx.fillStyle = 'cyan';
+    ctx.fillText("Damage: 10", 610, 40);
+    ctx.fillText("Splash Damage: No", 610, 55);
+    ctx.fillText("Land Attacks: Yes", 610, 70);
+    ctx.fillText("Air Attacks: Yes", 610, 85);
+    ctx.fillText("Radius: 80", 610, 100);
+    ctx.fillText("firerate: 100", 610, 115);
+  }
+  if(tower === "air"){
+    ctx.font= "bold 18px Georgia";
+    ctx.fillStyle = 'black';
+    ctx.fillText("Air Tower", 670, 23);
+    ctx.font= "bold 16px Georgia";
+    ctx.fillStyle = 'cyan';
+    ctx.fillText("Damage: 40", 610, 40);
+    ctx.fillText("Splash Damage: No", 610, 55);
+    ctx.fillText("Land Attacks: No", 610, 70);
+    ctx.fillText("Air Attacks: Yes", 610, 85);
+    ctx.fillText("Radius: 80", 610, 100);
+    ctx.fillText("firerate: 40", 610, 115);
+  }
+  if(tower === "cannon"){
+    ctx.font= "bold 18px Georgia";
+    ctx.fillStyle = 'black';
+    ctx.fillText("Cannon Tower", 670, 23);
+    ctx.font= "bold 16px Georgia";
+    ctx.fillStyle = 'cyan';
+    ctx.fillText("Damage: 60", 610, 40);
+    ctx.fillText("Splash Damage: No", 610, 55);
+    ctx.fillText("Land Attacks: Yes", 610, 70);
+    ctx.fillText("Air Attacks: No", 610, 85);
+    ctx.fillText("Radius: 120", 610, 100);
+    ctx.fillText("firerate: 50", 610, 115);
+  }
+},
 
+renderInfo: function(ctx){
   ctx.font= "16px Georgia";
-  //gold
+  //Gold
   ctx.fillStyle = 'yellow';
   ctx.fillText("Gold: " + this._categories[3], 610, 20);
-  //lives
+  //Lives
   ctx.fillStyle = 'red';
-  ctx.fillText("Lives: " + this._categories[4], 730, 20);
-  //level
+  ctx.fillText("Lives: " + this._categories[4], 775, 20);
+  //Level
   ctx.fillStyle = 'cyan';
-  ctx.fillText("Level: " + this._categories[5], 610, 75);
+  ctx.fillText("Level: " + this._categories[5], 610, 110);
+},
 
-  g_sprites.iconTowerAir.drawCentredAt (
-    ctx, 700, 150, 0
-  );
+render: function(ctx) {
+  g_sprites.background.drawAt(ctx, 0, 0);
+  //Interface
+  if(!this.arrowIconSelected && !this.airIconSelected && !this.cannonIconSelected){
+    this.renderInfo(ctx);
+  }
+  else{
+    if(this.arrowIconSelected){
+      this.renderTowerStats(ctx, "arrow");
+    }
+    if(this.airIconSelected){
+      this.renderTowerStats(ctx, "air");
+    }
+    if(this.cannonIconSelected){
+      this.renderTowerStats(ctx, "cannon");
+    }
+  }
+
+  //Icons
+  g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
+  g_sprites.iconTowerAir.drawCentredAt (ctx, 680, 150, 0);
+  g_sprites.iconTowerCannon.drawCentredAt (ctx, 730, 150, 0);
 
 
     for (var c = 0; c < this._categories.length; ++c) {
