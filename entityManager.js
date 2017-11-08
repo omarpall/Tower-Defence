@@ -68,6 +68,14 @@ generateEnemies : function(descr) {
 },
 
 
+arrowTowerStats : {
+  damage : 20,
+  splash : false,
+  land : true,
+  air : true,
+  radius : 100,
+  firerate : 200
+},
 
 //Generates a tower at mouse location if spot is legal and available
 generateArrowTower : function(descr) {
@@ -75,13 +83,13 @@ generateArrowTower : function(descr) {
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.damage = 10;
-  descr.splash = false;
-  descr.land = true;
-  descr.air = true;
-  descr.radius = 80;
+  descr.damage = this.arrowTowerStats.damage;
+  descr.splash = this.arrowTowerStats.splash;
+  descr.land = this.arrowTowerStats.land;
+  descr.air = this.arrowTowerStats.air;
+  descr.radius = this.arrowTowerStats.radius;
   // Skjóta 100 sinnum á mín
-  descr.firerate = (60/100)*(1000/NOMINAL_UPDATE_INTERVAL);
+  descr.firerate = (60/this.arrowTowerStats.firerate)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0 && GOLD >= 50) {
     removeGold(50);
     this._towers.push(new Tower(descr));
@@ -298,12 +306,12 @@ renderTowerStats: function(ctx, tower){
     ctx.fillText("Arrow Tower", 670, 23);
     ctx.font= "bold 16px Georgia";
     ctx.fillStyle = 'cyan';
-    ctx.fillText("Damage: 10", 610, 40);
-    ctx.fillText("Splash Damage: No", 610, 55);
-    ctx.fillText("Land Attacks: Yes", 610, 70);
-    ctx.fillText("Air Attacks: Yes", 610, 85);
-    ctx.fillText("Radius: 80", 610, 100);
-    ctx.fillText("firerate: 100", 610, 115);
+    ctx.fillText("Damage: " + this.arrowTowerStats.damage, 610, 40);
+    ctx.fillText("Splash Damage: " + this.arrowTowerStats.splash, 610, 55);
+    ctx.fillText("Land Attacks: " + this.arrowTowerStats.land, 610, 70);
+    ctx.fillText("Air Attacks: " +  this.arrowTowerStats.air, 610, 85);
+    ctx.fillText("Radius: " + this.arrowTowerStats.radius, 610, 100);
+    ctx.fillText("firerate: " + this.arrowTowerStats.firerate, 610, 115);
   }
   if(tower === "air"){
     ctx.font= "bold 18px Georgia";
