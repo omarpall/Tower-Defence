@@ -77,7 +77,8 @@ generateArrowTower : function(descr) {
   descr.land = true;
   descr.air = true;
   descr.radius = 80;
-  descr.firerate = 100;
+  // Skjóta 100 sinnum á mín
+  descr.firerate = (60/100)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -96,7 +97,8 @@ generateCannonTower : function(descr) {
   descr.land = true;
   descr.air = false;
   descr.radius = 120;
-  descr.firerate = 50;
+  // Skjóta 50 sinnum á mín
+  descr.firerate = (60/50)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -115,7 +117,8 @@ generateAirTower : function(descr) {
   descr.land = false;
   descr.air = true;
   descr.radius = 80;
-  descr.firerate = 40;
+  // Skjóta 40 sinnum á mín
+  descr.firerate = (60/40)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
