@@ -77,9 +77,10 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cy = cy;
 }
 
-Enemy.prototype.takeBulletHit = function () {
-    this.lives = this.lives - 1;
+Enemy.prototype.takeBulletHit = function (damage) {
+    this.lives = this.lives - damage;
 };
+
 
 Enemy.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};
