@@ -21,11 +21,12 @@ function Enemy(descr) {
     this.SPEED = 1;
 
     this.setup(descr);
-
+    this.TOTAL_LIFE = this.lives;
 
 }
 Enemy.prototype.KEY_FIRE  = ' '.charCodeAt(0);
 Enemy.prototype = new Entity();
+Enemy.prototype.TOTAL_LIFE;
 
 Enemy.prototype.update = function (du) {
 
@@ -91,7 +92,14 @@ Enemy.prototype.getRadius = function () {
 }
 
 Enemy.prototype.render = function (ctx) {
-  if(this.cx < 600){
+  if(this.cx < 600 && this.cy < 400){
+    var liveLeft = this.lives/this.TOTAL_LIFE;
+    console.log(liveLeft);
+    ctx.fillStyle="#FF0000";
+    ctx.fillRect(this.cx-10, this.cy-20, 20, 3);
+    ctx.fillStyle="#7FFF00";
+    ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
+
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy,0
     );
