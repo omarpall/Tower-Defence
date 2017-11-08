@@ -101,7 +101,6 @@ Bullet.prototype.render = function (ctx) {
     if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
-
   this.sprite.drawCentredAt (
     ctx, this.cx, this.cy, this.rotation
   );

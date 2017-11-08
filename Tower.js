@@ -32,6 +32,7 @@ Tower.prototype.rotation = 0;
 
 Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
+Tower.prototype.FIRE_RATE_COUNT;
 // Initial, inheritable, default values
 
 
@@ -39,21 +40,22 @@ Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 Tower.prototype.update = function (du) {
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
-
-  var enemy = entityManager._findNearestShip(this.cx,this.cy);
-  if(enemy == null){
+    this.FIRE_RATE_COUNT -= du;
+    if(this.FIRE_RATE_COUNT <= 0 || isNaN(this.FIRE_RATE_COUNT)){
+      this.FIRE_RATE_COUNT = this.firerate;
+      var enemy = entityManager._findNearestShip(this.cx,this.cy);
+      if(enemy == null){
     console.log("enginn eftir");
-  }
-  else{
+    }
+    else{
       var pos = enemy.getPos();
       var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
       if(dist < 8000){
       var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
-        this.maybeFireBullet(angleRadians);
+      this.maybeFireBullet(angleRadians);
     }
-
   }
-
+}
 
 
 
@@ -92,7 +94,7 @@ Tower.prototype.computeSubStep = function (du) {
 };*/
 
 Tower.prototype.maybeFireBullet = function (angleRadians) {
-
+      console.log("skjota");
         var dX = +Math.sin(angleRadians+Math.PI/2);
         var dY = -Math.cos(angleRadians+Math.PI/2);
         var launchDist = 0.5;
