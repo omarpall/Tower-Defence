@@ -235,21 +235,24 @@ update: function(du) {
 
    if(this.isSpriteOnMouse){
      if(mouseDown){
-       if(this.spriteOnMouse === g_sprites.arrowTower){
+       if(this.spriteOnMouse === g_sprites.arrowTower && GOLD >= 50){
+         removeGold(50);
        entityManager.generateArrowTower({
          cx : g_mouseX,
          cy : g_mouseY,
          sprite : g_sprites.arrowTower
        });
      }
-       if(this.spriteOnMouse === g_sprites.airTower){
+       if(this.spriteOnMouse === g_sprites.airTower && GOLD >= 70){
+         removeGold(70);
        entityManager.generateAirTower({
          cx : g_mouseX,
          cy : g_mouseY,
          sprite : g_sprites.airTower
        });
      }
-       if(this.spriteOnMouse === g_sprites.cannonTower){
+       if(this.spriteOnMouse === g_sprites.cannonTower && GOLD >= 100){
+        removeGold(100);
        entityManager.generateCannonTower({
          cx : g_mouseX,
          cy : g_mouseY,
