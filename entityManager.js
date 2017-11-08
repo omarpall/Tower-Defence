@@ -206,7 +206,7 @@ update: function(du) {
    var radius = 38/2;
    if(x >= 630-radius && x <= 630 + radius && y >= 150 - radius && y <= 150 + radius){
      this.arrowIconSelected = true;
-     if(mouseDown){
+     if(mouseDown && GOLD >= 50){
        this.spriteOnMouse = g_sprites.arrowTower;
        this.isSpriteOnMouse = true;
        mouseDown = false;
@@ -214,7 +214,7 @@ update: function(du) {
    }
    else if(x >= 680-radius && x <= 680 + radius && y >= 150 - radius && y <= 150 + radius){
      this.airIconSelected = true;
-     if(mouseDown){
+     if(mouseDown && GOLD >= 70){
        this.spriteOnMouse = g_sprites.airTower;
        this.isSpriteOnMouse = true;
        mouseDown = false;
@@ -222,7 +222,7 @@ update: function(du) {
    }
    else if(x >= 730-radius && x <= 730 + radius && y >= 150 - radius && y <= 150 + radius){
      this.cannonIconSelected = true;
-     if(mouseDown){
+     if(mouseDown && GOLD >= 100){
        this.spriteOnMouse = g_sprites.cannonTower;
        this.isSpriteOnMouse = true;
        mouseDown = false;
@@ -236,7 +236,7 @@ update: function(du) {
 
    if(this.isSpriteOnMouse){
      if(mouseDown){
-       if(this.spriteOnMouse === g_sprites.arrowTower && GOLD >= 50){
+       if(this.spriteOnMouse === g_sprites.arrowTower){
          removeGold(50);
        entityManager.generateArrowTower({
          cx : g_mouseX,
@@ -244,7 +244,7 @@ update: function(du) {
          sprite : g_sprites.arrowTower
        });
      }
-       if(this.spriteOnMouse === g_sprites.airTower && GOLD >= 70){
+       if(this.spriteOnMouse === g_sprites.airTower){
          removeGold(70);
        entityManager.generateAirTower({
          cx : g_mouseX,
@@ -252,7 +252,7 @@ update: function(du) {
          sprite : g_sprites.airTower
        });
      }
-       if(this.spriteOnMouse === g_sprites.cannonTower && GOLD >= 100){
+       if(this.spriteOnMouse === g_sprites.cannonTower){
         removeGold(100);
        entityManager.generateCannonTower({
          cx : g_mouseX,
