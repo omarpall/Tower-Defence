@@ -45,7 +45,7 @@ Bullet.prototype.velX = 3;
 Bullet.prototype.velY = 3;
 
 // Convert times from milliseconds to "nominal" time units.
-Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
+//Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
 
 Bullet.prototype.update = function (du) {
 
@@ -53,16 +53,19 @@ Bullet.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-
-    this.lifeSpan -= du;
-    if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
-
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
     this.rotation += 1 * du;
     this.rotation = util.wrapRange(this.rotation,
                                    0, consts.FULL_CIRCLE);
+
+    if (this.cx < 0 || this.cx > g_canvas.width - 250) {
+      return entityManager.KILL_ME_NOW;
+    }
+    if (this.cy < 0 || this.cy > g_canvas.height) {
+      return entityManager.KILL_ME_NOW;
+    }
 
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
@@ -93,12 +96,6 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-
-    var fadeThresh = Bullet.prototype.lifeSpan / 3;
-
-    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
-    }
   this.sprite.drawCentredAt (
     ctx, this.cx, this.cy, 90
   );
