@@ -283,7 +283,7 @@ renderInfo: function(ctx){
   ctx.font= "16px Georgia";
   //Gold
   ctx.fillStyle = 'yellow';
-<<<<<<< HEAD
+
   ctx.fillText("Gold: " + GOLD, 610, 20);
   //lives
   ctx.fillStyle = 'red';
@@ -291,14 +291,8 @@ renderInfo: function(ctx){
   //level
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + LEVEL, 610, 75);
-=======
-  ctx.fillText("Gold: " + this._categories[3], 610, 20);
-  //Lives
-  ctx.fillStyle = 'red';
-  ctx.fillText("Lives: " + this._categories[4], 775, 20);
-  //Level
-  ctx.fillStyle = 'cyan';
-  ctx.fillText("Level: " + this._categories[5], 610, 110);
+
+
 },
 
 render: function(ctx) {
@@ -318,7 +312,7 @@ render: function(ctx) {
       this.renderTowerStats(ctx, "cannon");
     }
   }
->>>>>>> 40038b024c4281d6706457ab4fafdb0e39b77d2c
+
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
