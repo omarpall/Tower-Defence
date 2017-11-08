@@ -74,6 +74,13 @@ generateArrowTower : function(descr) {
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.damage = 10;
+  descr.splash = false;
+  descr.land = true;
+  descr.air = true;
+  descr.radius = 80;
+  // Skjóta 100 sinnum á mín
+  descr.firerate = (60/100)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -92,7 +99,8 @@ generateCannonTower : function(descr) {
   descr.land = true;
   descr.air = false;
   descr.radius = 120;
-  descr.firerate = 50;
+  // Skjóta 50 sinnum á mín
+  descr.firerate = (60/50)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -106,6 +114,13 @@ generateAirTower : function(descr) {
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.damage = 40;
+  descr.splash = false;
+  descr.land = false;
+  descr.air = true;
+  descr.radius = 80;
+  // Skjóta 40 sinnum á mín
+  descr.firerate = (60/40)*(1000/NOMINAL_UPDATE_INTERVAL);
   if(this._towerSpots[y][x] === 0){
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
@@ -156,9 +171,11 @@ init: function() {
 },
 
 
-
-fireBullet: function(cx, cy, velX, velY, rotation) {
-  this._bullets.push(new Bullet( {cx: cx,
+fireBullet: function(damage, cx, cy, velX, velY, rotation) {
+  this._bullets.push(new Bullet( {
+                                  damage : damage,
+                                  sprite : g_sprites.arrow,
+                                  cx: cx,
                                   cy: cy,
                                   velX: velX,
                                   velY: velY,

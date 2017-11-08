@@ -147,6 +147,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
+      arrow : "Textures/arrow.gif",
       airTower : "Textures/towerAir.png",
       arrowTower : "Textures/towerArrow.png",
       cannonTower : "Textures/towerCannon.png",
@@ -165,7 +166,8 @@ var g_sprites = {};
 function preloadDone() {
 
 
-
+  g_sprites.arrow = new Sprite(g_images.arrow);
+  g_sprites.arrow.scale = 0.5;
   g_sprites.airTower  = new Sprite(g_images.airTower);
   g_sprites.arrowTower = new Sprite(g_images.arrowTower);
   g_sprites.cannonTower = new Sprite(g_images.cannonTower);

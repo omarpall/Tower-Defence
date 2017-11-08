@@ -41,8 +41,8 @@ Bullet.prototype.zappedSound = new Audio(
 Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 5;
-Bullet.prototype.velY = 5;
+Bullet.prototype.velX = 3;
+Bullet.prototype.velY = 3;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -64,8 +64,6 @@ Bullet.prototype.update = function (du) {
     this.rotation = util.wrapRange(this.rotation,
                                    0, consts.FULL_CIRCLE);
 
-    this.wrapPosition();
-
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
     // Handle collisions
@@ -73,7 +71,7 @@ Bullet.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
 
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeBulletHit;
+        var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
     }
@@ -101,13 +99,7 @@ Bullet.prototype.render = function (ctx) {
     if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
-/*
-    this.Srite.bullet.drawWrappedCentredAt(
-        ctx, 10, 10, 0
-    );
-*/
-  ctx.beginPath();
-  ctx.arc(this.cx,this.cy,2,0,2*Math.PI);
-  ctx.stroke();
-  ctx.globalAlpha = 1;
+  this.sprite.drawCentredAt (
+    ctx, this.cx, this.cy, 90
+  );
 };

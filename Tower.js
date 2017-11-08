@@ -34,6 +34,7 @@ Tower.prototype.rotation = 0;
 
 Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
+Tower.prototype.FIRE_RATE_COUNT;
 // Initial, inheritable, default values
 
 
@@ -41,20 +42,23 @@ Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 Tower.prototype.update = function (du) {
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
-
-    var enemy = entityManager._findNearestShip(this.cx,this.cy);
-    console.log(enemy);
-    if(enemy == null){
-      console.log("enginn eftir");
+    this.FIRE_RATE_COUNT -= du;
+    if(this.FIRE_RATE_COUNT <= 0 || isNaN(this.FIRE_RATE_COUNT)){
+      this.FIRE_RATE_COUNT = this.firerate;
+      var enemy = entityManager._findNearestShip(this.cx,this.cy);
+      if(enemy == null){
+    console.log("enginn eftir");
     }
     else{
       var pos = enemy.getPos();
       var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
-      if(dist < 8000){
+      if(dist < util.square(this.radius)){
       var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
       this.maybeFireBullet(angleRadians);
     }
-    }
+  }
+}
+
 
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
@@ -92,19 +96,18 @@ Tower.prototype.computeSubStep = function (du) {
 };*/
 
 Tower.prototype.maybeFireBullet = function (angleRadians) {
-
         var dX = +Math.sin(angleRadians+Math.PI/2);
         var dY = -Math.cos(angleRadians+Math.PI/2);
         var launchDist = 0.5;
 
-        var relVel =  20;
+        var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
-        entityManager.fireBullet(
+        entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
-          this.rotation);
+          this.rotation);3
 
 
 
@@ -120,6 +123,9 @@ Tower.prototype.halt = function () {
 };
 
 Tower.prototype.render = function (ctx) {
+    ctx.beginPath();
+    ctx.arc(this.cx,this.cy,this.radius,0,2*Math.PI);
+    ctx.stroke();
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy, this.rotation
     );

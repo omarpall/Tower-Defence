@@ -21,11 +21,12 @@ function Enemy(descr) {
     this.SPEED = 1;
 
     this.setup(descr);
-
+    this.TOTAL_LIFE = this.lives;
 
 }
 Enemy.prototype.KEY_FIRE  = ' '.charCodeAt(0);
 Enemy.prototype = new Entity();
+Enemy.prototype.TOTAL_LIFE;
 
 Enemy.prototype.update = function (du) {
 
@@ -62,8 +63,7 @@ Enemy.prototype.update = function (du) {
     }
 
 
-
-    if (this.lives === 0) {
+    if (this.lives <= 0) {
         this.kill();
         return;
     }
@@ -78,11 +78,10 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cy = cy;
 }
 
-Enemy.prototype.takeBulletHit = function () {
-    console.log(this.lives);
-    this.lives = this.lives - 1;
-    console.log(this.lives);
+Enemy.prototype.takeBulletHit = function (damage) {
+    this.lives = this.lives - damage;
 };
+
 
 Enemy.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};
@@ -93,9 +92,16 @@ Enemy.prototype.getRadius = function () {
 }
 
 Enemy.prototype.render = function (ctx) {
-  if(this.cx < 600){
+  if(this.cx < 600 && this.cy < 400){
+    var liveLeft = this.lives/this.TOTAL_LIFE;
+    console.log(liveLeft);
+    ctx.fillStyle="#FF0000";
+    ctx.fillRect(this.cx-10, this.cy-20, 20, 3);
+    ctx.fillStyle="#7FFF00";
+    ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
+
     this.sprite.drawCentredAt (
-      ctx, this.cx, this.cy, this.rotation
+      ctx, this.cx, this.cy,0
     );
     }
 };
