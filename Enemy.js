@@ -64,6 +64,7 @@ Enemy.prototype.update = function (du) {
 
 
     if (this.lives <= 0) {
+        addGold(50);
         this.kill();
         return;
     }
@@ -94,7 +95,6 @@ Enemy.prototype.getRadius = function () {
 Enemy.prototype.render = function (ctx) {
   if(this.cx < 600 && this.cy < 400){
     var liveLeft = this.lives/this.TOTAL_LIFE;
-    console.log(liveLeft);
     ctx.fillStyle="#FF0000";
     ctx.fillRect(this.cx-10, this.cy-20, 20, 3);
     ctx.fillStyle="#7FFF00";

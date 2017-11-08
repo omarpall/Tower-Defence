@@ -273,7 +273,7 @@ update: function(du) {
        }
       if (status === "passed") {
         aCategory.splice(i, 1);
-        this._categories[4]--;
+        LIVES--;
       } else {
         i++;
       }
@@ -330,13 +330,16 @@ renderInfo: function(ctx){
   ctx.font= "16px Georgia";
   //Gold
   ctx.fillStyle = 'yellow';
-  ctx.fillText("Gold: " + this._categories[3], 610, 20);
-  //Lives
+
+  ctx.fillText("Gold: " + GOLD, 610, 20);
+  //lives
   ctx.fillStyle = 'red';
-  ctx.fillText("Lives: " + this._categories[4], 775, 20);
-  //Level
+  ctx.fillText("Lives: " + LIVES, 730, 20);
+  //level
   ctx.fillStyle = 'cyan';
-  ctx.fillText("Level: " + this._categories[5], 610, 110);
+  ctx.fillText("Level: " + LEVEL, 610, 75);
+
+
 },
 
 render: function(ctx) {
@@ -356,6 +359,7 @@ render: function(ctx) {
       this.renderTowerStats(ctx, "cannon");
     }
   }
+
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
