@@ -54,6 +54,8 @@ level : 1,
 airIconSelected : false,
 arrowIconSelected : false,
 cannonIconSelected : false,
+spriteOnMouse : null,
+isSpriteOnMouse : false,
 
 
 // "PRIVATE" METHODS
@@ -184,6 +186,8 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
 
 beginningOfLevel : true,
 
+
+
 update: function(du) {
 
   if(this.beginningOfLevel){
@@ -201,17 +205,60 @@ update: function(du) {
    var radius = 38/2;
    if(x >= 630-radius && x <= 630 + radius && y >= 150 - radius && y <= 150 + radius){
      this.arrowIconSelected = true;
+     if(mouseDown){
+       this.spriteOnMouse = g_sprites.arrowTower;
+       this.isSpriteOnMouse = true;
+       mouseDown = false;
+     }
    }
    else if(x >= 680-radius && x <= 680 + radius && y >= 150 - radius && y <= 150 + radius){
      this.airIconSelected = true;
+     if(mouseDown){
+       this.spriteOnMouse = g_sprites.airTower;
+       this.isSpriteOnMouse = true;
+       mouseDown = false;
+     }
    }
    else if(x >= 730-radius && x <= 730 + radius && y >= 150 - radius && y <= 150 + radius){
      this.cannonIconSelected = true;
+     if(mouseDown){
+       this.spriteOnMouse = g_sprites.cannonTower;
+       this.isSpriteOnMouse = true;
+       mouseDown = false;
+     }
    }
    else{
       this.airIconSelected = false;
       this.arrowIconSelected = false;
       this.cannonIconSelected = false;
+   }
+
+   if(this.isSpriteOnMouse){
+     if(mouseDown){
+       if(this.spriteOnMouse === g_sprites.arrowTower){
+       entityManager.generateArrowTower({
+         cx : g_mouseX,
+         cy : g_mouseY,
+         sprite : g_sprites.arrowTower
+       });
+     }
+       if(this.spriteOnMouse === g_sprites.airTower){
+       entityManager.generateAirTower({
+         cx : g_mouseX,
+         cy : g_mouseY,
+         sprite : g_sprites.airTower
+       });
+     }
+       if(this.spriteOnMouse === g_sprites.cannonTower){
+       entityManager.generateCannonTower({
+         cx : g_mouseX,
+         cy : g_mouseY,
+         sprite : g_sprites.cannonTower
+       });
+     }
+      mouseDown = false;
+      this.isSpriteOnMouse = false;
+     }
    }
 
   for (var c = 0; c < this._categories.length; c++) {
@@ -302,10 +349,10 @@ render: function(ctx) {
     if(this.arrowIconSelected){
       this.renderTowerStats(ctx, "arrow");
     }
-    if(this.airIconSelected){
+    else if(this.airIconSelected){
       this.renderTowerStats(ctx, "air");
     }
-    if(this.cannonIconSelected){
+    else if(this.cannonIconSelected){
       this.renderTowerStats(ctx, "cannon");
     }
   }
@@ -314,6 +361,11 @@ render: function(ctx) {
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
   g_sprites.iconTowerAir.drawCentredAt (ctx, 680, 150, 0);
   g_sprites.iconTowerCannon.drawCentredAt (ctx, 730, 150, 0);
+
+  //Sprite following mouse
+  if(this.isSpriteOnMouse){
+    this.spriteOnMouse.drawCentredAt(ctx, g_mouseX, g_mouseY, 0);
+  }
 
 
     for (var c = 0; c < this._categories.length; ++c) {
