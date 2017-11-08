@@ -169,8 +169,9 @@ init: function() {
 },
 
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
+fireBullet: function(damage, cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {
+                                  damage : damage,
                                   sprite : g_sprites.arrow,
                                   cx: cx,
                                   cy: cy,

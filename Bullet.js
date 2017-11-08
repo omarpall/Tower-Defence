@@ -41,8 +41,8 @@ Bullet.prototype.zappedSound = new Audio(
 Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 5;
-Bullet.prototype.velY = 5;
+Bullet.prototype.velX = 3;
+Bullet.prototype.velY = 3;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -71,7 +71,7 @@ Bullet.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
 
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeBulletHit;
+        var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
     }
@@ -100,6 +100,6 @@ Bullet.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
   this.sprite.drawCentredAt (
-    ctx, this.cx, this.cy, this.rotation
+    ctx, this.cx, this.cy, 90
   );
 };

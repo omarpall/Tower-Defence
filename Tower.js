@@ -94,16 +94,15 @@ Tower.prototype.computeSubStep = function (du) {
 };*/
 
 Tower.prototype.maybeFireBullet = function (angleRadians) {
-      console.log("skjota");
         var dX = +Math.sin(angleRadians+Math.PI/2);
         var dY = -Math.cos(angleRadians+Math.PI/2);
         var launchDist = 0.5;
 
-        var relVel =  20;
+        var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
-        entityManager.fireBullet(
+        entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
           this.rotation);
