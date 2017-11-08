@@ -125,7 +125,6 @@ Tower.prototype.halt = function () {
 
 Tower.prototype.render = function (ctx) {
     ctx.beginPath();
-    ctx.arc(this.cx,this.cy,this.radius,0,2*Math.PI);
     ctx.stroke();
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy, this.rotation
