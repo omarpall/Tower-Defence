@@ -62,8 +62,7 @@ Enemy.prototype.update = function (du) {
     }
 
 
-
-    if (this.lives === 0) {
+    if (this.lives <= 0) {
         this.kill();
         return;
     }
@@ -79,9 +78,7 @@ Enemy.prototype.setPos = function (cx, cy) {
 }
 
 Enemy.prototype.takeBulletHit = function () {
-    console.log(this.lives);
     this.lives = this.lives - 1;
-    console.log(this.lives);
 };
 
 Enemy.prototype.getPos = function () {
@@ -95,7 +92,7 @@ Enemy.prototype.getRadius = function () {
 Enemy.prototype.render = function (ctx) {
   if(this.cx < 600){
     this.sprite.drawCentredAt (
-      ctx, this.cx, this.cy, this.rotation
+      ctx, this.cx, this.cy,0
     );
     }
 };
