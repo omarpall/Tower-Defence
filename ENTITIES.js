@@ -106,13 +106,15 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
   });
 }
 
-  if (eatKey(KEY_3)) entityManager.generateAirTower({
+  if (eatKey(KEY_3) && GOLD >= 70){
+    removeGold(70);
+     entityManager.generateAirTower({
     cx : g_mouseX,
     cy : g_mouseY,
 
     sprite : g_sprites.airTower
   });
-
+}
   if (eatKey(KEY_K)) {
 
   }
