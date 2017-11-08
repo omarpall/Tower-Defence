@@ -197,6 +197,7 @@ update: function(du) {
         sprite : g_sprites.enemy1
       });
       this.beginningOfLevel = false;
+      LEVEL++;
   }
 
    var x = g_mouseX;

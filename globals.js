@@ -26,7 +26,7 @@ var GOLD = 200;
 
 var LIVES = 10;
 
-var LEVEL = 1;
+var LEVEL = 0;
 
 function addGold(amount){
   GOLD += amount;
