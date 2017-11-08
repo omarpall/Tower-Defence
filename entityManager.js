@@ -61,7 +61,7 @@ isSpriteOnMouse : false,
 // "PRIVATE" METHODS
 
 generateEnemies : function(descr) {
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < descr.num; i++) {
     descr.cy -= 30;
     this._enemies.push(new Enemy(descr));
   }
@@ -188,16 +188,17 @@ continue : true,
 
 update: function(du) {
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
-
+  console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
 
+    LEVEL++;
       this.generateEnemies({
         cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1
+        lives: 100+LEVEL*10,
+        sprite : LEVEL === 1 ? g_sprites.enemy1 : LEVEL === 2 ? g_sprites.enemy2 : g_sprites.enemy3,
+        num : 4 + LEVEL
       });
       this.beginningOfLevel = false;
-      LEVEL++;
   }
 
    var x = g_mouseX;
