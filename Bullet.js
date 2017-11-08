@@ -64,8 +64,6 @@ Bullet.prototype.update = function (du) {
     this.rotation = util.wrapRange(this.rotation,
                                    0, consts.FULL_CIRCLE);
 
-    this.wrapPosition();
-
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
     // Handle collisions
