@@ -371,6 +371,16 @@ render: function(ctx) {
   //Sprite following mouse
   if(this.isSpriteOnMouse){
     this.spriteOnMouse.drawCentredAt(ctx, g_mouseX, g_mouseY, 0);
+
+
+      ctx.beginPath();
+    if(this.spriteOnMouse === g_sprites.arrowTower)
+      ctx.arc(g_mouseX,g_mouseY,80,0,2*Math.PI);
+    if(this.spriteOnMouse === g_sprites.airTower)
+      ctx.arc(g_mouseX,g_mouseY,80,0,2*Math.PI);
+    if(this.spriteOnMouse === g_sprites.cannonTower)
+      ctx.arc(g_mouseX,g_mouseY,120,0,2*Math.PI);
+      ctx.stroke();
   }
 
 
