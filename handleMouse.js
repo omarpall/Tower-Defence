@@ -19,12 +19,12 @@ function handleMouse(evt) {
     g_mouseX = evt.clientX - g_canvas.offsetLeft;
     g_mouseY = evt.clientY - g_canvas.offsetTop;
 
-    // If no button is being pressed, then bail
-    if (!evt.which) return;
 
-  
+
+
+
 }
 
 // Handle "down" and "move" events the same way.
-window.addEventListener("mousedown", handleMouse);
+//window.addEventListener("mousedown", handleMouse);
 window.addEventListener("mousemove", handleMouse);

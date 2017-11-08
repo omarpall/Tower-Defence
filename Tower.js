@@ -27,6 +27,8 @@ function Tower(descr) {
 
 };
 
+
+
 Tower.prototype = new Entity();
 Tower.prototype.rotation = 0;
 
