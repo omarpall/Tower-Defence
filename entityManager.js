@@ -69,7 +69,6 @@ generateEnemies : function(descr) {
 
 //Generates a tower at mouse location if spot is legal and available
 generateArrowTower : function(descr) {
-  var rotation = 0;
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
@@ -89,7 +88,6 @@ generateArrowTower : function(descr) {
 
 
 generateCannonTower : function(descr) {
-  var rotation = 0;
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
@@ -109,7 +107,6 @@ generateCannonTower : function(descr) {
 },
 
 generateAirTower : function(descr) {
-  var rotation = 0;
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
   descr.cx = x*40 + 20;
@@ -184,9 +181,13 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
 
 beginningOfLevel : true,
 
-update: function(du) {
+KEY_CONTINUE : ' '.charCodeAt(0),
+continue : true,
 
-  if(this.beginningOfLevel){
+update: function(du) {
+  if (eatKey(this.KEY_CONTINUE)) this.continue = true;
+
+  if(this.beginningOfLevel && this.continue) {
 
       this.generateEnemies({
         cy : 0,
