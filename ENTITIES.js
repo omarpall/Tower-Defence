@@ -87,19 +87,24 @@ function processDiagnostics() {
 if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
 
-  if (eatKey(KEY_1)) entityManager.generateArrowTower({
+  if (eatKey(KEY_1) && GOLD >= 50) {
+    removeGold(50);
+    entityManager.generateArrowTower({
     cx : g_mouseX,
     cy : g_mouseY,
     fireRate : 10,
     sprite : g_sprites.arrowTower
   });
-
-  if (eatKey(KEY_2)) entityManager.generateCannonTower({
+}
+  if (eatKey(KEY_2) && GOLD >= 100){
+    removeGold(50);
+    entityManager.generateCannonTower({
     cx : g_mouseX,
     cy : g_mouseY,
 
     sprite : g_sprites.cannonTower
   });
+}
 
   if (eatKey(KEY_3)) entityManager.generateAirTower({
     cx : g_mouseX,
