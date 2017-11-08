@@ -32,7 +32,6 @@ function Tower(descr) {
 Tower.prototype = new Entity();
 Tower.prototype.rotation = 0;
 
-Tower.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 Tower.prototype.FIRE_RATE_COUNT;
 // Initial, inheritable, default values
@@ -47,7 +46,9 @@ Tower.prototype.update = function (du) {
       this.FIRE_RATE_COUNT = this.firerate;
       var enemy = entityManager._findNearestShip(this.cx,this.cy);
       if(enemy == null){
-    console.log("enginn eftir");
+        console.log("enginn eftir");
+        entityManager.continue = false;
+        entityManager.beginningOfLevel = true;
     }
     else{
       var pos = enemy.getPos();
