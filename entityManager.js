@@ -205,7 +205,7 @@ update: function(du) {
        }
       if (status === "passed") {
         aCategory.splice(i, 1);
-        this._categories[4]--;
+        LIVES--;
       } else {
         i++;
       }
@@ -222,13 +222,13 @@ render: function(ctx) {
   ctx.font= "16px Georgia";
   //gold
   ctx.fillStyle = 'yellow';
-  ctx.fillText("Gold: " + this._categories[3], 610, 20);
+  ctx.fillText("Gold: " + GOLD, 610, 20);
   //lives
   ctx.fillStyle = 'red';
-  ctx.fillText("Lives: " + this._categories[4], 730, 20);
+  ctx.fillText("Lives: " + LIVES, 730, 20);
   //level
   ctx.fillStyle = 'cyan';
-  ctx.fillText("Level: " + this._categories[5], 610, 75);
+  ctx.fillText("Level: " + LEVEL, 610, 75);
 
   g_sprites.iconTowerAir.drawCentredAt (
     ctx, 700, 150, 0
