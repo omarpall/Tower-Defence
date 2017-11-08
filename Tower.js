@@ -50,7 +50,7 @@ Tower.prototype.update = function (du) {
     else{
       var pos = enemy.getPos();
       var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
-      if(dist < 8000){
+      if(dist < util.square(this.radius)){
       var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
       this.maybeFireBullet(angleRadians);
     }
@@ -105,7 +105,7 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
-          this.rotation);
+          this.rotation);3
 
 
 
@@ -121,6 +121,9 @@ Tower.prototype.halt = function () {
 };
 
 Tower.prototype.render = function (ctx) {
+    ctx.beginPath();
+    ctx.arc(this.cx,this.cy,this.radius,0,2*Math.PI);
+    ctx.stroke();
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy, this.rotation
     );
