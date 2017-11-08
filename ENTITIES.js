@@ -97,7 +97,7 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
   });
 }
   if (eatKey(KEY_2) && GOLD >= 100){
-    removeGold(50);
+    removeGold(100);
     entityManager.generateCannonTower({
     cx : g_mouseX,
     cy : g_mouseY,
