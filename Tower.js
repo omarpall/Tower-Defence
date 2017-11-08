@@ -40,19 +40,21 @@ Tower.prototype.update = function (du) {
 
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
 
-    var enemy = entityManager._findNearestShip(this.cx,this.cy);
-    console.log(enemy);
-    if(enemy == null){
-      console.log("enginn eftir");
-    }
-    else{
+  var enemy = entityManager._findNearestShip(this.cx,this.cy);
+  if(enemy == null){
+    console.log("enginn eftir");
+  }
+  else{
       var pos = enemy.getPos();
       var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
       if(dist < 8000){
       var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
-      this.maybeFireBullet(angleRadians);
+        this.maybeFireBullet(angleRadians);
     }
-    }
+
+  }
+
+
 
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register

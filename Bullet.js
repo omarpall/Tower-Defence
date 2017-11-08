@@ -101,13 +101,8 @@ Bullet.prototype.render = function (ctx) {
     if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
-/*
-    this.Srite.bullet.drawWrappedCentredAt(
-        ctx, 10, 10, 0
-    );
-*/
-  ctx.beginPath();
-  ctx.arc(this.cx,this.cy,2,0,2*Math.PI);
-  ctx.stroke();
-  ctx.globalAlpha = 1;
+
+  this.sprite.drawCentredAt (
+    ctx, this.cx, this.cy, this.rotation
+  );
 };
