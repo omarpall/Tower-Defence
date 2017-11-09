@@ -34,6 +34,7 @@ pulls it towards the specified xy coords.
 
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
+
 /*
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -71,45 +72,46 @@ function updateSimulation(du) {
 }
 
 
+var g_renderSpatialDebug = false;
 
-
-var KEY_0 = keyCode('0');
 
 var KEY_1 = keyCode('1');
 var KEY_2 = keyCode('2');
+var KEY_3 = keyCode('3');
 
 var KEY_K = keyCode('K');
+var KEY_SPATIAL = keyCode('X');
 
 function processDiagnostics() {
 
+if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
 
-  if (eatKey(KEY_0)) entityManager.generateAirTower({
+  if (eatKey(KEY_1)) {
+    entityManager.generateArrowTower({
     cx : g_mouseX,
     cy : g_mouseY,
-
-    sprite : g_sprites.airTower
-  });
-
-  if (eatKey(KEY_1)) entityManager.generateArrowTower({
-    cx : g_mouseX,
-    cy : g_mouseY,
-
+    fireRate : 10,
     sprite : g_sprites.arrowTower
   });
-
-
-
-
-
-  if (eatKey(KEY_2)) entityManager.generateCannonTower({
+}
+  if (eatKey(KEY_2)){
+    entityManager.generateCannonTower({
     cx : g_mouseX,
     cy : g_mouseY,
 
     sprite : g_sprites.cannonTower
   });
+}
 
+  if (eatKey(KEY_3)){
+     entityManager.generateAirTower({
+    cx : g_mouseX,
+    cy : g_mouseY,
 
+    sprite : g_sprites.airTower
+  });
+}
   if (eatKey(KEY_K)) {
 
   }
@@ -134,6 +136,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
   entityManager.render(ctx);
+  if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 
 }
@@ -148,11 +151,17 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
+      arrow : "Textures/arrow.gif",
       airTower : "Textures/towerAir.png",
       arrowTower : "Textures/towerArrow.png",
       cannonTower : "Textures/towerCannon.png",
       enemy1 : "Textures/enemy1.png",
-      background : "Textures/background.jpg"
+      enemy2 : "Textures/enemy2.png",
+      enemy3 : "Textures/enemy3.png",
+      background : "Textures/background.jpg",
+      iconTowerAir : "Textures/iconTowerAir.png",
+      iconTowerArrow : "Textures/iconTowerArrow.png",
+      iconTowerCannon : "Textures/iconTowerCannon.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -163,14 +172,18 @@ var g_sprites = {};
 function preloadDone() {
 
 
-
+  g_sprites.arrow = new Sprite(g_images.arrow);
+  g_sprites.arrow.scale = 0.5;
   g_sprites.airTower  = new Sprite(g_images.airTower);
   g_sprites.arrowTower = new Sprite(g_images.arrowTower);
   g_sprites.cannonTower = new Sprite(g_images.cannonTower);
   g_sprites.enemy1 = new Sprite(g_images.enemy1);
+  g_sprites.enemy2 = new Sprite(g_images.enemy2);
+  g_sprites.enemy3 = new Sprite(g_images.enemy3);
   g_sprites.background = new Sprite(g_images.background);
-
-
+  g_sprites.iconTowerAir = new Sprite(g_images.iconTowerAir);
+  g_sprites.iconTowerArrow = new Sprite(g_images.iconTowerArrow);
+  g_sprites.iconTowerCannon = new Sprite(g_images.iconTowerCannon);
     main.init();
 }
 

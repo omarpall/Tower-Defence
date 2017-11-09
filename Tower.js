@@ -27,24 +27,40 @@ function Tower(descr) {
 
 };
 
+
+
 Tower.prototype = new Entity();
+Tower.prototype.rotation = 0;
 
-
-
+Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
+Tower.prototype.FIRE_RATE_COUNT;
 // Initial, inheritable, default values
 
 
 
 Tower.prototype.update = function (du) {
-
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
-
-
+    console.log(this.FIRE_RATE_COUNT);
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
+    this.FIRE_RATE_COUNT -= du;
+    if(this.FIRE_RATE_COUNT <= 0 || isNaN(this.FIRE_RATE_COUNT)){
+      this.FIRE_RATE_COUNT = this.firerate;
+      var enemy = entityManager._findNearestShip(this.cx,this.cy);
+      if(enemy == null){
+        console.log("enginn eftir");
+        entityManager.continue = false;
+        entityManager.beginningOfLevel = true;
+    }
+    else{
+      var pos = enemy.getPos();
+      var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
+      if(dist < util.square(this.radius)){
+      var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
+      this.maybeFireBullet(angleRadians);
+    }
+  }
+}
 
 
-    // Handle firing
-    this.maybeFireBullet();
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
 /*
@@ -80,24 +96,21 @@ Tower.prototype.computeSubStep = function (du) {
     }
 };*/
 
-Tower.prototype.maybeFireBullet = function () {
+Tower.prototype.maybeFireBullet = function (angleRadians) {
+        var dX = +Math.sin(angleRadians+Math.PI/2);
+        var dY = -Math.cos(angleRadians+Math.PI/2);
+        var launchDist = 0.5;
 
-    if (keys[this.KEY_FIRE]) {
-
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
-
-        var relVel = this.launchVel;
+        var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
-        entityManager.fireBullet(
+        entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
-           this.rotation);
+          relVelX, relVelY,
+          this.rotation);3
 
-    }
+
 
 };
 
@@ -111,6 +124,8 @@ Tower.prototype.halt = function () {
 };
 
 Tower.prototype.render = function (ctx) {
+    ctx.beginPath();
+    ctx.stroke();
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy, this.rotation
     );
