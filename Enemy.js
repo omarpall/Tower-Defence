@@ -64,7 +64,7 @@ Enemy.prototype.update = function (du) {
 
 
     if (this.lives <= 0) {
-        addGold(50);
+        addGold(10);
         this.kill();
         return;
     }

@@ -23,7 +23,11 @@ function handleMouseDown(evt) {
     g_mouseY = evt.clientY - g_canvas.offsetTop;
     mouseDown = true;
 }
-// Handle "down" and "move" events the same way.
-//window.addEventListener("mousedown", handleMouse);
+function handleMouseUp(evt) {
+    mouseDown = false;
+}
+
+
 window.addEventListener("mousemove", handleMouseMove);
 window.addEventListener("mousedown", handleMouseDown);
+window.addEventListener("mouseup", handleMouseUp);

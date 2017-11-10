@@ -29,6 +29,8 @@ function Tower(descr) {
 
 
 
+
+
 Tower.prototype = new Entity();
 Tower.prototype.rotation = 0;
 
@@ -39,7 +41,7 @@ Tower.prototype.FIRE_RATE_COUNT;
 
 
 Tower.prototype.update = function (du) {
-    console.log(this.FIRE_RATE_COUNT);
+    //console.log(this.FIRE_RATE_COUNT);
     if (this._isDeadNow) return entityManager.KILL_ME_NOW;
     this.FIRE_RATE_COUNT -= du;
     if(this.FIRE_RATE_COUNT <= 0 || isNaN(this.FIRE_RATE_COUNT)){
