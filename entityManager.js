@@ -381,6 +381,13 @@ render: function(ctx) {
     }
   }
 
+  //Towers and enemies
+  for (var c = 0; c < this._categories.length; ++c) {
+      var aCategory = this._categories[c];
+      for (var i = 0; i < aCategory.length; ++i) {
+         aCategory[i].render(ctx);
+      }
+  }
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
@@ -421,12 +428,6 @@ render: function(ctx) {
   }
 
 
-    for (var c = 0; c < this._categories.length; ++c) {
-        var aCategory = this._categories[c];
-        for (var i = 0; i < aCategory.length; ++i) {
-           aCategory[i].render(ctx);
-        }
-    }
 }
 
 }
