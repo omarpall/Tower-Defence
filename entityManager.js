@@ -53,6 +53,10 @@ arrowIconSelected : false,
 cannonIconSelected : false,
 spriteOnMouse : null,
 isSpriteOnMouse : false,
+isTowerSelected : false,
+towerSelected : null,
+hoverOverLeftUpgradeBox : false,
+hoverOverRightUpgradeBox : false,
 
 
 arrowTowerStats : {
@@ -101,15 +105,16 @@ generateEnemies : function(descr) {
 generateArrowTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
+  descr.type = "Arrow";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.cost = this.arrowTowerStats.cost;
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
   descr.land = this.arrowTowerStats.land;
   descr.air = this.arrowTowerStats.air;
   descr.radius = this.arrowTowerStats.radius;
-  // Skjóta this.arrowTowerStats.firerate sinnum á mín
-  descr.firerate = (60/this.arrowTowerStats.firerate)*(1000/NOMINAL_UPDATE_INTERVAL);
+  descr.firerate = this.arrowTowerStats.firerate;
   if(this._towerSpots[y][x] === 0 && GOLD >= 50) {
     removeGold(50);
     this._towers.push(new Tower(descr));
@@ -118,38 +123,21 @@ generateArrowTower : function(descr) {
 },
 
 
-generateCannonTower : function(descr) {
-  var x = Math.floor(descr.cx/40);
-  var y =  Math.floor(descr.cy/40);
-  descr.cx = x*40 + 20;
-  descr.cy = y*40 + 20;
-  descr.damage = this.cannonTowerStats.damage;
-  descr.splash = this.cannonTowerStats.splash;
-  descr.land = this.cannonTowerStats.land;
-  descr.air = this.cannonTowerStats.air;
-  descr.radius = this.cannonTowerStats.radius;
-  // Skjóta this.cannonTowerStats.firerate sinnum á mín
-  descr.firerate = (60/this.cannonTowerStats.firerate)*(1000/NOMINAL_UPDATE_INTERVAL);
-  if(this._towerSpots[y][x] === 0 && GOLD >= 100){
-    removeGold(100);
-    this._towers.push(new Tower(descr));
-    this._towerSpots[y][x] = 1;
-  }
 
-},
 
 generateAirTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
+  descr.type = "Air";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
+  descr.cost = this.airTowerStats.cost;
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
   descr.land = this.airTowerStats.land;
   descr.air = this.airTowerStats.air;
   descr.radius = this.airTowerStats.radius;
-  // Skjóta this.airTowerStats.firerate sinnum á mín
-  descr.firerate = (60/this.airTowerStats.firerate)*(1000/NOMINAL_UPDATE_INTERVAL);
+  descr.firerate = this.airTowerStats.firerate;
   if(this._towerSpots[y][x] === 0 && GOLD >= 70){
     removeGold(70);
     this._towers.push(new Tower(descr));
@@ -157,6 +145,27 @@ generateAirTower : function(descr) {
   }
 },
 
+generateCannonTower : function(descr) {
+  var x = Math.floor(descr.cx/40);
+  var y =  Math.floor(descr.cy/40);
+  descr.type = "Cannon";
+  descr.cx = x*40 + 20;
+  descr.cy = y*40 + 20;
+  descr.cost = this.cannonTowerStats.cost;
+  descr.damage = this.cannonTowerStats.damage;
+  descr.splash = this.cannonTowerStats.splash;
+  descr.land = this.cannonTowerStats.land;
+  descr.air = this.cannonTowerStats.air;
+  descr.radius = this.cannonTowerStats.radius;
+
+  descr.firerate = this.cannonTowerStats.firerate;
+  if(this._towerSpots[y][x] === 0 && GOLD >= 100){
+    removeGold(100);
+    this._towers.push(new Tower(descr));
+    this._towerSpots[y][x] = 1;
+  }
+
+},
 
 _findNearestShip : function(posX, posY) {
   var nearest = 1000000;
@@ -212,6 +221,52 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
                                   rotation: rotation}));
 },
 
+
+  generateTower: function(sprite){
+    if(sprite === g_sprites.arrowTower){
+    entityManager.generateArrowTower({
+      cx : g_mouseX,
+      cy : g_mouseY,
+      sprite : g_sprites.arrowTower
+    });
+  }
+    if(sprite === g_sprites.airTower){
+    entityManager.generateAirTower({
+      cx : g_mouseX,
+      cy : g_mouseY,
+      sprite : g_sprites.airTower
+    });
+  }
+    if(sprite === g_sprites.cannonTower){
+    entityManager.generateCannonTower({
+      cx : g_mouseX,
+      cy : g_mouseY,
+      sprite : g_sprites.cannonTower
+    });
+  }
+   mouseDown = false;
+   this.isSpriteOnMouse = false;
+ },
+
+ selectTower: function(yIndex, xIndex){
+   var x = xIndex*40+20;
+   var y = yIndex*40+20;
+   for(var i = 0; i < this._towers.length; i++){
+     if(this._towers[i].cx === x && this._towers[i].cy === y){
+        return this._towers[i];
+      }
+   }
+   return null;
+ },
+
+ isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height){
+     if(x <= rectangleX + width && x >= rectangleX && y <= rectangleY + height && y >= rectangleY)
+      return true;
+     else{
+       return false;
+     }
+ },
+
 beginningOfLevel : true,
 
 KEY_CONTINUE : ' '.charCodeAt(0),
@@ -242,6 +297,7 @@ update: function(du) {
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
+
    }
    else if(x >= 680-radius && x <= 680 + radius && y >= 150 - radius && y <= 150 + radius){
      this.airIconSelected = true;
@@ -265,33 +321,46 @@ update: function(du) {
       this.cannonIconSelected = false;
    }
 
-   if(this.isSpriteOnMouse){
-     if(mouseDown){
-       if(this.spriteOnMouse === g_sprites.arrowTower){
-       entityManager.generateArrowTower({
-         cx : g_mouseX,
-         cy : g_mouseY,
-         sprite : g_sprites.arrowTower
-       });
-     }
-       if(this.spriteOnMouse === g_sprites.airTower){
-       entityManager.generateAirTower({
-         cx : g_mouseX,
-         cy : g_mouseY,
-         sprite : g_sprites.airTower
-       });
-     }
-       if(this.spriteOnMouse === g_sprites.cannonTower){
-       entityManager.generateCannonTower({
-         cx : g_mouseX,
-         cy : g_mouseY,
-         sprite : g_sprites.cannonTower
-       });
-     }
-      mouseDown = false;
-      this.isSpriteOnMouse = false;
-     }
-   }
+
+  if(this.isSpriteOnMouse && mouseDown){
+    this.generateTower(this.spriteOnMouse);
+  }
+
+
+
+  else if(this.isTowerSelected){
+
+
+      //Left box
+      if(this.isWithinRectangle(x, y, this.towerSelected.cx - 50, this.towerSelected.cy - 70, 49, 50)){
+        this.hoverOverLeftUpgradeBox = true;
+        if(mouseDown)
+          this.towerSelected.damage *= 1.2;
+
+      }
+      //Right box
+      else if(this.isWithinRectangle(x, y, this.towerSelected.cx + 1, this.towerSelected.cy - 70, 49, 50)){
+        this.hoverOverRightUpgradeBox = true;
+        if(mouseDown)
+          this.towerSelected.firerate *= 1.2;
+      }
+      //Clicked outside of boxes
+      else{
+        if(mouseDown)
+          this.isTowerSelected = false;
+      }
+
+  }
+
+  else if(mouseDown && x <= g_canvas.width - 250 && y <= g_canvas.height){
+    var xIndex = Math.floor(x/40);
+    var yIndex =  Math.floor(y/40);
+    if(this._towerSpots[yIndex][xIndex] === 1){
+      this.isTowerSelected = true;
+      this.towerSelected = this.selectTower(yIndex, xIndex);
+        mouseDown = false;
+    }
+  }
 
   for (var c = 0; c < this._categories.length; c++) {
 
@@ -316,6 +385,7 @@ update: function(du) {
 
 },
 
+//Print stats of tower when hovered over
 renderTowerStats: function(ctx, tower){
   var towerstats;
   ctx.font= "bold 18px Georgia";
@@ -331,6 +401,13 @@ renderTowerStats: function(ctx, tower){
   else if(tower === "cannon"){
     ctx.fillText("Cannon Tower", 660, 23);
     towerstats = this.cannonTowerStats;
+  }
+  else{
+    console.log(this.towerSelected.type);
+    ctx.fillText(this.towerSelected.type, 660, 23);
+    towerstats = this.towerSelected;
+    towerstats.cost = Math.floor(this.towerSelected.cost/10);
+    this.towerSelected.cost += towerstats.cost;
   }
   ctx.font= "bold 14px Georgia";
   if(towerstats.cost > GOLD)
@@ -361,6 +438,61 @@ renderInfo: function(ctx){
   ctx.fillText("Level: " + LEVEL, 610, 40);
 
 
+},
+
+renderTowerUpgrade: function(ctx, tower){
+  //Draw box
+  ctx.fillStyle = "grey";
+  ctx.fillRect(this.towerSelected.cx - 50, this.towerSelected.cy - 70, 100, 50);
+  ctx.strokeStyle = "black";
+  ctx.strokeRect(this.towerSelected.cx - 50, this.towerSelected.cy - 70, 100, 50);
+  ctx.moveTo(this.towerSelected.cx, this.towerSelected.cy - 70);
+  ctx.lineTo(this.towerSelected.cx, this.towerSelected.cy - 20);
+  ctx.stroke();
+  //Draw upgrade options
+  ctx.font = "bold 9.5px Georgia";
+  ctx.fillStyle = "yellow";
+  ctx.fillText("Upgrade", this.towerSelected.cx - 47, this.towerSelected.cy - 58);
+  ctx.fillText("Upgrade", this.towerSelected.cx + 3, this.towerSelected.cy - 58);
+  if(tower.type === "Arrow"){
+    ctx.fillText("damage", this.towerSelected.cx - 46, this.towerSelected.cy - 45);
+    ctx.fillText("firerate", this.towerSelected.cx + 5, this.towerSelected.cy - 45);
+    ctx.font = "bold 12px Georgia";
+    ctx.fillStyle = "#66ff33";
+    ctx.fillText("+" + Math.floor(this.towerSelected.damage*0.2), this.towerSelected.cx - 35, this.towerSelected.cy - 30);
+    ctx.fillText("+" + Math.floor(this.towerSelected.firerate*0.2), this.towerSelected.cx + 10, this.towerSelected.cy - 30);
+  }
+},
+
+renderSpriteOnMouse: function(ctx){
+  var x = Math.floor(g_mouseX/40);
+  var y =  Math.floor(g_mouseY/40);
+  var towerStats;
+  if(this.spriteOnMouse === g_sprites.arrowTower)
+    towerStats = this.arrowTowerStats;
+  else if(this.spriteOnMouse === g_sprites.airTower)
+    towerStats = this.airTowerStats;
+  else if(this.spriteOnMouse === g_sprites.cannonTower)
+    towerStats = this.cannonTowerStats;
+  if(x < this._towerSpots[0].length && y < this._towerSpots.length){
+    if(this._towerSpots[y][x] === 0){
+      ctx.fillStyle = 'green';
+      ctx.fillRect(x*40, y*40, 40, 40);
+      this.spriteOnMouse.drawCentredAt(ctx, x*40+20, y*40+20, 0);
+      ctx.beginPath();
+      ctx.arc(x*40+20,y*40+20,towerStats.radius,0,2*Math.PI);
+      ctx.stroke();
+    }
+    else{
+      ctx.fillStyle = 'red';
+      ctx.fillRect(g_mouseX-20, g_mouseY-20, 40, 40);
+      this.spriteOnMouse.drawCentredAt(ctx, g_mouseX, g_mouseY, 0);
+      ctx.beginPath();
+      ctx.arc(g_mouseX,g_mouseY,towerStats.radius,0,2*Math.PI);
+      ctx.stroke();
+    }
+
+  }
 },
 
 render: function(ctx) {
@@ -394,37 +526,23 @@ render: function(ctx) {
   g_sprites.iconTowerAir.drawCentredAt (ctx, 680, 150, 0);
   g_sprites.iconTowerCannon.drawCentredAt (ctx, 730, 150, 0);
 
+
+  //Upgrade menu
+  if(this.isTowerSelected){
+    this.renderTowerUpgrade(ctx, this.towerSelected);
+    /*if(this.hoverOverLeftUpgradeBox){
+      console.log(this.towerSelected);
+      this.renderTowerStats(this.towerSelected);
+    }
+    else if(this.hoverOverLeftUpgradeBox){
+      this.renderTowerStats(this.towerSelected);
+    }*/
+  }
+
+
   //Sprite following mouse
   if(this.isSpriteOnMouse){
-    var x = Math.floor(g_mouseX/40);
-    var y =  Math.floor(g_mouseY/40);
-    var towerStats;
-    if(this.spriteOnMouse === g_sprites.arrowTower)
-      towerStats = this.arrowTowerStats;
-    else if(this.spriteOnMouse === g_sprites.airTower)
-      towerStats = this.airTowerStats;
-    else if(this.spriteOnMouse === g_sprites.cannonTower)
-      towerStats = this.cannonTowerStats;
-    if(x < this._towerSpots[0].length && y < this._towerSpots.length){
-      if(this._towerSpots[y][x] === 0){
-        ctx.fillStyle = 'green';
-        ctx.fillRect(x*40, y*40, 40, 40);
-        this.spriteOnMouse.drawCentredAt(ctx, x*40+20, y*40+20, 0);
-        ctx.beginPath();
-        ctx.arc(x*40+20,y*40+20,towerStats.radius,0,2*Math.PI);
-        ctx.stroke();
-      }
-      else{
-        ctx.fillStyle = 'red';
-        ctx.fillRect(g_mouseX-20, g_mouseY-20, 40, 40);
-        this.spriteOnMouse.drawCentredAt(ctx, g_mouseX, g_mouseY, 0);
-        ctx.beginPath();
-        ctx.arc(g_mouseX,g_mouseY,towerStats.radius,0,2*Math.PI);
-        ctx.stroke();
-      }
-
-    }
-
+    this.renderSpriteOnMouse(ctx);
   }
 
 

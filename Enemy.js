@@ -80,7 +80,11 @@ Enemy.prototype.setPos = function (cx, cy) {
 }
 
 Enemy.prototype.takeBulletHit = function (damage) {
+  if(this.lives - damage < 0)
+    this.lives = 0;
+  else{
     this.lives = this.lives - damage;
+  }
 };
 
 
