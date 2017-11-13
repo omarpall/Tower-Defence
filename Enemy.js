@@ -64,7 +64,7 @@ Enemy.prototype.update = function (du) {
 
 
     if (this.lives <= 0) {
-        addGold(50);
+        addGold(10);
         this.kill();
         return;
     }
@@ -80,7 +80,11 @@ Enemy.prototype.setPos = function (cx, cy) {
 }
 
 Enemy.prototype.takeBulletHit = function (damage) {
+  if(this.lives - damage < 0)
+    this.lives = 0;
+  else{
     this.lives = this.lives - damage;
+  }
 };
 
 
