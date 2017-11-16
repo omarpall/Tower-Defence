@@ -108,7 +108,7 @@ generateArrowTower : function(descr) {
   descr.type = "Arrow";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = this.arrowTowerStats.cost;
+  descr.cost = 50;
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
   descr.land = this.arrowTowerStats.land;
@@ -131,7 +131,7 @@ generateAirTower : function(descr) {
   descr.type = "Air";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = this.airTowerStats.cost;
+  descr.cost = 70;
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
   descr.land = this.airTowerStats.land;
@@ -151,13 +151,12 @@ generateCannonTower : function(descr) {
   descr.type = "Cannon";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = this.cannonTowerStats.cost;
+  descr.cost = 100;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
   descr.land = this.cannonTowerStats.land;
   descr.air = this.cannonTowerStats.air;
   descr.radius = this.cannonTowerStats.radius;
-
   descr.firerate = this.cannonTowerStats.firerate;
   if(this._towerSpots[y][x] === 0 && GOLD >= 100){
     removeGold(100);
@@ -334,18 +333,34 @@ update: function(du) {
       //Left box
       if(this.isWithinRectangle(x, y, this.towerSelected.cx - 50, this.towerSelected.cy - 70, 49, 50)){
         this.hoverOverLeftUpgradeBox = true;
-        if(mouseDown)
-          this.towerSelected.damage *= 1.2;
+        this.hoverOverRightUpgradeBox = false;
+        if(mouseDown){
+          this.towerSelected.damage = Math.floor(this.towerSelected.damage*1.2);
 
+          var damage = Math.floor(this.towerSelected.damage/5);
+            var cost = Math.floor(this.towerSelected.cost/5);
+            console.log(this.towerSelected);
+          removeGold(cost);
+          this.towerSelected.cost += cost;
+          mouseDown = false;
+        }
       }
       //Right box
       else if(this.isWithinRectangle(x, y, this.towerSelected.cx + 1, this.towerSelected.cy - 70, 49, 50)){
         this.hoverOverRightUpgradeBox = true;
-        if(mouseDown)
-          this.towerSelected.firerate *= 1.2;
+        this.hoverOverLeftUpgradeBox = false;
+        if(mouseDown){
+          this.towerSelected.damage = Math.floor(this.towerSelected.firerate*1.2);
+          var cost = Math.floor(this.towerSelected.cost/5);
+          removeGold(cost);
+          this.towerSelected.cost += cost;
+          mouseDown = false;
+        }
       }
       //Clicked outside of boxes
       else{
+        this.hoverOverLeftUpgradeBox = false;
+        this.hoverOverRightUpgradeBox = false;
         if(mouseDown)
           this.isTowerSelected = false;
       }
@@ -403,11 +418,9 @@ renderTowerStats: function(ctx, tower){
     towerstats = this.cannonTowerStats;
   }
   else{
-    console.log(this.towerSelected.type);
     ctx.fillText(this.towerSelected.type, 660, 23);
     towerstats = this.towerSelected;
     towerstats.cost = Math.floor(this.towerSelected.cost/10);
-    this.towerSelected.cost += towerstats.cost;
   }
   ctx.font= "bold 14px Georgia";
   if(towerstats.cost > GOLD)
@@ -497,11 +510,16 @@ renderSpriteOnMouse: function(ctx){
 
 render: function(ctx) {
   g_sprites.background.drawAt(ctx, 0, 0);
-  //Interface
-  if(!this.arrowIconSelected && !this.airIconSelected && !this.cannonIconSelected){
-    this.renderInfo(ctx);
+
+
+  //Towers and enemies
+  for (var c = 0; c < this._categories.length; ++c) {
+      var aCategory = this._categories[c];
+      for (var i = 0; i < aCategory.length; ++i) {
+         aCategory[i].render(ctx);
+      }
   }
-  else{
+  //Interface
     if(this.arrowIconSelected){
       this.renderTowerStats(ctx, "arrow");
     }
@@ -511,33 +529,37 @@ render: function(ctx) {
     else if(this.cannonIconSelected){
       this.renderTowerStats(ctx, "cannon");
     }
+
+
+
+  //Upgrade menu
+else if(this.isTowerSelected){
+    this.renderTowerUpgrade(ctx, this.towerSelected);
+    if(this.hoverOverLeftUpgradeBox){
+      this.renderTowerStats(ctx, this.towerSelected);
+    }
+    else if(this.hoverOverLeftUpgradeBox){
+      this.renderTowerStats(ctx, this.towerSelected);
+    }
+    else if(this.hoverOverRightUpgradeBox){
+      this.renderTowerStats(ctx, this.towerSelected);
+    }
+    else{
+        this.renderInfo(ctx);
+    }
   }
 
-  //Towers and enemies
-  for (var c = 0; c < this._categories.length; ++c) {
-      var aCategory = this._categories[c];
-      for (var i = 0; i < aCategory.length; ++i) {
-         aCategory[i].render(ctx);
-      }
+  else{
+    this.renderInfo(ctx);
   }
+
+
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
   g_sprites.iconTowerAir.drawCentredAt (ctx, 680, 150, 0);
   g_sprites.iconTowerCannon.drawCentredAt (ctx, 730, 150, 0);
 
-
-  //Upgrade menu
-  if(this.isTowerSelected){
-    this.renderTowerUpgrade(ctx, this.towerSelected);
-    /*if(this.hoverOverLeftUpgradeBox){
-      console.log(this.towerSelected);
-      this.renderTowerStats(this.towerSelected);
-    }
-    else if(this.hoverOverLeftUpgradeBox){
-      this.renderTowerStats(this.towerSelected);
-    }*/
-  }
 
 
   //Sprite following mouse
