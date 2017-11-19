@@ -46,7 +46,7 @@ register: function(entity) {
     var pos = entity.getPos();
     var spatialID = entity.getSpatialID();
     var radius = entity.getRadius();
-
+  //  console.log("radius " + radius);
     // TODO: YOUR STUFF HERE!
     this._entities[spatialID] = pos;
     this._entities[spatialID].radius = radius;

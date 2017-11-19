@@ -60,13 +60,14 @@ hoverOverRightUpgradeBox : false,
 
 
 arrowTowerStats : {
-  damage : 20,
+  damage : 10,
   splash : false,
   land : true,
   air : true,
   radius : 100,
   firerate : 160,
   cost : 50
+
 },
 
 airTowerStats : {
@@ -75,12 +76,12 @@ airTowerStats : {
   land : false,
   air : true,
   radius : 80,
-  firerate : 150,
+  firerate : 100,
   cost : 70
 },
 
 cannonTowerStats : {
-  damage : 60,
+  damage : 30,
   splash : true,
   land : true,
   air : false,
@@ -93,7 +94,7 @@ cannonTowerStats : {
 
 generateEnemies : function(descr) {
   for (var i = 0; i < descr.num; i++) {
-    descr.cy -= 30;
+    descr.cy -= descr.space;
     this._enemies.push(new Enemy(descr));
   }
 },
@@ -108,15 +109,16 @@ generateArrowTower : function(descr) {
   descr.type = "Arrow";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = 50;
+  descr.cost = 100;
+  descr.typeTower = 'ground';
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
   descr.land = this.arrowTowerStats.land;
   descr.air = this.arrowTowerStats.air;
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
-  if(this._towerSpots[y][x] === 0 && GOLD >= 50) {
-    removeGold(50);
+  if(this._towerSpots[y][x] === 0 && GOLD >= 25) {
+    removeGold(25);
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
@@ -132,14 +134,15 @@ generateAirTower : function(descr) {
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
   descr.cost = 70;
+  descr.typeTower = 'flight';
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
   descr.land = this.airTowerStats.land;
   descr.air = this.airTowerStats.air;
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
-  if(this._towerSpots[y][x] === 0 && GOLD >= 70){
-    removeGold(70);
+  if(this._towerSpots[y][x] === 0 && GOLD >= 50){
+    removeGold(50);
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
@@ -148,6 +151,7 @@ generateAirTower : function(descr) {
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
+  descr.typeTower = 'ground';
   descr.type = "Cannon";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
@@ -209,8 +213,9 @@ init: function() {
 },
 
 
-fireBullet: function(damage, cx, cy, velX, velY, rotation) {
+fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {
+                                  bulletType : typeTower,
                                   damage : damage,
                                   sprite : g_sprites.arrow,
                                   cx: cx,
@@ -277,12 +282,116 @@ update: function(du) {
   if(this.beginningOfLevel && this.continue) {
 
     LEVEL++;
+    if(LEVEL === 1){
       this.generateEnemies({
         cy : 0,
-        lives: 100+LEVEL*10,
-        sprite : LEVEL === 1 ? g_sprites.enemy1 : LEVEL === 2 ? g_sprites.enemy2 : g_sprites.enemy3,
-        num : 4 + LEVEL
+        lives: 100,
+        sprite : g_sprites.enemy1,
+        num : 5,
+        SPEED : 1,
+        space : 30,
+        type : 'ground'
       });
+    }
+    if(LEVEL === 2){
+      this.generateEnemies({
+        cy : 0,
+        lives: 100,
+        sprite : g_sprites.enemy1,
+        num : 10,
+        SPEED : 1,
+        space : 22,
+        type : 'ground'
+      });
+    }
+    if(LEVEL === 3){
+      this.generateEnemies({
+        cy : 0,
+        lives: 80,
+        sprite : g_sprites.enemy2,
+        num : 5,
+        SPEED : 2,
+        space : 10,
+        type : 'flight'
+      });
+    }
+    if(LEVEL === 4){
+      this.generateEnemies({
+        cy : 0,
+        lives: 150,
+        sprite : g_sprites.enemy3,
+        num : 5,
+        SPEED : 0.7,
+        space : 40,
+        type : 'ground'
+      });
+    }
+    if(LEVEL === 5){
+      this.generateEnemies({
+        cy : 0,
+        lives: 80,
+        sprite : g_sprites.enemy2,
+        num : 10,
+        SPEED : 2,
+        space : 10,
+        type : 'flight'
+      });
+    }
+    if(LEVEL === 6){
+      this.generateEnemies({
+        cy : 0,
+        lives: 100,
+        sprite : g_sprites.enemy1,
+        num : 20,
+        SPEED : 1,
+        space : 20,
+        type : 'ground'
+      });
+    }
+    if(LEVEL === 7){
+      this.generateEnemies({
+        cy : 0,
+        lives: 100,
+        sprite : g_sprites.enemy1,
+        num : 25,
+        SPEED : 1,
+        space : 10,
+        type : 'ground'
+      });
+    }
+    if(LEVEL === 8){
+      this.generateEnemies({
+        cy : 0,
+        lives: 80,
+        sprite : g_sprites.enemy2,
+        num : 20,
+        SPEED : 2,
+        space : 8,
+        type : 'flight'
+      });
+    }
+    if(LEVEL === 9){
+      this.generateEnemies({
+        cy : 0,
+        lives: 150,
+        sprite : g_sprites.enemy3,
+        num : 20,
+        SPEED : 0.7,
+        space : 10,
+        type : 'ground'
+      });
+    }
+    if(LEVEL === 10){
+      this.generateEnemies({
+        cy : 0,
+        lives: 150,
+        sprite : g_sprites.enemy3,
+        num : 30,
+        SPEED : 0.7,
+        space : 8,
+        type : 'ground'
+      });
+    }
       this.beginningOfLevel = false;
   }
 

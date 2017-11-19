@@ -33,6 +33,7 @@ function Tower(descr) {
 
 Tower.prototype = new Entity();
 Tower.prototype.rotation = 0;
+Tower.prototype.typeTower = 'ground';
 
 Tower.prototype.KEY_ROTATE   = 'A'.charCodeAt(0);
 Tower.prototype.FIRE_RATE_COUNT;
@@ -106,14 +107,11 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-
-        entityManager.fireBullet(this.damage,
+        
+        entityManager.fireBullet(this.typeTower,this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
-          this.rotation);3
-
-
-
+          this.rotation);
 };
 
 Tower.prototype.getRadius = function () {
