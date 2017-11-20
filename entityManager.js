@@ -114,11 +114,10 @@ generateArrowTower : function(descr) {
   descr.cy = y*40 + 20;
   descr.type = this.arrowTowerStats.type;
   descr.cost = this.arrowTowerStats.cost;
-  descr.typeTower = 'ground';
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
-  descr.land = this.arrowTowerStats.land;
-  descr.air = this.arrowTowerStats.air;
+  descr.land = true;
+  descr.air = true;
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
@@ -139,11 +138,10 @@ generateAirTower : function(descr) {
   descr.cy = y*40 + 20;
   descr.type = this.airTowerStats.type;
   descr.cost = this.airTowerStats.cost;
-  descr.typeTower = 'flight';
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
-  descr.land = this.airTowerStats.land;
-  descr.air = this.airTowerStats.air;
+  descr.land = false;
+  descr.air = true;
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
@@ -157,15 +155,14 @@ generateAirTower : function(descr) {
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
-  descr.typeTower = 'ground';
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
   descr.type = this.cannonTowerStats.type;
   descr.cost = this.cannonTowerStats.cost;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
-  descr.land = this.cannonTowerStats.land;
-  descr.air = this.cannonTowerStats.air;
+  descr.land = true;
+  descr.air = false;
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
@@ -220,9 +217,8 @@ init: function() {
 },
 
 
-fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation) {
+fireBullet: function(damage, cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {
-                                  bulletType : typeTower,
                                   damage : damage,
                                   sprite : g_sprites.arrow,
                                   cx: cx,
