@@ -356,6 +356,42 @@ beginningOfLevel : true,
 KEY_CONTINUE : ' '.charCodeAt(0),
 continue : true,
 
+generateFlightEnemy: function(num,space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 60,
+    sprite : g_sprites.enemy2,
+    num : num,
+    SPEED : 2,
+    space : space,
+    type : 'flight'
+  });
+},
+
+generateRegularEnemy: function(num, space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 140,
+    sprite : g_sprites.enemy1,
+    num : num,
+    SPEED : 1,
+    space : space,
+    type : 'ground'
+  });
+},
+
+generateGiantEnemy: function(num,space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 200,
+    sprite : g_sprites.enemy3,
+    num : num,
+    SPEED : 0.7,
+    space : space,
+    type : 'ground'
+  });
+},
+
 update: function(du) {
   console.log(y, " ", g_canvas.height-100);
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
@@ -363,123 +399,20 @@ update: function(du) {
   if(this.beginningOfLevel && this.continue) {
 
     LEVEL++;
-    if(LEVEL === 1){
-      this.generateEnemies({
-        cy : 0,
-        lives: 140,
-        sprite : g_sprites.enemy1,
-        num : 5,
-        SPEED : 1,
-        space : 30,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 2){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 10,
-        SPEED : 1,
-        space : 22,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 3){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 5,
-        SPEED : 2,
-        space : 10,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 4){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 5,
-        SPEED : 0.7,
-        space : 40,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 5){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 10,
-        SPEED : 2,
-        space : 10,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 6){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 20,
-        SPEED : 1,
-        space : 20,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 7){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 25,
-        SPEED : 1,
-        space : 10,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 8){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 20,
-        SPEED : 2,
-        space : 8,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 9){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 20,
-        SPEED : 0.7,
-        space : 10,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 10){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 30,
-        SPEED : 0.7,
-        space : 8,
-        type : 'ground'
-      });
-    }
+      if(LEVEL === 1){
+        this.generateRegularEnemy(10,30);
+      }
       this.beginningOfLevel = false;
   }
 
    var x = g_mouseX;
    var y = g_mouseY;
    var radius = 38/2;
+<<<<<<< Updated upstream
    //Select a tower from the menu
+=======
+
+>>>>>>> Stashed changes
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 40){
