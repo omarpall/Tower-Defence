@@ -391,7 +391,7 @@ generateGiantEnemy: function(num,space) {
   });
 },
 
-generateGiantEnemy: function() {
+generateBoss: function() {
   this.generateEnemies({
     cy : 0,
     lives: 5000 * this.difficulty,
@@ -515,7 +515,7 @@ update: function(du) {
         this.generateFlightEnemy(20,80);
       }
       if(LEVEL === 10){
-        this.generateGiantEnemy();
+        this.generateBoss();
         this.generateRegularEnemy(70,60);
         this.generateGiantEnemy(65,30);
         this.generateFlightEnemy(105,30);
