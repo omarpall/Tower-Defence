@@ -70,39 +70,10 @@ Tower.prototype.update = function (du) {
 
 
 
-    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
-/*
-    var hitEntity = this.findHitEntity();
-
-    if (hitEntity) {
-        this.warp();
-        return;
-    }
-*/
-
-
 
 
 };
-/*
-Tower.prototype.computeSubStep = function (du) {
 
-    var thrust = this.computeThrustMag();
-
-    // Apply thrust directionally, based on our rotation
-    var accelX = +Math.sin(this.rotation) * thrust;
-    var accelY = -Math.cos(this.rotation) * thrust;
-
-    accelY += this.computeGravity();
-
-    this.applyAccel(accelX, accelY, du);
-
-    this.wrapPosition();
-
-    if (thrust === 0 || g_allowMixedActions) {
-        this.updateRotation(du);
-    }
-};*/
 
 Tower.prototype.maybeFireBullet = function (angleRadians) {
         var dX = +Math.sin(angleRadians+Math.PI/2);
@@ -112,11 +83,11 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-
+        var bulletDirection = angleRadians/(Math.PI*2)*360;
         entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
-          this.rotation);
+          bulletDirection);
 };
 
 Tower.prototype.getRadius = function () {

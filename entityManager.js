@@ -217,7 +217,8 @@ init: function() {
 
 
     // I could have made some ships here too, but decided not to.
-    //this._generateShip();
+    //this._generat
+    eShip();
 },
 
 
@@ -230,6 +231,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
                                   velX: velX,
                                   velY: velY,
                                   rotation: rotation}));
+                                  console.log(this._bullets);
 },
 
 
@@ -289,6 +291,23 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
      else{
        return false;
      }
+ },
+
+ checkIfOutOfBounds: function(){
+   var x, y;
+   if(this.towerSelected.cx - 50 < 0)
+     x = this.towerSelected.cx + 40;
+   else if(this.towerSelected.cx + 50 > 600)
+     x = this.towerSelected.cx - 40;
+   else{
+     x = this.towerSelected.cx;
+   }
+   if(this.towerSelected.cy - 60 > 0)
+     y = this.towerSelected.cy;
+   else{
+     y = this.towerSelected.cy + 90;
+   }
+   return [x, y];
  },
 
 beginningOfLevel : true,
@@ -457,7 +476,8 @@ update: function(du) {
 
   else if(this.isTowerSelected){
       //Left box
-      if(this.isWithinRectangle(x, y, this.towerSelected.cx - 50, this.towerSelected.cy - 70, 49, 50)){
+      var boxLocation = this.checkIfOutOfBounds();
+      if(this.isWithinRectangle(x, y, boxLocation[0] - 50, boxLocation[1] - 70, 49, 50)){
         this.hoverOverLeftUpgradeBox = true;
         this.hoverOverRightUpgradeBox = false;
         if(mouseDown && GOLD > this.towerSelected.upgradeCost){
@@ -468,14 +488,14 @@ update: function(du) {
         }
       }
       //Right box
-      else if(this.isWithinRectangle(x, y, this.towerSelected.cx + 1, this.towerSelected.cy - 70, 49, 50)){
+      else if(this.isWithinRectangle(x, y, boxLocation[0] + 1, boxLocation[1] - 70, 49, 50)){
         this.hoverOverRightUpgradeBox = true;
         this.hoverOverLeftUpgradeBox = false;
         if(mouseDown && GOLD > this.towerSelected.upgradeCost){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Air Tower")
             this.upgradeTower("firerate");
           else if(this.towerSelected.type === "Cannon Tower")
-            this.upgradeTower("radius");
+            this.upgradeTower("splash");
         }
       }
       //Clicked outside of boxes
@@ -572,7 +592,7 @@ renderTowerStats: function(ctx, tower){
   }
   ctx.fillStyle = 'cyan';
   ctx.fillText("Damage: " + towerstats.damage, 610, 49);
-  ctx.fillText("Splash Damage: " + towerstats.splash, 610, 63);
+  ctx.fillText("Splash Radius: " + towerstats.splashRadius, 610, 63);
   ctx.fillText("Land Attacks: " + towerstats.land, 610, 77);
   ctx.fillText("Air Attacks: " +  towerstats.air, 610, 91);
   ctx.fillText("Radius: " + towerstats.radius, 610, 105);
@@ -593,28 +613,33 @@ renderInfo: function(ctx){
 },
 
 renderUpgradeOptions: function(ctx, option1, option2, name1, name2){
-  ctx.fillText("" + name1, this.towerSelected.cx - 46, this.towerSelected.cy - 45);
-  ctx.fillText("" + name2, this.towerSelected.cx + 5, this.towerSelected.cy - 45);
+  var loc = this.checkIfOutOfBounds();
+  ctx.fillText("" + name1, loc[0] - 46, loc[1] - 45);
+  ctx.fillText("" + name2, loc[0] + 5, loc[1] - 45);
   ctx.font = "bold 12px Georgia";
   ctx.fillStyle = "#66ff33";
-  ctx.fillText("+" + Math.floor(option1*0.2), this.towerSelected.cx - 35, this.towerSelected.cy - 30);
-  ctx.fillText("+" + Math.floor(option2*0.2), this.towerSelected.cx + 10, this.towerSelected.cy - 30);
+  ctx.fillText("+" + Math.floor(option1*0.2), loc[0] - 35, loc[1] - 30);
+  ctx.fillText("+" + Math.floor(option2*0.2), loc[0] + 10, loc[1] - 30);
 },
 
-renderTowerUpgrade: function(ctx){
+renderTowerUpgradeBox: function(ctx){
+  var loc = this.checkIfOutOfBounds();
   //Draw box
   ctx.fillStyle = "grey";
-  ctx.fillRect(this.towerSelected.cx - 50, this.towerSelected.cy - 70, 100, 50);
+  ctx.fillRect(loc[0] - 50, loc[1] - 70, 100, 50);
   ctx.strokeStyle = "black";
-  ctx.strokeRect(this.towerSelected.cx - 50, this.towerSelected.cy - 70, 100, 50);
-  ctx.moveTo(this.towerSelected.cx, this.towerSelected.cy - 70);
-  ctx.lineTo(this.towerSelected.cx, this.towerSelected.cy - 20);
+  ctx.strokeRect(loc[0] - 50, loc[1] - 70, 100, 50);
+  ctx.moveTo(loc[0], loc[1] - 70);
+  ctx.lineTo(loc[0], loc[1] - 20);
   ctx.stroke();
   //Draw upgrade options
   ctx.font = "bold 9.5px Georgia";
   ctx.fillStyle = "yellow";
-  ctx.fillText("Upgrade", this.towerSelected.cx - 47, this.towerSelected.cy - 58);
-  ctx.fillText("Upgrade", this.towerSelected.cx + 3, this.towerSelected.cy - 58);
+  ctx.fillText("Upgrade", loc[0] - 47, loc[1] - 58);
+  ctx.fillText("Upgrade", loc[0] + 3, loc[1] - 58);
+},
+renderTowerUpgrade: function(ctx){
+  this.renderTowerUpgradeBox(ctx);
   if(this.towerSelected.type === "Arrow Tower"){
     this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.firerate, "damage", "firerate");
   }
@@ -622,7 +647,7 @@ renderTowerUpgrade: function(ctx){
     this.renderUpgradeOptions(ctx, this.towerSelected.radius, this.towerSelected.firerate, "radius", "firerate");
   }
   else if(this.towerSelected.type === "Cannon Tower"){
-    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.radius, "damage", "radius");
+    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.splashRadius, "damage", "radius");
   }
 },
 
@@ -641,7 +666,7 @@ renderSpriteOnMouse: function(ctx){
     towerStats = this.airTowerStats;
   else if(this.spriteOnMouse === g_sprites.cannonTower1)
     towerStats = this.cannonTowerStats;
-  if(x < this._towerSpots[0].length && y < this._towerSpots.length){
+  if(x < this._towerSpots[0].length && y < this._towerSpots.length && x >= 0 && y >= 0){
     if(this._towerSpots[y][x] === 0){
       ctx.fillStyle = 'green';
       ctx.fillRect(x*40, y*40, 40, 40);

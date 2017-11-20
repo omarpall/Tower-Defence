@@ -56,9 +56,7 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    this.rotation += 1 * du;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
+    
 
     if (this.cx < 0 || this.cx > g_canvas.width - 250) {
       return entityManager.KILL_ME_NOW;
@@ -97,6 +95,7 @@ Bullet.prototype.takeBulletHit = function () {
 
 Bullet.prototype.render = function (ctx) {
   this.sprite.drawCentredAt (
-    ctx, this.cx, this.cy, 90
+    ctx, this.cx, this.cy, this.rotation
   );
+  console.log(this.rotation);
 };
