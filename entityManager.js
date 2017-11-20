@@ -430,10 +430,8 @@ changeText: function() {
 },
 
 update: function(du) {
-<<<<<<< HEAD
   buttonSelect = false;
   console.log(y, " ", g_canvas.height-100);
-=======
   if(this.beginningOfGame){
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
       if(mouseDown){
@@ -453,8 +451,6 @@ update: function(du) {
       }
     }
   }
-
->>>>>>> origin/master
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   if(LEVEL === 1){
     text = "Lets start the first round!";
