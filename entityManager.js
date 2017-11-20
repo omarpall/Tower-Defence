@@ -471,9 +471,6 @@ update: function(du) {
   }
 
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
-  if(LEVEL === 1){
-    text = "Lets start the first round!";
-  }
   //console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
         LEVEL++;
