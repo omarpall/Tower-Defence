@@ -60,6 +60,7 @@ hoverOverRightUpgradeBox : false,
 
 
 arrowTowerStats : {
+  type : "Arrow Tower",
   damage : 10,
   splash : false,
   land : true,
@@ -244,11 +245,11 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
       sprite : g_sprites.airTower
     });
   }
-    if(sprite === g_sprites.cannonTower){
+    if(sprite === g_sprites.cannonTower1){
     entityManager.generateCannonTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.cannonTower
+      sprite : g_sprites.cannonTower1
     });
   }
    mouseDown = false;
@@ -434,7 +435,7 @@ update: function(du) {
    else if(this.isWithinRectangle(x, y, 711, 132, 38, 38)){
      this.cannonIconSelected = true;
      if(mouseDown && GOLD >= 100){
-       this.spriteOnMouse = g_sprites.cannonTower;
+       this.spriteOnMouse = g_sprites.cannonTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -630,7 +631,7 @@ renderSpriteOnMouse: function(ctx){
     towerStats = this.arrowTowerStats;
   else if(this.spriteOnMouse === g_sprites.airTower)
     towerStats = this.airTowerStats;
-  else if(this.spriteOnMouse === g_sprites.cannonTower)
+  else if(this.spriteOnMouse === g_sprites.cannonTower1)
     towerStats = this.cannonTowerStats;
   if(x < this._towerSpots[0].length && y < this._towerSpots.length){
     if(this._towerSpots[y][x] === 0){
