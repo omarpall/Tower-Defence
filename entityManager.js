@@ -60,7 +60,7 @@ hoverOverLeftUpgradeBox : false,
 hoverOverRightUpgradeBox : false,
 beginningOfGame : true,
 difficulty : 0.8,
-gameWon : true,
+gameWon : false,
 
 arrowTowerStats : {
   type : "Arrow Tower",
@@ -431,10 +431,8 @@ changeText: function() {
 },
 
 update: function(du) {
-
   buttonSelect = false;
   console.log(y, " ", g_canvas.height-100);
-
   if(this.beginningOfGame){
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
       if(mouseDown){
@@ -454,7 +452,9 @@ update: function(du) {
       }
     }
   }
-
+  if(LEVEL > 10 && LIVES > 0){
+    this.gameWon = true;
+  }
 
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   if(LEVEL === 1){
