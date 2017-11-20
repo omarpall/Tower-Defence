@@ -19,7 +19,6 @@ function Enemy(descr) {
 
 
     this.SPEED = 1;
-
     this.setup(descr);
     this.TOTAL_LIFE = this.lives;
 
@@ -31,6 +30,9 @@ Enemy.prototype.SPEED = 1;
 Enemy.prototype.type = 'ground';
 Enemy.prototype.drawcoin = false;
 Enemy.prototype.timeToDie = 6;
+Enemy.prototype.flightImgPos = 0;
+Enemy.prototype.countImg = 2;
+Enemy.prototype.rotation = 0;
 
 Enemy.prototype.update = function (du) {
 
@@ -65,7 +67,11 @@ Enemy.prototype.update = function (du) {
     else {
       this.cy += this.SPEED * du;
     }
-
+    if(this.countImg < 0){
+    this.flightImgPos++;
+    this.countImg = 4;
+  }
+    this.countImg -= du;
 
     if (this.lives <= 0) {
         this.drawCoin = true;
@@ -119,8 +125,18 @@ Enemy.prototype.render = function (ctx) {
         ctx.font = '20px serif';
         ctx.fillText('+25', this.cx, this.cy);
     }
+    if(this.type === 'flight'){
+      if(this.flightImgPos%2 === 0){
+        this.sprite.drawAnimatedAt(ctx,this.cx,this.cy,this.rotation,0);
+      }
+      else{
+        this.sprite.drawAnimatedAt(ctx,this.cx,this.cy,0,1);
+      }
+    }
+    else{
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy,0
     );
+  }
     }
 };

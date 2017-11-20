@@ -31,6 +31,7 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _towers  : [],
+_explosions : [],
 
 _towerSpots :
 
@@ -87,6 +88,7 @@ cannonTowerStats : {
   type : "Cannon Tower",
   damage : 30,
   splash : true,
+  splashRadius : 0.1,
   land : true,
   air : false,
   radius : 60,
@@ -123,6 +125,7 @@ generateArrowTower : function(descr) {
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= 25) {
     removeGold(25);
     this._towers.push(new Tower(descr));
@@ -148,6 +151,7 @@ generateAirTower : function(descr) {
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= 50){
     removeGold(50);
     this._towers.push(new Tower(descr));
@@ -165,11 +169,13 @@ generateCannonTower : function(descr) {
   descr.cost = this.cannonTowerStats.cost;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
+  descr.splashRadius = this.cannonTowerStats.splashRadius;
   descr.land = this.cannonTowerStats.land;
   descr.air = this.cannonTowerStats.air;
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.cannonRound;
   if(this._towerSpots[y][x] === 0 && GOLD >= 100){
     removeGold(100);
     this._towers.push(new Tower(descr));
@@ -221,36 +227,41 @@ init: function() {
     eShip();
 },
 
+renderExplosion: function(x, y, scale) {
+  console.log(this._explosions);
+  this._explosions.push({cx: x, cy: y, index: 0, wait: 3, scale: scale});
+},
 
-fireBullet: function(damage, cx, cy, velX, velY, rotation) {
+
+fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
   this._bullets.push(new Bullet( {
                                   damage : damage,
-                                  sprite : g_sprites.arrow,
+                                  sprite : sprite,
                                   cx: cx,
                                   cy: cy,
                                   velX: velX,
                                   velY: velY,
-                                  rotation: rotation}));
-                                  console.log(this._bullets);
+                                  rotation: rotation,
+                                  splash: splash}));
 },
 
 
-  generateTower: function(sprite){
-    if(sprite === g_sprites.arrowTower1){
+  generateTower: function(sprite) {
+    if(sprite === g_sprites.arrowTower1) {
     entityManager.generateArrowTower({
       cx : g_mouseX,
       cy : g_mouseY,
       sprite : g_sprites.arrowTower1
     });
   }
-    if(sprite === g_sprites.airTower1){
+    if(sprite === g_sprites.airTower1) {
     entityManager.generateAirTower({
       cx : g_mouseX,
       cy : g_mouseY,
       sprite : g_sprites.airTower1
     });
   }
-    if(sprite === g_sprites.cannonTower1){
+    if(sprite === g_sprites.cannonTower1) {
     entityManager.generateCannonTower({
       cx : g_mouseX,
       cy : g_mouseY,
@@ -261,7 +272,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
    this.isSpriteOnMouse = false;
  },
 
- selectTower: function(yIndex, xIndex){
+ selectTower: function(yIndex, xIndex) {
    var x = xIndex*40+20;
    var y = yIndex*40+20;
    for(var i = 0; i < this._towers.length; i++){
@@ -272,7 +283,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
    return null;
  },
 
- upgradeTower: function(upgrade){
+ upgradeTower: function(upgrade) {
 
    if(upgrade === "damage")
       this.towerSelected.damage = Math.floor(this.towerSelected.damage*1.2);
@@ -285,7 +296,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
    mouseDown = false;
  },
 
- isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height){
+ isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height) {
      if(x <= rectangleX + width && x >= rectangleX && y <= rectangleY + height && y >= rectangleY)
       return true;
      else{
@@ -688,8 +699,9 @@ renderSpriteOnMouse: function(ctx){
 },
 
 render: function(ctx) {
-  g_sprites.background.drawAt(ctx, 0, 0);
 
+  g_sprites.background.drawAt(ctx, 0, 0);
+  g_sprites.arrow.drawCentredAt(ctx, 200, 200, Math.PI*2);
 
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
@@ -742,10 +754,23 @@ render: function(ctx) {
 
 
   //Sprite following mouse
-  if(this.isSpriteOnMouse){
+  if(this.isSpriteOnMouse) {
     this.renderSpriteOnMouse(ctx);
   }
 
+  for (var i = 0; i < this._explosions.length; i++) {
+    if (this._explosions[i].wait === 0) {
+      this._explosions[i].index++;
+      this._explosions[i].wait = 3;
+    } else {
+      this._explosions[i].wait--;
+    }
+    g_sprites.explosion.drawExplosionAnimation(ctx, this._explosions[i].cx, this._explosions[i].cy, this._explosions[i].index, this._explosions[i].scale);
+    if (this._explosions[i].index === 8) {
+      this._explosions.splice(i, 1);
+      i--;
+    }
+  }
 
 }
 

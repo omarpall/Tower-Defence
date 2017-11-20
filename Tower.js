@@ -83,11 +83,12 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-        var bulletDirection = angleRadians/(Math.PI*2)*360;
+          var bulletDirection = angleRadians/(Math.PI*2)*360;
+console.log(this.splash, this.splashRadius);
         entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
-          bulletDirection);
+          angleRadians, this.bulletSprite, this.splash ? this.splashRadius : 0);
 };
 
 Tower.prototype.getRadius = function () {
