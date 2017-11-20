@@ -92,7 +92,7 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
     cx : g_mouseX,
     cy : g_mouseY,
     fireRate : 10,
-    sprite : g_sprites.arrowTower
+    sprite : g_sprites.arrowTower1
   });
 }
   if (eatKey(KEY_2)){
@@ -109,7 +109,7 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
     cx : g_mouseX,
     cy : g_mouseY,
 
-    sprite : g_sprites.airTower
+    sprite : g_sprites.airTower1
   });
 }
   if (eatKey(KEY_K)) {
@@ -152,10 +152,15 @@ function requestPreloads() {
 
     var requiredImages = {
       arrow : "Textures/arrow.gif",
-      airTower : "Textures/towerAir.png",
-      arrowTower : "Textures/towerArrow.png",
+      airTower1 : "Textures/towerAir1.png",
+      airTower2 : "Textures/towerAir2.png",
+      airTower3 : "Textures/towerAir3.png",
+      arrowTower1 : "Textures/towerArrow1.png",
+      arrowTower2 : "Textures/towerArrow2.png",
+      arrowTower3 : "Textures/towerArrow3.png",
       cannonTower1 : "Textures/towerCannon1.png",
       cannonTower2 : "Textures/towerCannon2.png",
+      cannonTower3 : "Textures/towerCannon3.png",
       enemy1 : "Textures/enemy1.png",
       enemy2 : "Textures/enemy2.png",
       enemy3 : "Textures/enemy3.png",
@@ -175,10 +180,15 @@ function preloadDone() {
 
   g_sprites.arrow = new Sprite(g_images.arrow);
   g_sprites.arrow.scale = 0.5;
-  g_sprites.airTower  = new Sprite(g_images.airTower);
-  g_sprites.arrowTower = new Sprite(g_images.arrowTower);
+  g_sprites.airTower1  = new Sprite(g_images.airTower1);
+  g_sprites.airTower2  = new Sprite(g_images.airTower2);
+  g_sprites.airTower3  = new Sprite(g_images.airTower3);
+  g_sprites.arrowTower1 = new Sprite(g_images.arrowTower1);
+  g_sprites.arrowTower2 = new Sprite(g_images.arrowTower2);
+  g_sprites.arrowTower3 = new Sprite(g_images.arrowTower3);
   g_sprites.cannonTower1 = new Sprite(g_images.cannonTower1);
   g_sprites.cannonTower2 = new Sprite(g_images.cannonTower2);
+  g_sprites.cannonTower2 = new Sprite(g_images.cannonTower3);
   g_sprites.enemy1 = new Sprite(g_images.enemy1);
   g_sprites.enemy2 = new Sprite(g_images.flightEnemy);
   g_sprites.enemy3 = new Sprite(g_images.enemy3);

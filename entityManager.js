@@ -115,10 +115,11 @@ generateArrowTower : function(descr) {
   descr.cy = y*40 + 20;
   descr.type = this.arrowTowerStats.type;
   descr.cost = this.arrowTowerStats.cost;
+  descr.typeTower = 'ground';
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
-  descr.land = true;
-  descr.air = true;
+  descr.land = this.arrowTowerStats.land;
+  descr.air = this.arrowTowerStats.air;
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
@@ -139,10 +140,11 @@ generateAirTower : function(descr) {
   descr.cy = y*40 + 20;
   descr.type = this.airTowerStats.type;
   descr.cost = this.airTowerStats.cost;
+  descr.typeTower = 'flight';
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
-  descr.land = false;
-  descr.air = true;
+  descr.land = this.airTowerStats.land;
+  descr.air = this.airTowerStats.air;
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
@@ -156,14 +158,15 @@ generateAirTower : function(descr) {
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
+  descr.typeTower = 'ground';
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
   descr.type = this.cannonTowerStats.type;
   descr.cost = this.cannonTowerStats.cost;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
-  descr.land = true;
-  descr.air = false;
+  descr.land = this.cannonTowerStats.land;
+  descr.air = this.cannonTowerStats.air;
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
@@ -218,8 +221,9 @@ init: function() {
 },
 
 
-fireBullet: function(damage, cx, cy, velX, velY, rotation) {
+fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {
+                                  bulletType : typeTower,
                                   damage : damage,
                                   sprite : g_sprites.arrow,
                                   cx: cx,
@@ -231,18 +235,18 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
 
 
   generateTower: function(sprite){
-    if(sprite === g_sprites.arrowTower){
+    if(sprite === g_sprites.arrowTower1){
     entityManager.generateArrowTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.arrowTower
+      sprite : g_sprites.arrowTower1
     });
   }
-    if(sprite === g_sprites.airTower){
+    if(sprite === g_sprites.airTower1){
     entityManager.generateAirTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.airTower
+      sprite : g_sprites.airTower1
     });
   }
     if(sprite === g_sprites.cannonTower1){
@@ -418,7 +422,7 @@ update: function(du) {
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 50){
-       this.spriteOnMouse = g_sprites.arrowTower;
+       this.spriteOnMouse = g_sprites.arrowTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -427,7 +431,7 @@ update: function(du) {
    else if(this.isWithinRectangle(x, y, 661, 132, 38, 38)){
      this.airIconSelected = true;
      if(mouseDown && GOLD >= 70){
-       this.spriteOnMouse = g_sprites.airTower;
+       this.spriteOnMouse = g_sprites.airTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -632,9 +636,9 @@ renderSpriteOnMouse: function(ctx){
   var x = Math.floor(g_mouseX/40);
   var y =  Math.floor(g_mouseY/40);
   var towerStats;
-  if(this.spriteOnMouse === g_sprites.arrowTower)
+  if(this.spriteOnMouse === g_sprites.arrowTower1)
     towerStats = this.arrowTowerStats;
-  else if(this.spriteOnMouse === g_sprites.airTower)
+  else if(this.spriteOnMouse === g_sprites.airTower1)
     towerStats = this.airTowerStats;
   else if(this.spriteOnMouse === g_sprites.cannonTower1)
     towerStats = this.cannonTowerStats;
