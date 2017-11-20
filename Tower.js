@@ -58,7 +58,12 @@ Tower.prototype.update = function (du) {
       var dist = util.distSq(this.cx,this.cy,pos.posX,pos.posY);
       if(dist < util.square(this.radius)){
       var angleRadians = Math.atan2(pos.posY - this.cy, pos.posX - this.cx);
-      this.maybeFireBullet(angleRadians);
+      if(this.land && enemy.getType() === 'ground'){
+          this.maybeFireBullet(angleRadians);
+      }
+      if(this.air && enemy.getType() === 'flight'){
+        this.maybeFireBullet(angleRadians);
+      }
     }
   }
 }
@@ -108,7 +113,7 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
-        entityManager.fireBullet(this.typeTower,this.damage,
+        entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
           this.rotation, this.bulletSprite);

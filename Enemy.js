@@ -19,7 +19,6 @@ function Enemy(descr) {
 
 
     this.SPEED = 1;
-    this.type = 'ground';
 
     this.setup(descr);
     this.TOTAL_LIFE = this.lives;
@@ -30,6 +29,8 @@ Enemy.prototype = new Entity();
 Enemy.prototype.TOTAL_LIFE;
 Enemy.prototype.SPEED = 1;
 Enemy.prototype.type = 'ground';
+Enemy.prototype.drawcoin = false;
+Enemy.prototype.timeToDie = 6;
 
 Enemy.prototype.update = function (du) {
 
@@ -67,8 +68,12 @@ Enemy.prototype.update = function (du) {
 
 
     if (this.lives <= 0) {
-        addGold(25);
-        this.kill();
+        this.drawCoin = true;
+        this.timeToDie -= du;
+        if(this.timeToDie < 0){
+          addGold(25);
+          this.kill();
+        }
         return;
     }
 
@@ -82,22 +87,16 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cy = cy;
 }
 
-Enemy.prototype.takeBulletHit = function (typeTower,damage) {
-  console.log(typeTower);
-  if(this.type === 'flight' && typeTower === 'flight' ){
+Enemy.prototype.getType = function() {
+  return this.type;
+}
+
+Enemy.prototype.takeBulletHit = function (damage) {
     if(this.lives - damage < 0)
       this.lives = 0;
     else{
       this.lives = this.lives - damage;
     }
-  }
-  if(this.type === 'ground' && typeTower === 'ground'){
-    if(this.lives - damage < 0)
-      this.lives = 0;
-    else{
-      this.lives = this.lives - damage;
-    }
-  }
 };
 
 
@@ -116,7 +115,10 @@ Enemy.prototype.render = function (ctx) {
     ctx.fillRect(this.cx-10, this.cy-20, 20, 3);
     ctx.fillStyle="#7FFF00";
     ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
-
+    if(this.drawCoin){
+        ctx.font = '20px serif';
+        ctx.fillText('+25', this.cx, this.cy);
+    }
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy,0
     );

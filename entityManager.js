@@ -61,6 +61,7 @@ hoverOverRightUpgradeBox : false,
 
 
 arrowTowerStats : {
+  type : "Arrow Tower",
   damage : 10,
   splash : false,
   land : true,
@@ -229,9 +230,8 @@ renderExplosion: function(x, y) {
 },
 
 
-fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation, sprite) {
+fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
   this._bullets.push(new Bullet( {
-                                  bulletType : typeTower,
                                   damage : damage,
                                   sprite : sprite,
                                   cx: cx,
@@ -243,25 +243,25 @@ fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation, sprite) {
 
 
   generateTower: function(sprite){
-    if(sprite === g_sprites.arrowTower){
+    if(sprite === g_sprites.arrowTower1){
     entityManager.generateArrowTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.arrowTower
+      sprite : g_sprites.arrowTower1
     });
   }
-    if(sprite === g_sprites.airTower){
+    if(sprite === g_sprites.airTower1){
     entityManager.generateAirTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.airTower
+      sprite : g_sprites.airTower1
     });
   }
-    if(sprite === g_sprites.cannonTower){
+    if(sprite === g_sprites.cannonTower1){
     entityManager.generateCannonTower({
       cx : g_mouseX,
       cy : g_mouseY,
-      sprite : g_sprites.cannonTower
+      sprite : g_sprites.cannonTower1
     });
   }
    mouseDown = false;
@@ -430,7 +430,7 @@ update: function(du) {
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 50){
-       this.spriteOnMouse = g_sprites.arrowTower;
+       this.spriteOnMouse = g_sprites.arrowTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -439,7 +439,7 @@ update: function(du) {
    else if(this.isWithinRectangle(x, y, 661, 132, 38, 38)){
      this.airIconSelected = true;
      if(mouseDown && GOLD >= 70){
-       this.spriteOnMouse = g_sprites.airTower;
+       this.spriteOnMouse = g_sprites.airTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -447,7 +447,7 @@ update: function(du) {
    else if(this.isWithinRectangle(x, y, 711, 132, 38, 38)){
      this.cannonIconSelected = true;
      if(mouseDown && GOLD >= 100){
-       this.spriteOnMouse = g_sprites.cannonTower;
+       this.spriteOnMouse = g_sprites.cannonTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
      }
@@ -635,15 +635,20 @@ renderTowerUpgrade: function(ctx){
   }
 },
 
+renderGameOver : function(ctx) {
+  ctx.font = '50px serif';
+  ctx.fillText("GAME OVER", 150,220);
+},
+
 renderSpriteOnMouse: function(ctx){
   var x = Math.floor(g_mouseX/40);
   var y =  Math.floor(g_mouseY/40);
   var towerStats;
-  if(this.spriteOnMouse === g_sprites.arrowTower)
+  if(this.spriteOnMouse === g_sprites.arrowTower1)
     towerStats = this.arrowTowerStats;
-  else if(this.spriteOnMouse === g_sprites.airTower)
+  else if(this.spriteOnMouse === g_sprites.airTower1)
     towerStats = this.airTowerStats;
-  else if(this.spriteOnMouse === g_sprites.cannonTower)
+  else if(this.spriteOnMouse === g_sprites.cannonTower1)
     towerStats = this.cannonTowerStats;
   if(x < this._towerSpots[0].length && y < this._towerSpots.length){
     if(this._towerSpots[y][x] === 0){
@@ -709,7 +714,10 @@ render: function(ctx) {
       this.renderInfo(ctx);
     }
 
-
+    if(LIVES === 0){
+      this.renderGameOver(ctx);
+      main.gameOver();
+    }
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
