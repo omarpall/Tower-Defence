@@ -230,8 +230,7 @@ init: function() {
 
 
     // I could have made some ships here too, but decided not to.
-    //this._generat
-    eShip();
+
 },
 
 renderExplosion: function(x, y, scale) {
@@ -352,6 +351,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
 
 
 beginningOfLevel : true,
+bool : true,
 
 KEY_CONTINUE : ' '.charCodeAt(0),
 continue : true,
@@ -391,14 +391,46 @@ generateGiantEnemy: function(num,space) {
     type : 'ground'
   });
 },
+changeText: function() {
+  if(LEVEL === 2){
+    text = "First one too easy? Just wait...";
+  }
+  if(LEVEL === 3){
+    text = "I hope you have some air towers...they're fast!";
+  }
+  if(LEVEL === 4){
+    text = "Its just going to get harder from here, six more rounds";
+  }
+  if(LEVEL === 5){
+    text = "Sometimes by losing a battle you find a new way to win the war -Donald Trump";
+  }
+  if(LEVEL === 6){
+    text = "I would hate to see you loose the next one...";
+  }
+  if(LEVEL === 7){
+    text = "You maybe one this round but you will never win the war";
+  }
+  if(LEVEL === 8){
+    text = "Laws are silent in times of war -Cicero";
+  }
+  if(LEVEL === 9){
+    text = "It has been a great journey...I will be sad to see you loose in this round";
+  }
+  if(LEVEL === 10){
+    text = "Only one round left, I should warn you about the...";
+  }
+},
 
 update: function(du) {
   console.log(y, " ", g_canvas.height-100);
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
+  if(LEVEL === 1){
+    text = "Lets start the first round!";
+  }
   //console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
-
-    LEVEL++;
+        LEVEL++;
+        this.changeText();
       if(LEVEL === 1){
         this.generateRegularEnemy(10,30);
         this.generateGiantEnemy(3,50);
@@ -637,6 +669,11 @@ renderInfo: function(ctx){
   //level
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + LEVEL, 610, 40);
+
+  //Level instruction
+  ctx.font= "bold 17px Georgia";
+  ctx.fillStyle = 'black';
+  ctx.fillText(text, 610, 300,200);
 },
 
 renderUpgradeOptions: function(ctx, option1, option2, name1, name2){
