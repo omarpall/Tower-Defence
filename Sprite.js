@@ -51,7 +51,7 @@ Sprite.prototype.drawExplosionAnimation = function (ctx, cx, cy, frameIndex, sca
   console.log(scale);
   ctx.scale(scale, scale);
   console.log(this.width/(8*2)*scale);
-  ctx.drawImage(this.image, frameIndex * this.width/8, 0, this.width/8, this.height, (cx-this.width/(8*2))*scale, (cy-this.height/2)*scale, this.width/8, this.height);
+  ctx.drawImage(this.image, frameIndex * this.width/8, 0, this.width/8, this.height, -this.width/(8*2), -this.height/2, this.width/8, this.height);
   ctx.restore();
 };
 
