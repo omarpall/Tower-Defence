@@ -206,7 +206,7 @@ function preloadDone() {
   g_sprites.cannonRound = new Sprite(g_images.cannonRound);
   g_sprites.castleGate = new Sprite(g_images.castleGate);
   g_sprites.castleWalls = new Sprite(g_images.castleWalls);
-  g_sprites.castleWalls.scale = 0.8;
+  //g_sprites.castleWalls.scale = 0.8;
     main.init();
 }
 
