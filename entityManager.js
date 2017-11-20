@@ -62,37 +62,37 @@ hoverOverRightUpgradeBox : false,
 
 arrowTowerStats : {
   type : "Arrow Tower",
-  damage : 10,
+  damage : 15,
   splash : false,
   land : true,
   air : true,
   radius : 100,
   firerate : 160,
-  cost : 50,
+  cost : 40,
   upgradeCost: 10
 },
 
 airTowerStats : {
   type : "Air Tower",
-  damage : 40,
+  damage : 35,
   splash : false,
   land : false,
   air : true,
-  radius : 80,
-  firerate : 150,
+  radius : 120,
+  firerate : 100,
   cost : 70,
   upgradeCost : 15
 },
 
 cannonTowerStats : {
   type : "Cannon Tower",
-  damage : 30,
+  damage : 70,
   splash : true,
   splashRadius : 0.1,
   land : true,
   air : false,
   radius : 60,
-  firerate : 50,
+  firerate : 40,
   cost : 100,
   upgradeCost: 20
 },
@@ -126,8 +126,8 @@ generateArrowTower : function(descr) {
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
   descr.bulletSprite = g_sprites.arrow;
-  if(this._towerSpots[y][x] === 0 && GOLD >= 25) {
-    removeGold(25);
+  if(this._towerSpots[y][x] === 0 && GOLD >= this.arrowTowerStats.cost) {
+    removeGold(this.arrowTowerStats.cost);
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
@@ -152,8 +152,8 @@ generateAirTower : function(descr) {
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
   descr.bulletSprite = g_sprites.arrow;
-  if(this._towerSpots[y][x] === 0 && GOLD >= 50){
-    removeGold(50);
+  if(this._towerSpots[y][x] === 0 && GOLD >= this.airTowerStats.cost){
+    removeGold(this.airTowerStats.cost);
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
@@ -176,8 +176,8 @@ generateCannonTower : function(descr) {
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
   descr.bulletSprite = g_sprites.cannonRound;
-  if(this._towerSpots[y][x] === 0 && GOLD >= 100){
-    removeGold(100);
+  if(this._towerSpots[y][x] === 0 && GOLD >= this.cannonTowerStats.cost){
+    removeGold(this.cannonTowerStats.cost);
     this._towers.push(new Tower(descr));
     this._towerSpots[y][x] = 1;
   }
@@ -317,7 +317,7 @@ update: function(du) {
     if(LEVEL === 1){
       this.generateEnemies({
         cy : 0,
-        lives: 100,
+        lives: 140,
         sprite : g_sprites.enemy1,
         num : 5,
         SPEED : 1,
@@ -339,7 +339,7 @@ update: function(du) {
     if(LEVEL === 3){
       this.generateEnemies({
         cy : 0,
-        lives: 80,
+        lives: 60,
         sprite : g_sprites.enemy2,
         num : 5,
         SPEED : 2,
@@ -361,7 +361,7 @@ update: function(du) {
     if(LEVEL === 5){
       this.generateEnemies({
         cy : 0,
-        lives: 80,
+        lives: 60,
         sprite : g_sprites.enemy2,
         num : 10,
         SPEED : 2,
@@ -394,7 +394,7 @@ update: function(du) {
     if(LEVEL === 8){
       this.generateEnemies({
         cy : 0,
-        lives: 80,
+        lives: 60,
         sprite : g_sprites.enemy2,
         num : 20,
         SPEED : 2,

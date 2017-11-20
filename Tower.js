@@ -112,7 +112,6 @@ Tower.prototype.maybeFireBullet = function (angleRadians) {
         var relVel =  10;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-console.log(this.splash, this.splashRadius);
         entityManager.fireBullet(this.damage,
            this.cx + dX * launchDist, this.cy + dY * launchDist,
           relVelX, relVelY,
