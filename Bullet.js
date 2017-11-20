@@ -76,6 +76,9 @@ Bullet.prototype.update = function (du) {
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
+        if (this.sprite === g_sprites.cannonRound) {
+          entityManager.renderExplosion(this.cx, this.cy);
+        }
         return entityManager.KILL_ME_NOW;
     }
 

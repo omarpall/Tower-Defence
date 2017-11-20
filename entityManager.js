@@ -31,6 +31,7 @@ _enemies   : [],
 _bullets : [],
 _ships   : [],
 _towers  : [],
+_explosions : [],
 
 _towerSpots :
 
@@ -123,6 +124,7 @@ generateArrowTower : function(descr) {
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= 25) {
     removeGold(25);
     this._towers.push(new Tower(descr));
@@ -148,6 +150,7 @@ generateAirTower : function(descr) {
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= 50){
     removeGold(50);
     this._towers.push(new Tower(descr));
@@ -170,6 +173,7 @@ generateCannonTower : function(descr) {
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
+  descr.bulletSprite = g_sprites.cannonRound;
   if(this._towerSpots[y][x] === 0 && GOLD >= 100){
     removeGold(100);
     this._towers.push(new Tower(descr));
@@ -220,11 +224,16 @@ init: function() {
     //this._generateShip();
 },
 
+renderExplosion: function(x, y) {
+  console.log(this._explosions);
+  this._explosions.push({cx: x, cy: y, index: 0, wait: 3});
+},
 
-fireBullet: function(damage, cx, cy, velX, velY, rotation) {
+
+fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
   this._bullets.push(new Bullet( {
                                   damage : damage,
-                                  sprite : g_sprites.arrow,
+                                  sprite : sprite,
                                   cx: cx,
                                   cy: cy,
                                   velX: velX,
@@ -663,6 +672,7 @@ renderSpriteOnMouse: function(ctx){
 },
 
 render: function(ctx) {
+
   g_sprites.background.drawAt(ctx, 0, 0);
 
 
@@ -721,6 +731,19 @@ render: function(ctx) {
     this.renderSpriteOnMouse(ctx);
   }
 
+  for (var i = 0; i < this._explosions.length; i++) {
+    if (this._explosions[i].wait === 0) {
+      this._explosions[i].index++;
+      this._explosions[i].wait = 3;
+    } else {
+      this._explosions[i].wait--;
+    }
+    g_sprites.explosion.drawImage(ctx, this._explosions[i].cx, this._explosions[i].cy, this._explosions[i].index);
+    if (this._explosions[i].index === 8) {
+      this._explosions.splice(i, 1);
+      i--;
+    }
+  }
 
 }
 
