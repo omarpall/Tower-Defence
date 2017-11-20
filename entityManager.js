@@ -522,14 +522,14 @@ update: function(du) {
       if(this.isWithinRectangle(x, y, boxLocation[0] - 50, boxLocation[1] - 70, 49, 50)){
         this.hoverOverLeftUpgradeBox = true;
         this.hoverOverRightUpgradeBox = false;
-        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 6){
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 5){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Cannon Tower")
             this.upgradeTower("damage");
           else if(this.towerSelected.type === "Air Tower")
             this.upgradeTower("radius");
           this.towerSelected.lvl += 1;
           if(this.towerSelected.lvl === 3 || this.towerSelected.lvl === 5)
-            this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
+            this.towerSelected.sprite = this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
         }
       }
       //Right box
@@ -537,14 +537,14 @@ update: function(du) {
         this.hoverOverRightUpgradeBox = true;
         this.hoverOverLeftUpgradeBox = false;
         console.log(this.towerSelected.lvl);
-        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 6){
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 5){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Air Tower")
             this.upgradeTower("firerate");
           else if(this.towerSelected.type === "Cannon Tower")
             this.upgradeTower("splash");
           this.towerSelected.lvl += 1;
           if(this.towerSelected.lvl === 3 || this.towerSelected.lvl === 5)
-            this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
+            this.towerSelected.sprite = this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
           }
         }
 
@@ -636,7 +636,11 @@ renderTowerStats: function(ctx, tower){
 
   ctx.font= "bold 14px Georgia";
   if(tower === "towerSelected")
-  ctx.fillText("Cost: " + towerstats.upgradeCost, 610, 35);
+    if(this.towerSelected.lvl != 5)
+      ctx.fillText("Cost: " + towerstats.upgradeCost, 610, 35);
+    else{
+      ctx.fillText("Tower is maxed out", 610, 35);
+    }
   else{
     ctx.fillText("Cost: " + towerstats.cost, 610, 35);
   }
