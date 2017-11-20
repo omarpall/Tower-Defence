@@ -427,7 +427,7 @@ changeText: function() {
     text2 = "lose the next one...";
   }
   if(LEVEL === 7){
-    text = "You maybe one this round but";
+    text = "You maybe won this round but";
     text2 = "you will never win the war";
   }
   if(LEVEL === 8){
