@@ -164,13 +164,15 @@ function requestPreloads() {
       enemy1 : "Textures/enemy1.png",
       enemy2 : "Textures/enemy2.png",
       enemy3 : "Textures/enemy3.png",
-      background : "Textures/background.jpg",
+      background : "Textures/background.png",
       iconTowerAir : "Textures/iconTowerAir.png",
       iconTowerArrow : "Textures/iconTowerArrow.png",
       iconTowerCannon : "Textures/iconTowerCannon.png",
       explosion : "Textures/explosion.png",
       cannonRound : "Textures/cannonRound.png",
-      flightEnemy : "Textures/flightEnemy.png"
+      flightEnemy : "Textures/flightEnemy.png",
+      castleGate : "Textures/castleGate.png",
+      castleWalls : "Textures/castleWall.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -202,6 +204,9 @@ function preloadDone() {
   g_sprites.iconTowerCannon = new Sprite(g_images.iconTowerCannon);
   g_sprites.explosion = new Sprite(g_images.explosion);
   g_sprites.cannonRound = new Sprite(g_images.cannonRound);
+  g_sprites.castleGate = new Sprite(g_images.castleGate);
+  g_sprites.castleWalls = new Sprite(g_images.castleWalls);
+  g_sprites.castleWalls.scale = 0.8;
     main.init();
 }
 
