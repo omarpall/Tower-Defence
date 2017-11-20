@@ -401,18 +401,59 @@ update: function(du) {
     LEVEL++;
       if(LEVEL === 1){
         this.generateRegularEnemy(10,30);
+        this.generateGiantEnemy(3,50);
       }
+      if(LEVEL === 2){
+        this.generateRegularEnemy(20,25);
+        this.generateGiantEnemy(8,50);
+      }
+      if(LEVEL === 3){
+        this.generateFlightEnemy(10,15);
+      }
+      if(LEVEL === 4){
+        this.generateRegularEnemy(25,20);
+        this.generateGiantEnemy(14,40);
+        this.generateFlightEnemy(15,30);
+      }
+      if(LEVEL === 5){
+        this.generateRegularEnemy(25,20);
+        this.generateGiantEnemy(10,40);
+        this.generateFlightEnemy(40,20);
+      }
+      if(LEVEL === 6){
+        this.generateRegularEnemy(20,20);
+        this.generateGiantEnemy(25,30);
+        this.generateFlightEnemy(15,20);
+      }
+      if(LEVEL === 7){
+        this.generateRegularEnemy(50,20);
+        this.generateGiantEnemy(65,70);
+        this.generateFlightEnemy(75,20);
+      }
+      if(LEVEL === 8){
+        this.generateRegularEnemy(70,10);
+        this.generateGiantEnemy(25,40);
+        this.generateFlightEnemy(15,20);
+      }
+      if(LEVEL === 9){
+        this.generateRegularEnemy(100,20);
+        this.generateGiantEnemy(40,30);
+        this.generateFlightEnemy(20,80);
+      }
+      if(LEVEL === 10){
+        this.generateRegularEnemy(120,60);
+        this.generateGiantEnemy(65,30);
+        this.generateFlightEnemy(105,30);
+      }
+
       this.beginningOfLevel = false;
   }
 
    var x = g_mouseX;
    var y = g_mouseY;
    var radius = 38/2;
-<<<<<<< Updated upstream
    //Select a tower from the menu
-=======
 
->>>>>>> Stashed changes
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 40){
