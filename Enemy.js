@@ -69,9 +69,9 @@ Enemy.prototype.update = function (du) {
 
     if (this.lives <= 0) {
         this.drawCoin = true;
-        addGold(25);
         this.timeToDie -= du;
         if(this.timeToDie < 0){
+          addGold(25);
           this.kill();
         }
         return;
@@ -116,8 +116,8 @@ Enemy.prototype.render = function (ctx) {
     ctx.fillStyle="#7FFF00";
     ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
     if(this.drawCoin){
-      ctx.font = '20px serif';
-      ctx.fillText('+25', this.cx, this.cy);
+        ctx.font = '20px serif';
+        ctx.fillText('+25', this.cx, this.cy);
     }
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy,0
