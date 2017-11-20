@@ -19,6 +19,7 @@ function Enemy(descr) {
 
 
     this.SPEED = 1;
+    this.type = 'ground';
 
     this.setup(descr);
     this.TOTAL_LIFE = this.lives;
@@ -27,6 +28,8 @@ function Enemy(descr) {
 Enemy.prototype.KEY_FIRE  = ' '.charCodeAt(0);
 Enemy.prototype = new Entity();
 Enemy.prototype.TOTAL_LIFE;
+Enemy.prototype.SPEED = 1;
+Enemy.prototype.type = 'ground';
 
 Enemy.prototype.update = function (du) {
 
@@ -64,7 +67,7 @@ Enemy.prototype.update = function (du) {
 
 
     if (this.lives <= 0) {
-        addGold(10);
+        addGold(25);
         this.kill();
         return;
     }
@@ -79,11 +82,21 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cy = cy;
 }
 
-Enemy.prototype.takeBulletHit = function (damage) {
-  if(this.lives - damage < 0)
-    this.lives = 0;
-  else{
-    this.lives = this.lives - damage;
+Enemy.prototype.takeBulletHit = function (typeTower,damage) {
+  console.log(typeTower);
+  if(this.type === 'flight' && typeTower === 'flight' ){
+    if(this.lives - damage < 0)
+      this.lives = 0;
+    else{
+      this.lives = this.lives - damage;
+    }
+  }
+  if(this.type === 'ground' && typeTower === 'ground'){
+    if(this.lives - damage < 0)
+      this.lives = 0;
+    else{
+      this.lives = this.lives - damage;
+    }
   }
 };
 
