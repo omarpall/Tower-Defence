@@ -390,6 +390,20 @@ generateGiantEnemy: function(num,space) {
     type : 'ground'
   });
 },
+
+generateGiantEnemy: function() {
+  this.generateEnemies({
+    cy : 0,
+    lives: 5000 * this.difficulty,
+    sprite : g_sprites.boss,
+    num : 1,
+    SPEED : 0.1,
+    space : 1,
+    type : 'ground',
+    boss : true
+  });
+},
+
 changeText: function() {
   if(LEVEL === 2){
     text = "First one too easy? Just wait...";
@@ -501,7 +515,8 @@ update: function(du) {
         this.generateFlightEnemy(20,80);
       }
       if(LEVEL === 10){
-        this.generateRegularEnemy(120,60);
+        this.generateGiantEnemy();
+        this.generateRegularEnemy(70,60);
         this.generateGiantEnemy(65,30);
         this.generateFlightEnemy(105,30);
       }
