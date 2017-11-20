@@ -74,22 +74,21 @@ Bullet.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
 
     if (hitEntity) {
+      if (this.sprite === g_sprites.cannonRound) {
+        var entities = spatialManager.findEntitiesInRange(
+          this.cx+this.velX*(2), this.cy+this.velY*(2), ((g_sprites.explosion.width/8)*this.splash)/2
+        );
+        if (entities) {
+          for (var i in entities) {
+            var canTakeHit = entities[i].takeBulletHit(this.damage);
+            if (canTakeHit) canTakeHit.call(entities[i]);
+          }
+        }
+        entityManager.renderExplosion(this.cx+this.velX*(2), this.cy+this.velY*(2), this.splash);
+      } else {
         var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
-        if (this.sprite === g_sprites.cannonRound) {
-          var entities = spatialManager.findEntitiesInRange(
-              this.cx+this.velX*(2), this.cy+this.velY*(2), ((g_sprites.explosion.width/8)*this.splash)/2
-          );
-          console.log(((g_sprites.explosion.width/8)*this.splash)/2);
-          if (entities) {
-            for (var i in entities) {
-              canTakeHit = entities[i].takeBulletHit(this.damage);
-              if (canTakeHit) canTakeHit.call(entities[i]);
-            }
-          }
-          console.log(this.velX, this.velY, this.cx+this.velX*(1.5), this.cy+this.velY*(1.5));
-          entityManager.renderExplosion(this.cx+this.velX*(2), this.cy+this.velY*(2), this.splash);
-        }
+      }
         return entityManager.KILL_ME_NOW;
     }
 
