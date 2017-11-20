@@ -120,5 +120,4 @@ Bullet.prototype.render = function (ctx) {
   this.sprite.drawCentredAt (
     ctx, this.cx, this.cy, this.rotation
   );
-  console.log(this.rotation);
 };

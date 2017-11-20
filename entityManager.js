@@ -64,24 +64,28 @@ arrowTowerStats : {
   type : "Arrow Tower",
   damage : 15,
   splash : false,
+  splashRadius : 0,
   land : true,
   air : true,
   radius : 100,
   firerate : 160,
   cost : 40,
-  upgradeCost: 10
+  upgradeCost: 10,
+  lvl : 1
 },
 
 airTowerStats : {
   type : "Air Tower",
   damage : 35,
   splash : false,
+  splashRadius : 0,
   land : false,
   air : true,
   radius : 120,
   firerate : 100,
   cost : 70,
-  upgradeCost : 15
+  upgradeCost : 15,
+  lvl : 1
 },
 
 cannonTowerStats : {
@@ -94,7 +98,8 @@ cannonTowerStats : {
   radius : 60,
   firerate : 40,
   cost : 100,
-  upgradeCost: 20
+  upgradeCost: 20,
+  lvl : 1
 },
 
 // "PRIVATE" METHODS
@@ -120,11 +125,13 @@ generateArrowTower : function(descr) {
   descr.typeTower = 'ground';
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
+  descr.splashRadius = this.arrowTowerStats.splashRadius;
   descr.land = this.arrowTowerStats.land;
   descr.air = this.arrowTowerStats.air;
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
   descr.upgradeCost = this.arrowTowerStats.upgradeCost;
+  descr.lvl = this.arrowTowerStats.lvl;
   descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= this.arrowTowerStats.cost) {
     removeGold(this.arrowTowerStats.cost);
@@ -146,11 +153,13 @@ generateAirTower : function(descr) {
   descr.typeTower = 'flight';
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
+  descr.splashRadius = this.airTowerStats.splashRadius;
   descr.land = this.airTowerStats.land;
   descr.air = this.airTowerStats.air;
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
   descr.upgradeCost = this.airTowerStats.upgradeCost;
+  descr.lvl = this.airTowerStats.lvl;
   descr.bulletSprite = g_sprites.arrow;
   if(this._towerSpots[y][x] === 0 && GOLD >= this.airTowerStats.cost){
     removeGold(this.airTowerStats.cost);
@@ -175,6 +184,7 @@ generateCannonTower : function(descr) {
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
   descr.upgradeCost = this.cannonTowerStats.upgradeCost;
+  descr.lvl = this.cannonTowerStats.lvl;
   descr.bulletSprite = g_sprites.cannonRound;
   if(this._towerSpots[y][x] === 0 && GOLD >= this.cannonTowerStats.cost){
     removeGold(this.cannonTowerStats.cost);
@@ -291,6 +301,8 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
       this.towerSelected.radius = Math.floor(this.towerSelected.radius*1.2);
    else if(upgrade === "firerate")
       this.towerSelected.firerate = Math.floor(this.towerSelected.firerate*1.2);
+   else if(upgrade === "splash")
+      this.towerSelected.splashRadius = Math.floor(this.towerSelected.splashRadius*1.2);
    removeGold(this.towerSelected.upgradeCost);
    this.towerSelected.upgradeCost = Math.floor(this.towerSelected.upgradeCost*1.5);
    mouseDown = false;
@@ -320,6 +332,29 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
    }
    return [x, y];
  },
+
+ upgradeSprite: function(sprite, lvl){
+   if(lvl === 3){
+      if(sprite === g_sprites.airTower1)
+        return g_sprites.airTower2;
+      else if(sprite === g_sprites.arrowTower1)
+        return g_sprites.arrowTower2;
+      else if(sprite === g_sprites.cannonTower1)
+        return g_sprites.cannonTower2;
+   }
+   else if(lvl === 5){
+      if(sprite === g_sprites.airTower2)
+        return g_sprites.airTower3;
+      else if(sprite === g_sprites.arrowTower2)
+        return g_sprites.arrowTower3;
+      else if(sprite === g_sprites.cannonTower2)
+        return g_sprites.cannonTower3;
+   }
+   else {
+     return sprite;
+   }
+ },
+
 
 beginningOfLevel : true,
 
@@ -448,9 +483,10 @@ update: function(du) {
    var x = g_mouseX;
    var y = g_mouseY;
    var radius = 38/2;
+   //Select a tower from the menu
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
-     if(mouseDown && GOLD >= 50){
+     if(mouseDown && GOLD >= 40){
        this.spriteOnMouse = g_sprites.arrowTower1;
        this.isSpriteOnMouse = true;
        mouseDown = false;
@@ -484,31 +520,38 @@ update: function(du) {
     this.generateTower(this.spriteOnMouse);
   }
 
-
+ //Upgrade a tower
   else if(this.isTowerSelected){
       //Left box
       var boxLocation = this.checkIfOutOfBounds();
       if(this.isWithinRectangle(x, y, boxLocation[0] - 50, boxLocation[1] - 70, 49, 50)){
         this.hoverOverLeftUpgradeBox = true;
         this.hoverOverRightUpgradeBox = false;
-        if(mouseDown && GOLD > this.towerSelected.upgradeCost){
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 6){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Cannon Tower")
             this.upgradeTower("damage");
           else if(this.towerSelected.type === "Air Tower")
             this.upgradeTower("radius");
+          this.towerSelected.lvl += 1;
+          if(this.towerSelected.lvl === 3 || this.towerSelected.lvl === 5)
+            this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
         }
       }
       //Right box
       else if(this.isWithinRectangle(x, y, boxLocation[0] + 1, boxLocation[1] - 70, 49, 50)){
         this.hoverOverRightUpgradeBox = true;
         this.hoverOverLeftUpgradeBox = false;
-        if(mouseDown && GOLD > this.towerSelected.upgradeCost){
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 6){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Air Tower")
             this.upgradeTower("firerate");
           else if(this.towerSelected.type === "Cannon Tower")
             this.upgradeTower("splash");
+          this.towerSelected.lvl += 1;
+          if(this.towerSelected.lvl === 3 || this.towerSelected.lvl === 5)
+            this.upgradeSprite(this.towerSelected.sprite, this.towerSelected.lvl);
+          }
         }
-      }
+
       //Clicked outside of boxes
       else{
         this.hoverOverLeftUpgradeBox = false;
@@ -658,7 +701,7 @@ renderTowerUpgrade: function(ctx){
     this.renderUpgradeOptions(ctx, this.towerSelected.radius, this.towerSelected.firerate, "radius", "firerate");
   }
   else if(this.towerSelected.type === "Cannon Tower"){
-    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.splashRadius, "damage", "radius");
+    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.splashRadius, "damage", "splashRadius");
   }
 },
 
@@ -701,7 +744,6 @@ renderSpriteOnMouse: function(ctx){
 render: function(ctx) {
 
   g_sprites.background.drawAt(ctx, 0, 0);
-  g_sprites.arrow.drawCentredAt(ctx, 200, 200, Math.PI*2);
 
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
