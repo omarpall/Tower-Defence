@@ -424,7 +424,7 @@ changeText: function() {
   }
   if(LEVEL === 6){
     text = "I would hate to see you";
-    text2 = "loose the next one...";
+    text2 = "lose the next one...";
   }
   if(LEVEL === 7){
     text = "You maybe one this round but";
@@ -436,7 +436,7 @@ changeText: function() {
   }
   if(LEVEL === 9){
     text = "It has been a great journey...";
-    text2 = "I will be sad to see you loose in this round";
+    text2 = "I will be sad to see you lose in this round";
   }
   if(LEVEL === 10){
     text = "Only one round left,";
@@ -446,7 +446,6 @@ changeText: function() {
 
 update: function(du) {
   buttonSelect = false;
-  console.log(y, " ", g_canvas.height-100);
   if(this.beginningOfGame){
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
       if(mouseDown){
