@@ -67,6 +67,15 @@ Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
     this.drawWrappedVerticalCentredAt(ctx, cx + sw, cy, rotation);
 };
 
+Sprite.prototype.drawAnimatedAt = function (ctx, cx, cy, rotation, index) {
+  if (rotation === undefined) rotation = 0;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(this.scale, this.scale);
+  ctx.drawImage(this.image, index * this.width/2, 0, this.width/2, this.height, cx-650, cy-500, this.width/2, this.height);
+  ctx.restore();
+},
+
 Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation) {
 
     // Get "screen height"
