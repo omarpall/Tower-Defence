@@ -77,7 +77,7 @@ Enemy.prototype.update = function (du) {
         this.drawCoin = true;
         this.timeToDie -= du;
         if(this.timeToDie < 0){
-          addGold(25);
+          addGold(10);
           this.kill();
         }
         return;
@@ -123,7 +123,7 @@ Enemy.prototype.render = function (ctx) {
     ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
     if(this.drawCoin){
         ctx.font = '20px serif';
-        ctx.fillText('+25', this.cx, this.cy);
+        ctx.fillText('+10', this.cx, this.cy);
     }
     if(this.type === 'flight'){
       if(this.flightImgPos%2 === 0){
