@@ -357,6 +357,7 @@ KEY_CONTINUE : ' '.charCodeAt(0),
 continue : true,
 
 update: function(du) {
+  console.log(y, " ", g_canvas.height-100);
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   //console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
@@ -511,7 +512,7 @@ update: function(du) {
    }
 
 
-  if(this.isSpriteOnMouse && mouseDown){
+  if(this.isSpriteOnMouse && mouseDown && y < 390){
     this.generateTower(this.spriteOnMouse);
   }
 
@@ -536,7 +537,6 @@ update: function(du) {
       else if(this.isWithinRectangle(x, y, boxLocation[0] + 1, boxLocation[1] - 70, 49, 50)){
         this.hoverOverRightUpgradeBox = true;
         this.hoverOverLeftUpgradeBox = false;
-        console.log(this.towerSelected.lvl);
         if(mouseDown && GOLD > this.towerSelected.upgradeCost && this.towerSelected.lvl < 5){
           if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Air Tower")
             this.upgradeTower("firerate");
@@ -558,8 +558,7 @@ update: function(du) {
 
   }
 
-
-  else if(mouseDown && x <= g_canvas.width - 250 && y <= g_canvas.height){
+  else if(mouseDown && x <= g_canvas.width - 250 && y < g_canvas.height-110){
     var xIndex = Math.floor(x/40);
     var yIndex =  Math.floor(y/40);
     if(this._towerSpots[yIndex][xIndex] === 1){
