@@ -238,7 +238,6 @@ init: function() {
 },
 
 renderExplosion: function(x, y, scale) {
-  console.log(this._explosions);
   this._explosions.push({cx: x, cy: y, index: 0, wait: 3, scale: scale});
 },
 
@@ -743,6 +742,7 @@ renderSpriteOnMouse: function(ctx){
 
 render: function(ctx) {
 
+  g_sprites.castleWalls.drawWall(ctx, 173, 259);
   g_sprites.background.drawAt(ctx, 0, 0);
 
   //Towers and enemies
@@ -766,7 +766,7 @@ render: function(ctx) {
 
 
   //Upgrade menu
-  else if(this.isTowerSelected){
+  else if(this.isTowerSelected) {
       this.renderTowerUpgrade(ctx);
       if(this.hoverOverLeftUpgradeBox){
         this.renderTowerStats(ctx, "towerSelected");
@@ -779,11 +779,11 @@ render: function(ctx) {
       }
     }
 
-    else{
+    else {
       this.renderInfo(ctx);
     }
 
-    if(LIVES === 0){
+    if(LIVES === 0) {
       this.renderGameOver(ctx);
       main.gameOver();
     }
@@ -813,6 +813,8 @@ render: function(ctx) {
       i--;
     }
   }
+
+  g_sprites.castleGate.drawAt(ctx, 448, 400);
 
 }
 

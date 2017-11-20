@@ -54,6 +54,13 @@ Sprite.prototype.drawExplosionAnimation = function (ctx, cx, cy, frameIndex, sca
   ctx.restore();
 };
 
+Sprite.prototype.drawWall = function (ctx, cx, cy) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.drawImage(this.image, 0, 0, this.width, this.height, cx-this.width/2, cy-this.height/2, this.width+158, this.height-80);
+  ctx.restore();
+};
+
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 
     // Get "screen width"
