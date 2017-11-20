@@ -45,10 +45,11 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     ctx.restore();
 };
 
-Sprite.prototype.drawImage = function (ctx, cx, cy, frameIndex) {
+Sprite.prototype.drawExplosionAnimation = function (ctx, cx, cy, frameIndex, scale) {
   ctx.save();
   ctx.translate(cx, cy);
-  ctx.scale(this.scale, this.scale);
+  console.log(scale);
+  ctx.scale(scale, scale);
   ctx.drawImage(this.image, frameIndex * this.width/8, 0, this.width/8, this.height, cx-this.width/(8*2), cy-this.height/2, this.width/8, this.height);
   ctx.restore();
 };

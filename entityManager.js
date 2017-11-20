@@ -88,6 +88,7 @@ cannonTowerStats : {
   type : "Cannon Tower",
   damage : 30,
   splash : true,
+  splashRadius : 0.1,
   land : true,
   air : false,
   radius : 60,
@@ -168,6 +169,7 @@ generateCannonTower : function(descr) {
   descr.cost = this.cannonTowerStats.cost;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
+  descr.splashRadius = this.cannonTowerStats.splashRadius;
   descr.land = this.cannonTowerStats.land;
   descr.air = this.cannonTowerStats.air;
   descr.radius = this.cannonTowerStats.radius;
@@ -224,13 +226,13 @@ init: function() {
     //this._generateShip();
 },
 
-renderExplosion: function(x, y) {
+renderExplosion: function(x, y, scale) {
   console.log(this._explosions);
-  this._explosions.push({cx: x, cy: y, index: 0, wait: 3});
+  this._explosions.push({cx: x, cy: y, index: 0, wait: 3, scale: scale});
 },
 
 
-fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
+fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
   this._bullets.push(new Bullet( {
                                   damage : damage,
                                   sprite : sprite,
@@ -238,26 +240,27 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
                                   cy: cy,
                                   velX: velX,
                                   velY: velY,
-                                  rotation: rotation}));
+                                  rotation: rotation,
+                                  splash: splash}));
 },
 
 
-  generateTower: function(sprite){
-    if(sprite === g_sprites.arrowTower1){
+  generateTower: function(sprite) {
+    if(sprite === g_sprites.arrowTower1) {
     entityManager.generateArrowTower({
       cx : g_mouseX,
       cy : g_mouseY,
       sprite : g_sprites.arrowTower1
     });
   }
-    if(sprite === g_sprites.airTower1){
+    if(sprite === g_sprites.airTower1) {
     entityManager.generateAirTower({
       cx : g_mouseX,
       cy : g_mouseY,
       sprite : g_sprites.airTower1
     });
   }
-    if(sprite === g_sprites.cannonTower1){
+    if(sprite === g_sprites.cannonTower1) {
     entityManager.generateCannonTower({
       cx : g_mouseX,
       cy : g_mouseY,
@@ -268,7 +271,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
    this.isSpriteOnMouse = false;
  },
 
- selectTower: function(yIndex, xIndex){
+ selectTower: function(yIndex, xIndex) {
    var x = xIndex*40+20;
    var y = yIndex*40+20;
    for(var i = 0; i < this._towers.length; i++){
@@ -279,7 +282,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
    return null;
  },
 
- upgradeTower: function(upgrade){
+ upgradeTower: function(upgrade) {
 
    if(upgrade === "damage")
       this.towerSelected.damage = Math.floor(this.towerSelected.damage*1.2);
@@ -292,7 +295,7 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite) {
    mouseDown = false;
  },
 
- isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height){
+ isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height) {
      if(x <= rectangleX + width && x >= rectangleX && y <= rectangleY + height && y >= rectangleY)
       return true;
      else{
@@ -727,7 +730,7 @@ render: function(ctx) {
 
 
   //Sprite following mouse
-  if(this.isSpriteOnMouse){
+  if(this.isSpriteOnMouse) {
     this.renderSpriteOnMouse(ctx);
   }
 
@@ -738,7 +741,7 @@ render: function(ctx) {
     } else {
       this._explosions[i].wait--;
     }
-    g_sprites.explosion.drawImage(ctx, this._explosions[i].cx, this._explosions[i].cy, this._explosions[i].index);
+    g_sprites.explosion.drawExplosionAnimation(ctx, this._explosions[i].cx, this._explosions[i].cy, this._explosions[i].index, this._explosions[i].scale);
     if (this._explosions[i].index === 8) {
       this._explosions.splice(i, 1);
       i--;

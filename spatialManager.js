@@ -78,6 +78,20 @@ findEntityInRange: function(posX, posY, radius) {
 
 },
 
+findEntitiesInRange: function (posX, posY, radius) {
+  var entities = [];
+  for (var ID in this._entities) {
+      var distanceSq = util.distSq(posX, posY,
+                                   this._entities[ID].posX,
+                                   this._entities[ID].posY);
+      var limitSq = util.square(radius + this._entities[ID].radius);
+      if (distanceSq < limitSq) {
+        entities.push(this._entities[ID].entity);
+      }
+  }
+  return entities;
+},
+
 render: function(ctx) {
     var oldStyle = ctx.strokeStyle;
     ctx.strokeStyle = "red";
