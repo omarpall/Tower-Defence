@@ -627,6 +627,11 @@ renderTowerUpgrade: function(ctx){
   }
 },
 
+renderGameOver : function(ctx) {
+  ctx.font = '50px serif';
+  ctx.fillText("GAME OVER", 150,220);
+},
+
 renderSpriteOnMouse: function(ctx){
   var x = Math.floor(g_mouseX/40);
   var y =  Math.floor(g_mouseY/40);
@@ -700,7 +705,10 @@ render: function(ctx) {
       this.renderInfo(ctx);
     }
 
-
+    if(LIVES === 0){
+      this.renderGameOver(ctx);
+      main.gameOver();
+    }
 
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
