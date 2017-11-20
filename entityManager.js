@@ -60,33 +60,39 @@ hoverOverRightUpgradeBox : false,
 
 
 arrowTowerStats : {
+  type : "Arrow Tower",
   damage : 20,
   splash : false,
   land : true,
   air : true,
   radius : 100,
   firerate : 160,
-  cost : 50
+  cost : 50,
+  upgradeCost: 10
 },
 
 airTowerStats : {
+  type : "Air Tower",
   damage : 40,
   splash : false,
   land : false,
   air : true,
   radius : 80,
   firerate : 150,
-  cost : 70
+  cost : 70,
+  upgradeCost : 15
 },
 
 cannonTowerStats : {
+  type : "Cannon Tower",
   damage : 60,
   splash : true,
   land : true,
   air : false,
   radius : 60,
   firerate : 50,
-  cost : 100
+  cost : 100,
+  upgradeCost: 20
 },
 
 // "PRIVATE" METHODS
@@ -105,16 +111,17 @@ generateEnemies : function(descr) {
 generateArrowTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
-  descr.type = "Arrow";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = 50;
+  descr.type = this.arrowTowerStats.type;
+  descr.cost = this.arrowTowerStats.cost;
   descr.damage = this.arrowTowerStats.damage;
   descr.splash = this.arrowTowerStats.splash;
   descr.land = this.arrowTowerStats.land;
   descr.air = this.arrowTowerStats.air;
   descr.radius = this.arrowTowerStats.radius;
   descr.firerate = this.arrowTowerStats.firerate;
+  descr.upgradeCost = this.arrowTowerStats.upgradeCost;
   if(this._towerSpots[y][x] === 0 && GOLD >= 50) {
     removeGold(50);
     this._towers.push(new Tower(descr));
@@ -128,16 +135,17 @@ generateArrowTower : function(descr) {
 generateAirTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
-  descr.type = "Air";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = 70;
+  descr.type = this.airTowerStats.type;
+  descr.cost = this.airTowerStats.cost;
   descr.damage = this.airTowerStats.damage;
   descr.splash = this.airTowerStats.splash;
   descr.land = this.airTowerStats.land;
   descr.air = this.airTowerStats.air;
   descr.radius = this.airTowerStats.radius;
   descr.firerate = this.airTowerStats.firerate;
+  descr.upgradeCost = this.airTowerStats.upgradeCost;
   if(this._towerSpots[y][x] === 0 && GOLD >= 70){
     removeGold(70);
     this._towers.push(new Tower(descr));
@@ -148,16 +156,17 @@ generateAirTower : function(descr) {
 generateCannonTower : function(descr) {
   var x = Math.floor(descr.cx/40);
   var y =  Math.floor(descr.cy/40);
-  descr.type = "Cannon";
   descr.cx = x*40 + 20;
   descr.cy = y*40 + 20;
-  descr.cost = 100;
+  descr.type = this.cannonTowerStats.type;
+  descr.cost = this.cannonTowerStats.cost;
   descr.damage = this.cannonTowerStats.damage;
   descr.splash = this.cannonTowerStats.splash;
   descr.land = this.cannonTowerStats.land;
   descr.air = this.cannonTowerStats.air;
   descr.radius = this.cannonTowerStats.radius;
   descr.firerate = this.cannonTowerStats.firerate;
+  descr.upgradeCost = this.cannonTowerStats.upgradeCost;
   if(this._towerSpots[y][x] === 0 && GOLD >= 100){
     removeGold(100);
     this._towers.push(new Tower(descr));
@@ -258,6 +267,19 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation) {
    return null;
  },
 
+ upgradeTower: function(upgrade){
+
+   if(upgrade === "damage")
+      this.towerSelected.damage = Math.floor(this.towerSelected.damage*1.2);
+   else if(upgrade === "radius")
+      this.towerSelected.radius = Math.floor(this.towerSelected.radius*1.2);
+   else if(upgrade === "firerate")
+      this.towerSelected.firerate = Math.floor(this.towerSelected.firerate*1.2);
+   removeGold(this.towerSelected.upgradeCost);
+   this.towerSelected.upgradeCost = Math.floor(this.towerSelected.upgradeCost*1.5);
+   mouseDown = false;
+ },
+
  isWithinRectangle: function(x, y, rectangleX, rectangleY, width, height){
      if(x <= rectangleX + width && x >= rectangleX && y <= rectangleY + height && y >= rectangleY)
       return true;
@@ -289,7 +311,7 @@ update: function(du) {
    var x = g_mouseX;
    var y = g_mouseY;
    var radius = 38/2;
-   if(x >= 630-radius && x <= 630 + radius && y >= 150 - radius && y <= 150 + radius){
+   if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 50){
        this.spriteOnMouse = g_sprites.arrowTower;
@@ -298,7 +320,7 @@ update: function(du) {
      }
 
    }
-   else if(x >= 680-radius && x <= 680 + radius && y >= 150 - radius && y <= 150 + radius){
+   else if(this.isWithinRectangle(x, y, 661, 132, 38, 38)){
      this.airIconSelected = true;
      if(mouseDown && GOLD >= 70){
        this.spriteOnMouse = g_sprites.airTower;
@@ -306,7 +328,7 @@ update: function(du) {
        mouseDown = false;
      }
    }
-   else if(x >= 730-radius && x <= 730 + radius && y >= 150 - radius && y <= 150 + radius){
+   else if(this.isWithinRectangle(x, y, 711, 132, 38, 38)){
      this.cannonIconSelected = true;
      if(mouseDown && GOLD >= 100){
        this.spriteOnMouse = g_sprites.cannonTower;
@@ -326,35 +348,27 @@ update: function(du) {
   }
 
 
-
   else if(this.isTowerSelected){
-
-
       //Left box
       if(this.isWithinRectangle(x, y, this.towerSelected.cx - 50, this.towerSelected.cy - 70, 49, 50)){
         this.hoverOverLeftUpgradeBox = true;
         this.hoverOverRightUpgradeBox = false;
-        if(mouseDown){
-          this.towerSelected.damage = Math.floor(this.towerSelected.damage*1.2);
-
-          var damage = Math.floor(this.towerSelected.damage/5);
-            var cost = Math.floor(this.towerSelected.cost/5);
-            console.log(this.towerSelected);
-          removeGold(cost);
-          this.towerSelected.cost += cost;
-          mouseDown = false;
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost){
+          if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Cannon Tower")
+            this.upgradeTower("damage");
+          else if(this.towerSelected.type === "Air Tower")
+            this.upgradeTower("radius");
         }
       }
       //Right box
       else if(this.isWithinRectangle(x, y, this.towerSelected.cx + 1, this.towerSelected.cy - 70, 49, 50)){
         this.hoverOverRightUpgradeBox = true;
         this.hoverOverLeftUpgradeBox = false;
-        if(mouseDown){
-          this.towerSelected.damage = Math.floor(this.towerSelected.firerate*1.2);
-          var cost = Math.floor(this.towerSelected.cost/5);
-          removeGold(cost);
-          this.towerSelected.cost += cost;
-          mouseDown = false;
+        if(mouseDown && GOLD > this.towerSelected.upgradeCost){
+          if(this.towerSelected.type === "Arrow Tower" || this.towerSelected.type === "Air Tower")
+            this.upgradeTower("firerate");
+          else if(this.towerSelected.type === "Cannon Tower")
+            this.upgradeTower("radius");
         }
       }
       //Clicked outside of boxes
@@ -366,6 +380,7 @@ update: function(du) {
       }
 
   }
+
 
   else if(mouseDown && x <= g_canvas.width - 250 && y <= g_canvas.height){
     var xIndex = Math.floor(x/40);
@@ -405,30 +420,49 @@ renderTowerStats: function(ctx, tower){
   var towerstats;
   ctx.font= "bold 18px Georgia";
   ctx.fillStyle = 'black';
+  if(tower === "towerSelected"){
+    ctx.fillText(this.towerSelected.type, 660, 23);
+    towerstats = this.towerSelected;
+    if(towerstats.upgradeCost > GOLD)
+     ctx.fillStyle = 'red';
+    else{
+      ctx.fillStyle = 'green';
+    }
+  }
   if(tower === "arrow"){
     ctx.fillText("Arrow Tower", 667, 23);
     towerstats = this.arrowTowerStats;
+    if(towerstats.cost > GOLD)
+     ctx.fillStyle = 'red';
+    else{
+      ctx.fillStyle = 'green';
+    }
   }
   else if(tower === "air"){
     ctx.fillText("Air Tower", 677, 23);
     towerstats = this.airTowerStats;
+    if(towerstats.cost > GOLD)
+     ctx.fillStyle = 'red';
+    else{
+      ctx.fillStyle = 'green';
+    }
   }
   else if(tower === "cannon"){
     ctx.fillText("Cannon Tower", 660, 23);
     towerstats = this.cannonTowerStats;
+    if(towerstats.cost > GOLD)
+     ctx.fillStyle = 'red';
+    else{
+      ctx.fillStyle = 'green';
+    }
   }
-  else{
-    ctx.fillText(this.towerSelected.type, 660, 23);
-    towerstats = this.towerSelected;
-    towerstats.cost = Math.floor(this.towerSelected.cost/10);
-  }
+
   ctx.font= "bold 14px Georgia";
-  if(towerstats.cost > GOLD)
-   ctx.fillStyle = 'red';
+  if(tower === "towerSelected")
+  ctx.fillText("Cost: " + towerstats.upgradeCost, 610, 35);
   else{
-    ctx.fillStyle = 'green';
+    ctx.fillText("Cost: " + towerstats.cost, 610, 35);
   }
-  ctx.fillText("Cost: " + towerstats.cost, 610, 35);
   ctx.fillStyle = 'cyan';
   ctx.fillText("Damage: " + towerstats.damage, 610, 49);
   ctx.fillText("Splash Damage: " + towerstats.splash, 610, 63);
@@ -449,11 +483,18 @@ renderInfo: function(ctx){
   //level
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + LEVEL, 610, 40);
-
-
 },
 
-renderTowerUpgrade: function(ctx, tower){
+renderUpgradeOptions: function(ctx, option1, option2, name1, name2){
+  ctx.fillText("" + name1, this.towerSelected.cx - 46, this.towerSelected.cy - 45);
+  ctx.fillText("" + name2, this.towerSelected.cx + 5, this.towerSelected.cy - 45);
+  ctx.font = "bold 12px Georgia";
+  ctx.fillStyle = "#66ff33";
+  ctx.fillText("+" + Math.floor(option1*0.2), this.towerSelected.cx - 35, this.towerSelected.cy - 30);
+  ctx.fillText("+" + Math.floor(option2*0.2), this.towerSelected.cx + 10, this.towerSelected.cy - 30);
+},
+
+renderTowerUpgrade: function(ctx){
   //Draw box
   ctx.fillStyle = "grey";
   ctx.fillRect(this.towerSelected.cx - 50, this.towerSelected.cy - 70, 100, 50);
@@ -467,13 +508,14 @@ renderTowerUpgrade: function(ctx, tower){
   ctx.fillStyle = "yellow";
   ctx.fillText("Upgrade", this.towerSelected.cx - 47, this.towerSelected.cy - 58);
   ctx.fillText("Upgrade", this.towerSelected.cx + 3, this.towerSelected.cy - 58);
-  if(tower.type === "Arrow"){
-    ctx.fillText("damage", this.towerSelected.cx - 46, this.towerSelected.cy - 45);
-    ctx.fillText("firerate", this.towerSelected.cx + 5, this.towerSelected.cy - 45);
-    ctx.font = "bold 12px Georgia";
-    ctx.fillStyle = "#66ff33";
-    ctx.fillText("+" + Math.floor(this.towerSelected.damage*0.2), this.towerSelected.cx - 35, this.towerSelected.cy - 30);
-    ctx.fillText("+" + Math.floor(this.towerSelected.firerate*0.2), this.towerSelected.cx + 10, this.towerSelected.cy - 30);
+  if(this.towerSelected.type === "Arrow Tower"){
+    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.firerate, "damage", "firerate");
+  }
+  else if(this.towerSelected.type === "Air Tower"){
+    this.renderUpgradeOptions(ctx, this.towerSelected.radius, this.towerSelected.firerate, "radius", "firerate");
+  }
+  else if(this.towerSelected.type === "Cannon Tower"){
+    this.renderUpgradeOptions(ctx, this.towerSelected.damage, this.towerSelected.radius, "damage", "radius");
   }
 },
 
@@ -533,25 +575,22 @@ render: function(ctx) {
 
 
   //Upgrade menu
-else if(this.isTowerSelected){
-    this.renderTowerUpgrade(ctx, this.towerSelected);
-    if(this.hoverOverLeftUpgradeBox){
-      this.renderTowerStats(ctx, this.towerSelected);
+  else if(this.isTowerSelected){
+      this.renderTowerUpgrade(ctx);
+      if(this.hoverOverLeftUpgradeBox){
+        this.renderTowerStats(ctx, "towerSelected");
+      }
+      else if(this.hoverOverRightUpgradeBox){
+        this.renderTowerStats(ctx, "towerSelected");
+      }
+      else{
+          this.renderInfo(ctx);
+      }
     }
-    else if(this.hoverOverLeftUpgradeBox){
-      this.renderTowerStats(ctx, this.towerSelected);
-    }
-    else if(this.hoverOverRightUpgradeBox){
-      this.renderTowerStats(ctx, this.towerSelected);
-    }
-    else{
-        this.renderInfo(ctx);
-    }
-  }
 
-  else{
-    this.renderInfo(ctx);
-  }
+    else{
+      this.renderInfo(ctx);
+    }
 
 
 
