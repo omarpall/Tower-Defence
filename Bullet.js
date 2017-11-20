@@ -19,7 +19,9 @@ function Bullet(descr) {
     this.setup(descr);
 
     // Make a noise when I am created (i.e. fired)
-    this.fireSound.play();
+    this.arrow.pause();
+    this.arrow.currentTime = 0;
+    this.arrow.play();
 
 /*
     // Diagnostics to check inheritance stuff
@@ -32,10 +34,16 @@ function Bullet(descr) {
 Bullet.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
+Bullet.prototype.boom = new Audio(
+    "sounds/boom.mp3");
+Bullet.prototype.boom.volume = 0.5;
+
 Bullet.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
 Bullet.prototype.zappedSound = new Audio(
     "sounds/bulletZapped.ogg");
+Bullet.prototype.arrow = new Audio(
+    "sounds/arrow.mp3");
 
 // Initial, inheritable, default values
 Bullet.prototype.rotation = 0;
@@ -56,7 +64,7 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    
+
 
     if (this.cx < 0 || this.cx > g_canvas.width - 250) {
       return entityManager.KILL_ME_NOW;
@@ -73,6 +81,9 @@ Bullet.prototype.update = function (du) {
 
     if (hitEntity) {
       if (this.sprite === g_sprites.cannonRound) {
+        this.boom.pause();
+        this.boom.currentTime = 0;
+        this.boom.play();
         var entities = spatialManager.findEntitiesInRange(
           this.cx+this.velX*(2), this.cy+this.velY*(2), ((g_sprites.explosion.width/8)*this.splash)/2
         );
@@ -103,7 +114,6 @@ Bullet.prototype.takeBulletHit = function () {
     this.kill();
 
     // Make a noise when I am zapped by another bullet
-    this.zappedSound.play();
 };
 
 Bullet.prototype.render = function (ctx) {
