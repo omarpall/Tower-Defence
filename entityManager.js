@@ -60,6 +60,7 @@ hoverOverLeftUpgradeBox : false,
 hoverOverRightUpgradeBox : false,
 beginningOfGame : true,
 difficulty : 0.8,
+gameWon : true,
 
 arrowTowerStats : {
   type : "Arrow Tower",
@@ -430,10 +431,10 @@ changeText: function() {
 },
 
 update: function(du) {
-<<<<<<< HEAD
+
   buttonSelect = false;
   console.log(y, " ", g_canvas.height-100);
-=======
+
   if(this.beginningOfGame){
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
       if(mouseDown){
@@ -454,7 +455,7 @@ update: function(du) {
     }
   }
 
->>>>>>> origin/master
+
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   if(LEVEL === 1){
     text = "Lets start the first round!";
@@ -635,7 +636,7 @@ update: function(du) {
 
 },
 
-renderMenu: function(ctx){
+renderMenu: function(ctx, purpose){
   var x = 180;
   var y = 80;
   var width = 280;
@@ -645,25 +646,47 @@ renderMenu: function(ctx){
   ctx.fillRect(x, y, 350, 280);
   ctx.strokeStyle = "black";
   ctx.strokeRect(x, y, 350, 280);
-  ctx.fillStyle = 'cyan';
-  ctx.font = "bold 20px Georgia";
-  ctx.fillText("Choose a difficulty", x + width/2 - 50, y + 40);
-  ctx.fillStyle = "#555759";
-  ctx.fillRect(x + width/2 - 20, y + 70, 120, 50);
-  ctx.fillRect(x + width/2 - 20, y + 140, 120, 50);
-  ctx.fillRect(x + width/2 - 20, y + 210, 120, 50);
-  ctx.strokeRect(x + width/2 - 20, y + 70, 120, 50);
-  ctx.strokeRect(x + width/2 - 20, y + 140, 120, 50);
-  ctx.strokeRect(x + width/2 - 20, y + 210, 120, 50);
-  ctx.font = "bold 16px Georgia";
-  ctx.fillStyle = 'green';
-  ctx.fillText("Medium", x + width/2 + 5, y + 100);
-  ctx.font = "bold 17px Georgia";
-  ctx.fillStyle = 'orange';
-  ctx.fillText("Hard", x + width/2 + 17, y + 170);
-  ctx.font = "bold 18px Georgia";
-  ctx.fillStyle = 'red';
-  ctx.fillText("Insane", x + width/2 + 10, y + 240);
+  if(purpose === "difficulty"){
+    ctx.fillStyle = 'cyan';
+    ctx.font = "bold 20px Georgia";
+    ctx.fillText("Choose a difficulty", x + width/2 - 50, y + 40);
+    ctx.fillStyle = "#555759";
+    ctx.fillRect(x + width/2 - 20, y + 70, 120, 50);
+    ctx.fillRect(x + width/2 - 20, y + 140, 120, 50);
+    ctx.fillRect(x + width/2 - 20, y + 210, 120, 50);
+    ctx.strokeRect(x + width/2 - 20, y + 70, 120, 50);
+    ctx.strokeRect(x + width/2 - 20, y + 140, 120, 50);
+    ctx.strokeRect(x + width/2 - 20, y + 210, 120, 50);
+    ctx.font = "bold 16px Georgia";
+    ctx.fillStyle = 'green';
+    ctx.fillText("Medium", x + width/2 + 5, y + 100);
+    ctx.font = "bold 17px Georgia";
+    ctx.fillStyle = 'orange';
+    ctx.fillText("Hard", x + width/2 + 17, y + 170);
+    ctx.font = "bold 18px Georgia";
+    ctx.fillStyle = 'red';
+    ctx.fillText("Insane", x + width/2 + 10, y + 240);
+  }
+  else if(purpose === "won"){
+    ctx.fillStyle = 'cyan';
+    ctx.font = "bold 26px Georgia";
+    ctx.fillText("CONGRATULATIONS", x + 40, y + 40);
+    ctx.fillText("YOU WON ON", x + 80, y + 100);
+    if(this.difficulty === 0.8){
+      ctx.fillStyle = 'green';
+      ctx.fillText("MEDIUM", x + 120, y + 160);
+    }
+    if(this.difficulty === 1){
+      ctx.fillStyle = 'orange';
+      ctx.fillText("HARD", x + 140, y + 160);
+    }
+    if(this.difficulty === 1.2){
+      ctx.fillStyle = 'red';
+      ctx.fillText("INSANE", x + 130, y + 160);
+    }
+    ctx.fillStyle = 'cyan';
+    ctx.fillText("DIFFICULTY", x + 90, y + 220);
+  }
 },
 
 //Print stats of tower when hovered over
@@ -844,7 +867,10 @@ render: function(ctx) {
   g_sprites.castleWalls.drawWall(ctx, 173, 259);
   g_sprites.background.drawAt(ctx, 0, 0);
   if(this.beginningOfGame)
-    this.renderMenu(ctx);
+    this.renderMenu(ctx, "difficulty");
+  else if(this.gameWon){
+    this.renderMenu(ctx, "won");
+  }
   //sprites.explosion.drawExplosionAnimation(ctx, 40, 40, 0, 0.8);
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
