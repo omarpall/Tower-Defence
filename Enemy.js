@@ -19,7 +19,6 @@ function Enemy(descr) {
 
 
     this.SPEED = 1;
-    this.type = 'ground';
 
     this.setup(descr);
     this.TOTAL_LIFE = this.lives;
@@ -82,22 +81,16 @@ Enemy.prototype.setPos = function (cx, cy) {
     this.cy = cy;
 }
 
-Enemy.prototype.takeBulletHit = function (typeTower,damage) {
-  console.log(typeTower);
-  if(this.type === 'flight' && typeTower === 'flight' ){
+Enemy.prototype.getType = function() {
+  return this.type;
+}
+
+Enemy.prototype.takeBulletHit = function (damage) {
     if(this.lives - damage < 0)
       this.lives = 0;
     else{
       this.lives = this.lives - damage;
     }
-  }
-  if(this.type === 'ground' && typeTower === 'ground'){
-    if(this.lives - damage < 0)
-      this.lives = 0;
-    else{
-      this.lives = this.lives - damage;
-    }
-  }
 };
 
 

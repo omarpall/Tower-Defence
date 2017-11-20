@@ -44,7 +44,6 @@ Bullet.prototype.cy = 200;
 Bullet.prototype.velX = 3;
 Bullet.prototype.velY = 3;
 Bullet.prototype.radius = 1000;
-Bullet.prototype.bulletType = 'ground';
 
 // Convert times from milliseconds to "nominal" time units.
 //Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -75,8 +74,7 @@ Bullet.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
 
     if (hitEntity) {
-        console.log(this.bulletType);
-        var canTakeHit = hitEntity.takeBulletHit(this.bulletType,this.damage);
+        var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
     }
