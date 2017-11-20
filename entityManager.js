@@ -59,6 +59,7 @@ towerSelected : null,
 hoverOverLeftUpgradeBox : false,
 hoverOverRightUpgradeBox : false,
 beginningOfGame : true,
+difficulty : 0.8,
 
 arrowTowerStats : {
   type : "Arrow Tower",
@@ -232,7 +233,7 @@ init: function() {
 },
 
 renderExplosion: function(x, y, scale) {
-  this._explosions.push({cx: x, cy: y, index: 0, wait: 3, scale: scale});
+  this._explosions.push({cx: x, cy: y, index: 0, wait: 4, scale: scale});
 },
 
 
@@ -349,144 +350,152 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
 
 
 beginningOfLevel : true,
+bool : true,
 
 KEY_CONTINUE : ' '.charCodeAt(0),
 continue : false,
+
+generateFlightEnemy: function(num,space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 60 * this.difficulty,
+    sprite : g_sprites.enemy2,
+    num : num,
+    SPEED : 2,
+    space : space,
+    type : 'flight'
+  });
+},
+
+generateRegularEnemy: function(num, space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 140 * this.difficulty,
+    sprite : g_sprites.enemy1,
+    num : num,
+    SPEED : 1,
+    space : space,
+    type : 'ground'
+  });
+},
+
+generateGiantEnemy: function(num,space) {
+  this.generateEnemies({
+    cy : 0,
+    lives: 200 * this.difficulty,
+    sprite : g_sprites.enemy3,
+    num : num,
+    SPEED : 0.7,
+    space : space,
+    type : 'ground'
+  });
+},
+changeText: function() {
+  if(LEVEL === 2){
+    text = "First one too easy? Just wait...";
+  }
+  if(LEVEL === 3){
+    text = "I hope you have some air towers...they're fast!";
+  }
+  if(LEVEL === 4){
+    text = "Its just going to get harder from here, six more rounds";
+  }
+  if(LEVEL === 5){
+    text = "Sometimes by losing a battle you find a new way to win the war -Donald Trump";
+  }
+  if(LEVEL === 6){
+    text = "I would hate to see you loose the next one...";
+  }
+  if(LEVEL === 7){
+    text = "You maybe one this round but you will never win the war";
+  }
+  if(LEVEL === 8){
+    text = "Laws are silent in times of war -Cicero";
+  }
+  if(LEVEL === 9){
+    text = "It has been a great journey...I will be sad to see you loose in this round";
+  }
+  if(LEVEL === 10){
+    text = "Only one round left, I should warn you about the...";
+  }
+},
 
 update: function(du) {
   if(this.beginningOfGame){
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
       if(mouseDown){
-
+        this.beginningOfGame = false;
       }
     }
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 220, 120, 50)){
       if(mouseDown){
-
+        this.difficulty = 1;
+        this.beginningOfGame = false;
       }
     }
     if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 290, 120, 50)){
       if(mouseDown){
-
+        this.difficulty = 1.2;
+        this.beginningOfGame = false;
       }
     }
   }
 
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
+  if(LEVEL === 1){
+    text = "Lets start the first round!";
+  }
   //console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
+        LEVEL++;
+        this.changeText();
+      if(LEVEL === 1){
+        this.generateRegularEnemy(10,30);
+        this.generateGiantEnemy(3,50);
+      }
+      if(LEVEL === 2){
+        this.generateRegularEnemy(20,25);
+        this.generateGiantEnemy(8,50);
+      }
+      if(LEVEL === 3){
+        this.generateFlightEnemy(10,15);
+      }
+      if(LEVEL === 4){
+        this.generateRegularEnemy(25,20);
+        this.generateGiantEnemy(14,40);
+        this.generateFlightEnemy(15,30);
+      }
+      if(LEVEL === 5){
+        this.generateRegularEnemy(25,20);
+        this.generateGiantEnemy(10,40);
+        this.generateFlightEnemy(40,20);
+      }
+      if(LEVEL === 6){
+        this.generateRegularEnemy(20,20);
+        this.generateGiantEnemy(25,30);
+        this.generateFlightEnemy(15,20);
+      }
+      if(LEVEL === 7){
+        this.generateRegularEnemy(50,20);
+        this.generateGiantEnemy(65,70);
+        this.generateFlightEnemy(75,20);
+      }
+      if(LEVEL === 8){
+        this.generateRegularEnemy(70,10);
+        this.generateGiantEnemy(25,40);
+        this.generateFlightEnemy(15,20);
+      }
+      if(LEVEL === 9){
+        this.generateRegularEnemy(100,20);
+        this.generateGiantEnemy(40,30);
+        this.generateFlightEnemy(20,80);
+      }
+      if(LEVEL === 10){
+        this.generateRegularEnemy(120,60);
+        this.generateGiantEnemy(65,30);
+        this.generateFlightEnemy(105,30);
+      }
 
-    LEVEL++;
-    if(LEVEL === 1){
-      this.generateEnemies({
-        cy : 0,
-        lives: 140,
-        sprite : g_sprites.enemy1,
-        num : 5,
-        SPEED : 1,
-        space : 30,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 2){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 10,
-        SPEED : 1,
-        space : 22,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 3){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 5,
-        SPEED : 2,
-        space : 10,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 4){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 5,
-        SPEED : 0.7,
-        space : 40,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 5){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 10,
-        SPEED : 2,
-        space : 10,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 6){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 20,
-        SPEED : 1,
-        space : 20,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 7){
-      this.generateEnemies({
-        cy : 0,
-        lives: 100,
-        sprite : g_sprites.enemy1,
-        num : 25,
-        SPEED : 1,
-        space : 10,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 8){
-      this.generateEnemies({
-        cy : 0,
-        lives: 60,
-        sprite : g_sprites.enemy2,
-        num : 20,
-        SPEED : 2,
-        space : 8,
-        type : 'flight'
-      });
-    }
-    if(LEVEL === 9){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 20,
-        SPEED : 0.7,
-        space : 10,
-        type : 'ground'
-      });
-    }
-    if(LEVEL === 10){
-      this.generateEnemies({
-        cy : 0,
-        lives: 150,
-        sprite : g_sprites.enemy3,
-        num : 30,
-        SPEED : 0.7,
-        space : 8,
-        type : 'ground'
-      });
-    }
       this.beginningOfLevel = false;
   }
 
@@ -494,6 +503,7 @@ update: function(du) {
    var y = g_mouseY;
    var radius = 38/2;
    //Select a tower from the menu
+
    if(this.isWithinRectangle(x, y, 612, 132, 38, 38)){
      this.arrowIconSelected = true;
      if(mouseDown && GOLD >= 40){
@@ -708,6 +718,11 @@ renderInfo: function(ctx){
   //level
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + LEVEL, 610, 40);
+
+  //Level instruction
+  ctx.font= "bold 17px Georgia";
+  ctx.fillStyle = 'black';
+  ctx.fillText(text, 610, 300,200);
 },
 
 renderUpgradeOptions: function(ctx, option1, option2, name1, name2){
@@ -850,7 +865,7 @@ render: function(ctx) {
   for (var i = 0; i < this._explosions.length; i++) {
     if (this._explosions[i].wait === 0) {
       this._explosions[i].index++;
-      this._explosions[i].wait = 3;
+      this._explosions[i].wait = 4;
     } else {
       this._explosions[i].wait--;
     }

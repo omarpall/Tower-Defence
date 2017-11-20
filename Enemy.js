@@ -78,6 +78,7 @@ Enemy.prototype.update = function (du) {
         this.timeToDie -= du;
         if(this.timeToDie < 0){
           addGold(10);
+
           this.kill();
         }
         return;

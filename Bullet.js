@@ -40,8 +40,9 @@ Bullet.prototype.boom.volume = 0.5;
 
 Bullet.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
-Bullet.prototype.zappedSound = new Audio(
-    "sounds/bulletZapped.ogg");
+Bullet.prototype.arrowImpact = new Audio(
+    "sounds/arrowImpact.mp3");
+Bullet.prototype.arrowImpact.volume = 0.05;
 Bullet.prototype.arrow = new Audio(
     "sounds/arrow.mp3");
 
@@ -98,6 +99,9 @@ Bullet.prototype.update = function (du) {
       } else {
         var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
+        this.arrowImpact.pause();
+        this.arrowImpact.currentTime = 0;
+        this.arrowImpact.play();
       }
         return entityManager.KILL_ME_NOW;
     }

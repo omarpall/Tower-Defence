@@ -49,7 +49,6 @@ Tower.prototype.update = function (du) {
       this.FIRE_RATE_COUNT = (60/this.firerate)*(1000/NOMINAL_UPDATE_INTERVAL);
       var enemy = entityManager._findNearestShip(this.cx,this.cy);
       if(enemy == null){
-        console.log("enginn eftir");
         entityManager.continue = false;
         entityManager.beginningOfLevel = true;
     }
