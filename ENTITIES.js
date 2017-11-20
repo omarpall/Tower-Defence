@@ -167,7 +167,8 @@ function requestPreloads() {
       background : "Textures/background.jpg",
       iconTowerAir : "Textures/iconTowerAir.png",
       iconTowerArrow : "Textures/iconTowerArrow.png",
-      iconTowerCannon : "Textures/iconTowerCannon.png"
+      iconTowerCannon : "Textures/iconTowerCannon.png",
+      flightEnemy : "Textures/flightEnemy.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);

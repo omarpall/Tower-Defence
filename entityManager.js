@@ -221,9 +221,8 @@ init: function() {
 },
 
 
-fireBullet: function(typeTower,damage, cx, cy, velX, velY, rotation) {
+fireBullet: function(damage, cx, cy, velX, velY, rotation) {
   this._bullets.push(new Bullet( {
-                                  bulletType : typeTower,
                                   damage : damage,
                                   sprite : g_sprites.arrow,
                                   cx: cx,
