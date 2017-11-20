@@ -100,7 +100,7 @@ if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
     cx : g_mouseX,
     cy : g_mouseY,
 
-    sprite : g_sprites.cannonTower
+    sprite : g_sprites.cannonTower1
   });
 }
 
@@ -154,7 +154,8 @@ function requestPreloads() {
       arrow : "Textures/arrow.gif",
       airTower : "Textures/towerAir.png",
       arrowTower : "Textures/towerArrow.png",
-      cannonTower : "Textures/towerCannon.png",
+      cannonTower1 : "Textures/towerCannon1.png",
+      cannonTower2 : "Textures/towerCannon2.png",
       enemy1 : "Textures/enemy1.png",
       enemy2 : "Textures/enemy2.png",
       enemy3 : "Textures/enemy3.png",
@@ -176,7 +177,8 @@ function preloadDone() {
   g_sprites.arrow.scale = 0.5;
   g_sprites.airTower  = new Sprite(g_images.airTower);
   g_sprites.arrowTower = new Sprite(g_images.arrowTower);
-  g_sprites.cannonTower = new Sprite(g_images.cannonTower);
+  g_sprites.cannonTower1 = new Sprite(g_images.cannonTower1);
+  g_sprites.cannonTower2 = new Sprite(g_images.cannonTower2);
   g_sprites.enemy1 = new Sprite(g_images.enemy1);
   g_sprites.enemy2 = new Sprite(g_images.enemy2);
   g_sprites.enemy3 = new Sprite(g_images.enemy3);
