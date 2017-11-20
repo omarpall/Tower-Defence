@@ -93,7 +93,7 @@ Bullet.prototype.update = function (du) {
             if (canTakeHit) canTakeHit.call(entities[i]);
           }
         }
-        entityManager.renderExplosion(this.cx+this.velX*(2)*du, this.cy+this.velY*(2)*du, this.splash);
+        entityManager.renderExplosion(this.cx+this.velX*(3), this.cy+this.velY*(3), this.splash);
         console.log(this.velX, " ", this.velY);
       } else {
         var canTakeHit = hitEntity.takeBulletHit(this.damage);

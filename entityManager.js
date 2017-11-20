@@ -738,10 +738,9 @@ renderSpriteOnMouse: function(ctx){
 },
 
 render: function(ctx) {
-
   g_sprites.castleWalls.drawWall(ctx, 173, 259);
   g_sprites.background.drawAt(ctx, 0, 0);
-
+  //sprites.explosion.drawExplosionAnimation(ctx, 40, 40, 0, 0.8);
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
       var aCategory = this._categories[c];
