@@ -315,11 +315,11 @@ update: function(du) {
       this.generateEnemies({
         cy : 0,
         lives: 100,
-        sprite : g_sprites.enemy2,
+        sprite : g_sprites.enemy1,
         num : 5,
         SPEED : 1,
         space : 30,
-        type : 'flight'
+        type : 'ground'
       });
     }
     if(LEVEL === 2){
