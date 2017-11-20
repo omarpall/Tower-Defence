@@ -119,6 +119,9 @@ Enemy.prototype.render = function (ctx) {
         ctx.font = '20px serif';
         ctx.fillText('+25', this.cx, this.cy);
     }
+    if(this.type === 'flight'){
+    this.sprite.drawAnimatedAt(ctx,this.cx,this.cy,0);
+    }
     this.sprite.drawCentredAt (
       ctx, this.cx, this.cy,0
     );
