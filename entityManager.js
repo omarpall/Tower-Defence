@@ -58,7 +58,8 @@ isTowerSelected : false,
 towerSelected : null,
 hoverOverLeftUpgradeBox : false,
 hoverOverRightUpgradeBox : false,
-
+beginningOfGame : true,
+difficulty : 0.8,
 
 arrowTowerStats : {
   type : "Arrow Tower",
@@ -229,8 +230,6 @@ deferredSetup : function () {
 init: function() {
 
 
-    // I could have made some ships here too, but decided not to.
-
 },
 
 renderExplosion: function(x, y, scale) {
@@ -354,12 +353,12 @@ beginningOfLevel : true,
 bool : true,
 
 KEY_CONTINUE : ' '.charCodeAt(0),
-continue : true,
+continue : false,
 
 generateFlightEnemy: function(num,space) {
   this.generateEnemies({
     cy : 0,
-    lives: 60,
+    lives: 60 * this.difficulty,
     sprite : g_sprites.enemy2,
     num : num,
     SPEED : 2,
@@ -371,7 +370,7 @@ generateFlightEnemy: function(num,space) {
 generateRegularEnemy: function(num, space) {
   this.generateEnemies({
     cy : 0,
-    lives: 140,
+    lives: 140 * this.difficulty,
     sprite : g_sprites.enemy1,
     num : num,
     SPEED : 1,
@@ -383,7 +382,7 @@ generateRegularEnemy: function(num, space) {
 generateGiantEnemy: function(num,space) {
   this.generateEnemies({
     cy : 0,
-    lives: 200,
+    lives: 200 * this.difficulty,
     sprite : g_sprites.enemy3,
     num : num,
     SPEED : 0.7,
@@ -431,8 +430,31 @@ changeText: function() {
 },
 
 update: function(du) {
+<<<<<<< HEAD
   buttonSelect = false;
   console.log(y, " ", g_canvas.height-100);
+=======
+  if(this.beginningOfGame){
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
+      if(mouseDown){
+        this.beginningOfGame = false;
+      }
+    }
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 220, 120, 50)){
+      if(mouseDown){
+        this.difficulty = 1;
+        this.beginningOfGame = false;
+      }
+    }
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 290, 120, 50)){
+      if(mouseDown){
+        this.difficulty = 1.2;
+        this.beginningOfGame = false;
+      }
+    }
+  }
+
+>>>>>>> origin/master
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   if(LEVEL === 1){
     text = "Lets start the first round!";
@@ -613,6 +635,37 @@ update: function(du) {
 
 },
 
+renderMenu: function(ctx){
+  var x = 180;
+  var y = 80;
+  var width = 280;
+  var height = 350;
+
+  ctx.fillStyle = 'grey';
+  ctx.fillRect(x, y, 350, 280);
+  ctx.strokeStyle = "black";
+  ctx.strokeRect(x, y, 350, 280);
+  ctx.fillStyle = 'cyan';
+  ctx.font = "bold 20px Georgia";
+  ctx.fillText("Choose a difficulty", x + width/2 - 50, y + 40);
+  ctx.fillStyle = "#555759";
+  ctx.fillRect(x + width/2 - 20, y + 70, 120, 50);
+  ctx.fillRect(x + width/2 - 20, y + 140, 120, 50);
+  ctx.fillRect(x + width/2 - 20, y + 210, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 70, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 140, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 210, 120, 50);
+  ctx.font = "bold 16px Georgia";
+  ctx.fillStyle = 'green';
+  ctx.fillText("Medium", x + width/2 + 5, y + 100);
+  ctx.font = "bold 17px Georgia";
+  ctx.fillStyle = 'orange';
+  ctx.fillText("Hard", x + width/2 + 17, y + 170);
+  ctx.font = "bold 18px Georgia";
+  ctx.fillStyle = 'red';
+  ctx.fillText("Insane", x + width/2 + 10, y + 240);
+},
+
 //Print stats of tower when hovered over
 renderTowerStats: function(ctx, tower){
   var towerstats;
@@ -737,6 +790,7 @@ renderTowerUpgradeBox: function(ctx){
   ctx.fillText("Upgrade", loc[0] - 47, loc[1] - 58);
   ctx.fillText("Upgrade", loc[0] + 3, loc[1] - 58);
 },
+
 renderTowerUpgrade: function(ctx){
   this.renderTowerUpgradeBox(ctx);
   if(this.towerSelected.type === "Arrow Tower"){
@@ -789,6 +843,8 @@ renderSpriteOnMouse: function(ctx){
 render: function(ctx) {
   g_sprites.castleWalls.drawWall(ctx, 173, 259);
   g_sprites.background.drawAt(ctx, 0, 0);
+  if(this.beginningOfGame)
+    this.renderMenu(ctx);
   //sprites.explosion.drawExplosionAnimation(ctx, 40, 40, 0, 0.8);
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
