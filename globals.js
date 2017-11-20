@@ -28,8 +28,8 @@ var LIVES = 10;
 
 var LEVEL = 0;
 
-var text = "Lets start the first round!";
-var text2 = "";
+var text = "Lets start the first round! Drag some ";
+var text2 = "towers to the field to kill the enemies";
 var buttonSelect = false;
 
 function addGold(amount){
