@@ -48,10 +48,16 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
 Sprite.prototype.drawExplosionAnimation = function (ctx, cx, cy, frameIndex, scale) {
   ctx.save();
   ctx.translate(cx, cy);
-  console.log(scale);
   ctx.scale(scale, scale);
-  console.log(this.width/(8*2)*scale);
   ctx.drawImage(this.image, frameIndex * this.width/8, 0, this.width/8, this.height, -this.width/(8*2), -this.height/2, this.width/8, this.height);
+  ctx.restore();
+};
+
+Sprite.prototype.drawBossAnimation = function (ctx, cx, cy, frameIndex) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(this.scale, this.scale);
+  ctx.drawImage(this.image, frameIndex * this.width/6, 0, this.width/6, this.height, -this.width/(6*2), -this.height/2, this.width/6, this.height);
   ctx.restore();
 };
 

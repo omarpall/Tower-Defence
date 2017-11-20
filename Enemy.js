@@ -21,6 +21,8 @@ function Enemy(descr) {
     this.SPEED = 1;
     this.setup(descr);
     this.TOTAL_LIFE = this.lives;
+    this.wait = 8;
+    this.frame = 0;
 
 }
 Enemy.prototype.KEY_FIRE  = ' '.charCodeAt(0);
@@ -132,6 +134,17 @@ Enemy.prototype.render = function (ctx) {
       }
       else{
         this.sprite.drawAnimatedAt(ctx,this.cx,this.cy,0,1);
+      }
+    } else if (this.boss) {
+      if (this.wait === 0) {
+          this.frame++;
+          this.wait = 8;
+      } else {
+        this.wait--;
+      }
+      this.sprite.drawBossAnimation(ctx, this.cx, this.cy, this.frame);
+      if (this.frame === 5) {
+        this.frame = 0;
       }
     }
     else{

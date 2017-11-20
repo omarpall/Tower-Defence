@@ -172,7 +172,8 @@ function requestPreloads() {
       cannonRound : "Textures/cannonRound.png",
       flightEnemy : "Textures/flightEnemy.png",
       castleGate : "Textures/castleGate.png",
-      castleWalls : "Textures/castleWall.png"
+      castleWalls : "Textures/castleWall.png",
+      boss : "Textures/boss.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -206,6 +207,8 @@ function preloadDone() {
   g_sprites.cannonRound = new Sprite(g_images.cannonRound);
   g_sprites.castleGate = new Sprite(g_images.castleGate);
   g_sprites.castleWalls = new Sprite(g_images.castleWalls);
+  g_sprites.boss = new Sprite(g_images.boss);
+  g_sprites.boss.scale = 0.4;
   //g_sprites.castleWalls.scale = 0.8;
     main.init();
 }
