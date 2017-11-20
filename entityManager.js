@@ -58,7 +58,7 @@ isTowerSelected : false,
 towerSelected : null,
 hoverOverLeftUpgradeBox : false,
 hoverOverRightUpgradeBox : false,
-
+beginningOfGame : true,
 
 arrowTowerStats : {
   type : "Arrow Tower",
@@ -229,9 +229,6 @@ deferredSetup : function () {
 init: function() {
 
 
-    // I could have made some ships here too, but decided not to.
-    //this._generat
-    eShip();
 },
 
 renderExplosion: function(x, y, scale) {
@@ -354,10 +351,27 @@ fireBullet: function(damage, cx, cy, velX, velY, rotation, sprite, splash) {
 beginningOfLevel : true,
 
 KEY_CONTINUE : ' '.charCodeAt(0),
-continue : true,
+continue : false,
 
 update: function(du) {
-  console.log(y, " ", g_canvas.height-100);
+  if(this.beginningOfGame){
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 150, 120, 50)){
+      if(mouseDown){
+
+      }
+    }
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 220, 120, 50)){
+      if(mouseDown){
+
+      }
+    }
+    if(this.isWithinRectangle(g_mouseX, g_mouseY, 300, 290, 120, 50)){
+      if(mouseDown){
+
+      }
+    }
+  }
+
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   //console.log(this.beginningOfLevel, this.continue);
   if(this.beginningOfLevel && this.continue) {
@@ -591,6 +605,37 @@ update: function(du) {
 
 },
 
+renderMenu: function(ctx){
+  var x = 180;
+  var y = 80;
+  var width = 280;
+  var height = 350;
+
+  ctx.fillStyle = 'grey';
+  ctx.fillRect(x, y, 350, 280);
+  ctx.strokeStyle = "black";
+  ctx.strokeRect(x, y, 350, 280);
+  ctx.fillStyle = 'cyan';
+  ctx.font = "bold 20px Georgia";
+  ctx.fillText("Choose a difficulty", x + width/2 - 50, y + 40);
+  ctx.fillStyle = "#555759";
+  ctx.fillRect(x + width/2 - 20, y + 70, 120, 50);
+  ctx.fillRect(x + width/2 - 20, y + 140, 120, 50);
+  ctx.fillRect(x + width/2 - 20, y + 210, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 70, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 140, 120, 50);
+  ctx.strokeRect(x + width/2 - 20, y + 210, 120, 50);
+  ctx.font = "bold 16px Georgia";
+  ctx.fillStyle = 'green';
+  ctx.fillText("Medium", x + width/2 + 5, y + 100);
+  ctx.font = "bold 17px Georgia";
+  ctx.fillStyle = 'orange';
+  ctx.fillText("Hard", x + width/2 + 17, y + 170);
+  ctx.font = "bold 18px Georgia";
+  ctx.fillStyle = 'red';
+  ctx.fillText("Insane", x + width/2 + 10, y + 240);
+},
+
 //Print stats of tower when hovered over
 renderTowerStats: function(ctx, tower){
   var towerstats;
@@ -691,6 +736,7 @@ renderTowerUpgradeBox: function(ctx){
   ctx.fillText("Upgrade", loc[0] - 47, loc[1] - 58);
   ctx.fillText("Upgrade", loc[0] + 3, loc[1] - 58);
 },
+
 renderTowerUpgrade: function(ctx){
   this.renderTowerUpgradeBox(ctx);
   if(this.towerSelected.type === "Arrow Tower"){
@@ -743,6 +789,8 @@ renderSpriteOnMouse: function(ctx){
 render: function(ctx) {
   g_sprites.castleWalls.drawWall(ctx, 173, 259);
   g_sprites.background.drawAt(ctx, 0, 0);
+  if(this.beginningOfGame)
+    this.renderMenu(ctx);
   //sprites.explosion.drawExplosionAnimation(ctx, 40, 40, 0, 0.8);
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
