@@ -190,7 +190,7 @@ function preloadDone() {
   g_sprites.cannonTower2 = new Sprite(g_images.cannonTower2);
   g_sprites.cannonTower2 = new Sprite(g_images.cannonTower3);
   g_sprites.enemy1 = new Sprite(g_images.enemy1);
-  g_sprites.enemy2 = new Sprite(g_images.flightEnemy);
+  g_sprites.enemy2 = new Sprite(g_images.enemy2);
   g_sprites.enemy3 = new Sprite(g_images.enemy3);
   g_sprites.background = new Sprite(g_images.background);
   g_sprites.iconTowerAir = new Sprite(g_images.iconTowerAir);
