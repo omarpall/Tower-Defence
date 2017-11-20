@@ -394,34 +394,44 @@ generateGiantEnemy: function(num,space) {
 changeText: function() {
   if(LEVEL === 2){
     text = "First one too easy? Just wait...";
+    text2 = "";
   }
   if(LEVEL === 3){
-    text = "I hope you have some air towers...they're fast!";
+    text = "I hope you have some air towers";
+    text2 = "...they're fast!";
   }
   if(LEVEL === 4){
-    text = "Its just going to get harder from here, six more rounds";
+    text = "Its just going to get harder";
+    text2 = "from here, six more rounds";
   }
   if(LEVEL === 5){
-    text = "Sometimes by losing a battle you find a new way to win the war -Donald Trump";
+    text = "Sometimes by losing a battle you";
+    text2 = "find a new way to win the war -Donald Trump";
   }
   if(LEVEL === 6){
-    text = "I would hate to see you loose the next one...";
+    text = "I would hate to see you";
+    text2 = "loose the next one...";
   }
   if(LEVEL === 7){
-    text = "You maybe one this round but you will never win the war";
+    text = "You maybe one this round but";
+    text2 = "you will never win the war";
   }
   if(LEVEL === 8){
-    text = "Laws are silent in times of war -Cicero";
+    text = "Laws are silent in times of war";
+    text2 = "-Cicero";
   }
   if(LEVEL === 9){
-    text = "It has been a great journey...I will be sad to see you loose in this round";
+    text = "It has been a great journey...";
+    text2 = "I will be sad to see you loose in this round";
   }
   if(LEVEL === 10){
-    text = "Only one round left, I should warn you about the...";
+    text = "Only one round left,";
+    text2 = "I should warn you about the...";
   }
 },
 
 update: function(du) {
+  buttonSelect = false;
   console.log(y, " ", g_canvas.height-100);
   if (eatKey(this.KEY_CONTINUE)) this.continue = true;
   if(LEVEL === 1){
@@ -494,6 +504,12 @@ update: function(du) {
        mouseDown = false;
      }
 
+   }
+   else if(this.isWithinRectangle(x, y, 625, 350, 150, 30)){
+     buttonSelect = true;
+     if(mouseDown){
+     this.continue = true;
+   }
    }
    else if(this.isWithinRectangle(x, y, 661, 132, 38, 38)){
      this.airIconSelected = true;
@@ -658,6 +674,29 @@ renderTowerStats: function(ctx, tower){
   ctx.fillText("Firerate: " + towerstats.firerate, 610, 119);
 },
 
+renderButton: function(ctx){
+  ctx.font= "bold 12px Georgia";
+  ctx.fillStyle = 'black';
+  ctx.fillText(text, 610, 300,200);
+  ctx.fillText(text2, 610, 320,200);
+
+  ctx.beginPath();
+    ctx.rect(625, 350, 150, 30);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = 'rgba(225,225,225,0.5)';
+    if(buttonSelect){
+      ctx.fillRect(625,350,150,30);
+      ctx.fill();
+    }
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#000000';
+    ctx.stroke();
+    ctx.closePath();
+    ctx.font = '12pt Kremlin Pro Web';
+    ctx.fillStyle = '#000000';
+    ctx.fillText('Next Round', 650, 370);
+},
+
 renderInfo: function(ctx){
   ctx.font= "bold 17px Georgia";
   //Gold
@@ -670,10 +709,6 @@ renderInfo: function(ctx){
   ctx.fillStyle = 'cyan';
   ctx.fillText("Level: " + LEVEL, 610, 40);
 
-  //Level instruction
-  ctx.font= "bold 17px Georgia";
-  ctx.fillStyle = 'black';
-  ctx.fillText(text, 610, 300,200);
 },
 
 renderUpgradeOptions: function(ctx, option1, option2, name1, name2){
@@ -797,7 +832,7 @@ render: function(ctx) {
       this.renderGameOver(ctx);
       main.gameOver();
     }
-
+    this.renderButton(ctx);
   //Icons
   g_sprites.iconTowerArrow.drawCentredAt (ctx, 630, 150, 0);
   g_sprites.iconTowerAir.drawCentredAt (ctx, 680, 150, 0);

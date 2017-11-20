@@ -29,6 +29,8 @@ var LIVES = 10;
 var LEVEL = 0;
 
 var text = "Lets start the first round!";
+var text2 = "";
+var buttonSelect = false;
 
 function addGold(amount){
   GOLD += amount;
