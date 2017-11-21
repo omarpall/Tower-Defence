@@ -19,9 +19,11 @@ function Bullet(descr) {
     this.setup(descr);
 
     // Make a noise when I am created (i.e. fired)
-    this.arrow.pause();
-    this.arrow.currentTime = 0;
-    this.arrow.play();
+    if (this.arrow.paused) {
+      this.arrow.play();
+    } else {
+      this.arrow.currentTime = 0;
+    }
 
 /*
     // Diagnostics to check inheritance stuff
@@ -82,9 +84,11 @@ Bullet.prototype.update = function (du) {
 
     if (hitEntity) {
       if (this.sprite === g_sprites.cannonRound) {
-        this.boom.pause();
-        this.boom.currentTime = 0;
-        this.boom.play();
+        if (this.boom.paused) {
+          this.boom.play();
+        } else {
+          this.boom.currentTime = 0;
+        }
         var entities = spatialManager.findEntitiesInRange(
           this.cx+this.velX*(2), this.cy+this.velY*(2), ((g_sprites.explosion.width/8)*this.splash)/2
         );
@@ -99,9 +103,11 @@ Bullet.prototype.update = function (du) {
       } else {
         var canTakeHit = hitEntity.takeBulletHit(this.damage);
         if (canTakeHit) canTakeHit.call(hitEntity);
-        this.arrowImpact.pause();
-        this.arrowImpact.currentTime = 0;
-        this.arrowImpact.play();
+        if (this.arrowImpact.paused) {
+          this.arrowImpact.play();
+        } else {
+          this.arrowImpact.currentTime = 0;
+        }
       }
         return entityManager.KILL_ME_NOW;
     }
