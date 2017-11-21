@@ -146,6 +146,8 @@ Enemy.prototype.render = function (ctx) {
       if (this.frame === 5) {
         this.frame = 0;
       }
+      ctx.fillStyle="#FF0000";
+      ctx.fillRect(this.cx-10, this.cy-20, 20, 3);
       ctx.fillStyle="#7FFF00";
       ctx.fillRect(this.cx-10, this.cy-20, liveLeft*20, 3);
     }
