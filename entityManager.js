@@ -502,7 +502,7 @@ update: function(du) {
       }
       if(LEVEL === 7){
         this.generateRegularEnemy(50,20);
-        this.generateGiantEnemy(65,70);
+        this.generateGiantEnemy(60,40);
         this.generateFlightEnemy(75,20);
       }
       if(LEVEL === 8){
