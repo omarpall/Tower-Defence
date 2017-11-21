@@ -502,7 +502,7 @@ update: function(du) {
       }
       if(LEVEL === 7){
         this.generateRegularEnemy(50,20);
-        this.generateGiantEnemy(60,40);
+        this.generateGiantEnemy(65,70);
         this.generateFlightEnemy(75,20);
       }
       if(LEVEL === 8){
@@ -879,9 +879,7 @@ render: function(ctx) {
   g_sprites.background.drawAt(ctx, 0, 0);
   if(this.beginningOfGame)
     this.renderMenu(ctx, "difficulty");
-  else if(this.gameWon){
-    this.renderMenu(ctx, "won");
-  }
+
   //sprites.explosion.drawExplosionAnimation(ctx, 40, 40, 0, 0.8);
   //Towers and enemies
   for (var c = 0; c < this._categories.length; ++c) {
@@ -937,7 +935,9 @@ render: function(ctx) {
   if(this.isSpriteOnMouse) {
     this.renderSpriteOnMouse(ctx);
   }
-
+  else if(this.gameWon){
+    this.renderMenu(ctx, "won");
+  }
   for (var i = 0; i < this._explosions.length; i++) {
     if (this._explosions[i].wait === 0) {
       this._explosions[i].index++;
